@@ -14,6 +14,7 @@
                             $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
                             if ($row = mysqli_fetch_array($result)) {
                                 $obj = json_encode($row);
+                                $obj = htmlspecialchars($obj, ENT_QUOTES);
                         ?>
                         <button data-mdb-toggle="modal" class="float-end bg-white border-0 ms-1 me-0" onclick='deletePC(<?= $obj; ?>)'>
                             <i class="far fa-trash-alt text-danger"></i>

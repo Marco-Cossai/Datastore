@@ -355,6 +355,7 @@ function newCustomer() {
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto il cliente $businessName");
+    $message = htmlspecialchars($message, ENT_QUOTES);
     
     //Controllo se esiste già un cliente con quella ragione sociale
     $result = mysqli_query(connDB(),"SELECT * FROM `clienti` WHERE `RagioneSociale` = '$businessName'") or die (mysqli_error(connDB()));
@@ -419,6 +420,7 @@ function updateCustomer() {
         $aryLog['log'][] = array('field' => "Tipologia", 'old' => $oldKindCustomer, 'new' => $kindCustomer);
     }
     $message = json_encode($aryLog);
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $result = mysqli_query(connDB(),"UPDATE `clienti` SET `RagioneSociale` = '$businessName', `TipoCliente` = '$kindCustomer' WHERE `IdCliente` = $idCustomer") or die (mysqli_error(connDB()));
@@ -461,6 +463,7 @@ function deleteCustomer() {
 
     //Creo il messaggio
     $message = addslashes("E' stato rimosso il cliente $businessName con i relativi impianti");
+    $message = htmlspecialchars($message, ENT_QUOTES);
     
     //Rimuovo il cliente
     $result = mysqli_query(connDB(),"DELETE FROM `clienti` WHERE `IdCliente` = $id") or die (mysqli_error(connDB()));
@@ -586,7 +589,8 @@ function newPlant() {
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto l'impianto $namePlant");
-
+    $message = htmlspecialchars($message, ENT_QUOTES);
+    
     //Verifico nel db se esiste già un impianto con il nome inserito dal form
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `NomeImpianto` = '$namePlant'") or die (mysqli_error(connDB()));
     if(mysqli_fetch_array($result)) {
@@ -662,6 +666,7 @@ function updatePlant() {
         $aryLog['log'][] = array('field' => "Recapito", 'old' => $oldData['Recapito'], 'new' => $number);
     }
     $message = json_encode($aryLog);
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $result = mysqli_query(connDB(),"UPDATE `impianti` SET `NomeImpianto` = '$namePlant', `Email` = '$email', `Recapito` = '$number' WHERE `IdImpianto` = $idPlant") or die (mysqli_error(connDB()));
@@ -713,7 +718,8 @@ function deletePlant() {
 
     //Creo il messaggio
     $message = addslashes("E' stato rimosso l'impianto $namePlant con i relativi dettagli");
-    
+    $message = htmlspecialchars($message, ENT_QUOTES);
+
     //Rimuovo l'impianto
     $result = mysqli_query(connDB(),"DELETE FROM `impianti` WHERE `IdImpianto` = $id") or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
@@ -775,6 +781,7 @@ function migrationPlant() {
     }
 
     $message = addslashes("L'impianto $namePlant è migrato da $oldBusinessName a $newBusinessName");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $query = "UPDATE `impianti` SET `IdCliente_FK` = $idNewCustomer WHERE `IdImpianto` = $idPlant";
@@ -808,7 +815,11 @@ function newPC() {
     $snPC =  $_POST['SerialePC'];
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    $PBL = $_POST['PBL'];
+    if (array_key_exists("PBL",$POST)) {
+        $PBL = $_POST['PBL'];
+    } else {
+        $PBL = "";
+    }
     $router = addslashes($_POST['TipoRouter']);
     $snRouter = $_POST['SerialeRouter'];
     $IP = $_POST['IndirizzoIP'];
@@ -838,6 +849,7 @@ function newPC() {
 
     //Creo il messaggio
     $message = addslashes("E' stata aggiunta la sezione pc all'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Controllo se esiste già una postazione con questi parametri
     $result = mysqli_query(connDB(),"SELECT `Matricola`,`SerialePC` FROM `computer` WHERE `Matricola` = '$number' OR `SerialePC` = '$snPC'") or die (mysqli_error(connDB()));
@@ -873,7 +885,11 @@ function updatePC() {
     $snPC =  $_POST['SerialePC'];
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    $PBL = $_POST['PBL'];
+    if (array_key_exists("PBL",$POST)) {
+        $PBL = $_POST['PBL'];
+    } else {
+        $PBL = "";
+    }
     $router = addslashes($_POST['TipoRouter']);
     $snRouter = $_POST['SerialeRouter'];
     $IP = $_POST['IndirizzoIP'];
@@ -957,6 +973,7 @@ function updatePC() {
         $aryLog['log'][] = array('field' => "Note", 'old' => $oldData['Note'], 'new' => $note);
     }
     $message = json_encode($aryLog);
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $query = "UPDATE `computer` SET `Matricola` = '$number', `ModelloPC` = '$model', `Architettura` = '$platform', `SerialePC` = '$snPC', `Software` = '$software', `Stampante` = '$printer', `PBL` = '$PBL', `TipoRouter` = '$router', `SerialeRouter` = '$snRouter', `IP` = '$IP', `Anydesk` = '$anydesk', `Ticket` = '$ticket', `Note` = '$note' WHERE `IdComputer` = $id";
@@ -1000,7 +1017,8 @@ function deletePC() {
 
     //Creo il messaggio
     $message = addslashes("E' stata eliminata la postazione pc dell'impianto $namePlant");
-    
+    $message = htmlspecialchars($message, ENT_QUOTES);
+
     //Rimuovo il computer
     $result = mysqli_query(connDB(),"DELETE FROM `computer` WHERE `IdImpianto_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
@@ -1052,6 +1070,7 @@ function newMAC() {
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto $name all'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Controllo se esiste già un MAC con la matricola inserita
     $result = mysqli_query(connDB(),"SELECT `Matricola` FROM `mac` WHERE `Matricola` = '$number'") or die (mysqli_error(connDB()));
@@ -1132,6 +1151,7 @@ function updateMAC() {
         $aryLog['log'][] = array('field' => "Lettore", 'old' => $oldData['Lettore'], 'new' => $reader);
     }
     $message = json_encode($aryLog);
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader' WHERE `IdMac` = $id";
@@ -1177,6 +1197,7 @@ function deleteMAC() {
 
     //Creo il messaggio
     $message = addslashes("E' stato eliminato un MAC dall'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Cancello un singolo MAC
     $query = "DELETE FROM `mac` WHERE `IdMac` = $id";
@@ -1221,6 +1242,7 @@ function deleteAllMAC() {
 
     //Creo il messaggio
     $message = addslashes("Sono stati eliminati tutti i MAC dall'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Cancello tutti i MAC
     $result = mysqli_query(connDB(),"DELETE FROM `mac` WHERE `IdImpianto_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
@@ -1274,7 +1296,8 @@ function newDispenser() {
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto un erogatore all'impianto $namePlant");
-
+    $message = htmlspecialchars($message, ENT_QUOTES);
+    
     //Inserisco l'erogatore
     $result = mysqli_query(connDB(),"INSERT INTO `erogatori` VALUES (0,'$dispenserType','$protocolConverter','$protocol','$header','$version',$gasPump,$side,$idMAC,$idPlant)") or die (mysqli_error(connDB()));
     if($result) {
@@ -1353,6 +1376,7 @@ function updateDispenser() {
         $aryLog['log'][] = array('field' => "Lato", 'old' => $oldData['Lato'], 'new' => $side);
     }
     $message = json_encode($aryLog);
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Modifico i dati
     $query = "UPDATE `erogatori` SET `TipoErogatore` = '$dispenserType', `ConvProtocollo` = '$protocolConverter', `Protocollo` = '$protocol', `Testata` = '$header', `Versione` = '$version', `Pistole` = $gasPump, `Lato` = $side WHERE `IdErogatore` = $id";
@@ -1397,6 +1421,7 @@ function deleteDispenser() {
 
     //Creo il messaggio
     $message = addslashes("E' stato eliminato un erogatore dall'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Cancello un singolo erogatore
     $query = "DELETE FROM `erogatori` WHERE `IdErogatore` = $id";
@@ -1442,6 +1467,7 @@ function requestDeletePC() {
 
     //Creo il messaggio di log
     $message = addslashes("E' stata inviata richiesta di cancellazione della postazione PC dell'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Creo la richiesta
     $request = addslashes("Richiesta di cancellazione della postazione");
@@ -1489,6 +1515,7 @@ function requestDeleteAllMAC() {
 
     //Creo il messaggio di log
     $message = addslashes("E' stata inviata richiesta di cancellazione di tutti i MAC dell'impianto $namePlant");
+    $message = htmlspecialchars($message, ENT_QUOTES);
 
     //Creo la richiesta
     $request = addslashes("Richiesta di cancellazione dei MAC");

@@ -99,7 +99,10 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-success btn-sm px-2" data-mdb-toggle="modal" onclick='acceptRequest(<?= $obj; ?>)'>
                                                         <i class="fas fa-check"></i>
                                                     </a>

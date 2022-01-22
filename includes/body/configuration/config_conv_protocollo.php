@@ -51,7 +51,10 @@
                             <tr>
                                 <td><?= $row['Versione'];?></td>
                                 <td>
-                                    <?php $obj = json_encode($row); ?>
+                                    <?php 
+                                        $obj = json_encode($row); 
+                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                    ?>
                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateCCP(<?= $obj; ?>)'>
                                         <i class="fas fa-pencil-alt fa-sm"></i>
                                     </a>

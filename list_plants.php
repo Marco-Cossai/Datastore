@@ -93,6 +93,7 @@
                                                     <?php
                                                         $row['CurrentPage'] = 'list_plants';
                                                         $obj = json_encode($row);
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
                                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updatePlant(<?= $obj; ?>)'>
                                                         <i class="fas fa-pencil-alt fa-sm"></i>

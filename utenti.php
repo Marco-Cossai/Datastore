@@ -98,7 +98,10 @@
                                                 </td>
                                                 <?php if($_SESSION['Ruolo'] == 'Administrator') { ?>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateUser(<?= $obj; ?>)'>
                                                         <i class="fas fa-user-edit"></i>
                                                     </a>

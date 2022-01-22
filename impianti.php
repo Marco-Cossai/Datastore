@@ -85,7 +85,10 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-warning btn-sm px-2" data-mdb-toggle="modal" onclick='migrationPlant(<?= $obj; ?>)'>
                                                         <i class="fas fa-exchange-alt"></i>
                                                     </a>

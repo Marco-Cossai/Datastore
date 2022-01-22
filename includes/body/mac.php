@@ -26,6 +26,7 @@
         if (mysqli_fetch_array($result)) {
             foreach ($result as $row) {
                 $obj = json_encode($row);
+                $obj = htmlspecialchars($obj, ENT_QUOTES);
     ?>
     <div class="col-xl-4 col-lg-6">
         <div class="card shadow-sm border mt-3 pb-2">
