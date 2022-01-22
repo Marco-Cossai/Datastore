@@ -1273,9 +1273,9 @@ function newDispenser() {
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
-    $protocolConverter = $_POST['ConvProtocollo'];
+    $protocolConverter = addslashes($_POST['ConvProtocollo']);
     $protocol = addslashes($_POST['Protocollo']);
-    $header = $_POST['Testata'];
+    $header = addslashes($_POST['Testata']);
     $version = addslashes($_POST['Versione']);
     $gasPump = $_POST['Pistole'];
     $side = $_POST['Lato'];
@@ -1326,9 +1326,9 @@ function updateDispenser() {
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
-    $protocolConverter = $_POST['ConvProtocollo'];
+    $protocolConverter = addslashes($_POST['ConvProtocollo']);
     $protocol = addslashes($_POST['Protocollo']);
-    $header = $_POST['Testata'];
+    $header = addslashes($_POST['Testata']);
     $version = addslashes($_POST['Versione']);
     $gasPump = $_POST['Pistole'];
     $side = $_POST['Lato'];
