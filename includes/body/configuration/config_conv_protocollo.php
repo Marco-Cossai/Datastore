@@ -34,7 +34,7 @@
             <div class="card-header font-weight-bold"><?=$value['ConvProtocollo'];?></div>
             <div class="card-body">
                 <?php
-                    $protocolConverter = $value['ConvProtocollo'];
+                    $protocolConverter = stripslashes($value['ConvProtocollo']);
                     $q = "SELECT * FROM `union_convert_protocollo` WHERE `ConvProtocollo` = '$protocolConverter' ORDER BY `Id` DESC";
                     $res = mysqli_query(connDB(),$q) or die(mysqli_error(connDB()));
                 ?>

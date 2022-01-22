@@ -80,15 +80,15 @@
                                             <?php foreach($result as $row) { ?>
                                             <tr>
                                                 <td><?=$row['Nome'];?></td>
-                                                <td><?=$row['Cognome'];?></td>
+                                                <td><?=stripslashes($row['Cognome']);?></td>
                                                 <td>
                                                     <?=$row['Ruolo'];?>
                                                     <?php if ($row['Developer'] == 1) { ?>
                                                     <i class="fab fa-dev text-green fa-lg"></i>
                                                     <?php } ?>
                                                 </td>
-                                                <td><?=$row['Email'];?></td>
-                                                <td><?=$row['Username'];?></td>
+                                                <td><?=stripslashes($row['Email']);?></td>
+                                                <td><?=stripslashes($row['Username']);?></td>
                                                 <td>
                                                     <?php if($row['Stato'] == 1) { ?>
                                                     <h6 class="mb-0"><span class="badge bg-green font-weight-bold">Online</span></h6>

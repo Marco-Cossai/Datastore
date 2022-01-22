@@ -149,10 +149,10 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['NomeImpianto'];?></td>
-                                                <td><?= $row['Email'];?></td>
-                                                <td><?= $row['Recapito'];?></td>
-                                                <td><?= $row['RagioneSociale'];?></td>
+                                                <td><?=stripslashes($row['NomeImpianto']);?></td>
+                                                <td><?=stripslashes($row['Email']);?></td>
+                                                <td><?=stripslashes($row['Recapito']);?></td>
+                                                <td><?=stripslashes($row['RagioneSociale']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>
@@ -186,27 +186,27 @@
                                     <?php if($row['Operazione'] == 1) { ?>
                                     <li class="border-bottom px-3 py-2">
                                         <div class="font-weight-bold text-black-50"><?=$hour?></div>
-                                        <div class="text-muted"><?=$row['Compilatore'];?> ha inserito dei dati</div>
+                                        <div class="text-muted"><?=stripslashes($row['Compilatore']);?> ha inserito dei dati</div>
                                     </li>
                                     <?php } elseif ($row['Operazione'] == 2) { ?>
                                     <li class="border-bottom px-3 py-2">
                                         <div class="font-weight-bold text-black-50"><?=$hour?></div>
-                                        <div class="text-muted"><?=$row['Compilatore'];?> ha modificato dei dati</div>
+                                        <div class="text-muted"><?=stripslashes($row['Compilatore']);?> ha modificato dei dati</div>
                                     </li>
                                     <?php } elseif($row['Operazione'] == 3) { ?>
                                     <li class="border-bottom px-3 py-2">
                                         <div class="font-weight-bold text-black-50"><?=$hour?></div>
-                                        <div class="text-muted"><?=$row['Compilatore'];?> ha cancellato dei dati</div>
+                                        <div class="text-muted"><?=stripslashes($row['Compilatore']);?> ha cancellato dei dati</div>
                                     </li>
                                     <?php } elseif($row['Operazione'] == 4) { ?>
                                     <li class="border-bottom px-3 py-2">
                                         <div class="font-weight-bold text-black-50"><?=$hour?></div>
-                                        <div class="text-muted"><?=$row['Compilatore'];?> ha migrato un impianto</div>
+                                        <div class="text-muted"><?=stripslashes($row['Compilatore']);?> ha migrato un impianto</div>
                                     </li>
                                     <?php } elseif($row['Operazione'] == 5) { ?>
                                     <li class="border-bottom px-3 py-2">
                                         <div class="font-weight-bold text-black-50"><?=$hour?></div>
-                                        <div class="text-muted"><?=$row['Compilatore'];?> ha effettuato una richiesta di cancellazione</div>
+                                        <div class="text-muted"><?=stripslashes($row['Compilatore']);?> ha effettuato una richiesta di cancellazione</div>
                                     </li>
                                     <?php } } } else { ?>
                                     <li class="text-muted text-center py-4">Non c'è ancora nessuna attività...</li>

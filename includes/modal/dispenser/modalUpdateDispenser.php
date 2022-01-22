@@ -20,7 +20,7 @@
                             <label for="uTipoErogatore" class="mt-2">Tipo erogatore *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uTipoErogatore" name="TipoErogatore" required>
                                 <?php foreach ($res1 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -28,7 +28,7 @@
                             <label for="uTestata" class="mt-2">Testata *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uTestata" name="Testata" required>
                                 <?php foreach ($res2 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -36,7 +36,7 @@
                             <label for="uProtocollo" class="mt-2">Protocollo *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uProtocollo" name="Protocollo" required>
                                 <?php foreach ($res3 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -44,7 +44,7 @@
                             <label for="uConvProtocollo" class="mt-2">Conv. protocollo *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uConvProtocollo" name="ConvProtocollo" required>
                                 <?php foreach ($res4 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -52,7 +52,7 @@
                             <label for="uVersione" class="mt-2">Versione *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uVersione" name="Versione" required>
                                 <?php foreach ($res5 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

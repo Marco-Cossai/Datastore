@@ -20,7 +20,7 @@
                             <select class="form-select py-1 mb-0 mt-1" name="TipoErogatore" required>
                                 <option value=""></option>
                                 <?php foreach ($res1 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -29,7 +29,7 @@
                             <select class="form-select py-1 mb-0 mt-1" name="Testata" required>
                                 <option value=""></option>
                                 <?php foreach ($res2 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -38,7 +38,7 @@
                             <select class="form-select py-1 mb-0 mt-1" name="Protocollo" required>
                                 <option value=""></option>
                                 <?php foreach ($res3 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -47,7 +47,7 @@
                             <select class="form-select py-1 mb-0 mt-1" name="ConvProtocollo" required>
                                 <option value=""></option>
                                 <?php foreach ($res4 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -56,7 +56,7 @@
                             <select class="form-select py-1 mb-0 mt-1" name="Versione" required>
                                 <option value=""></option>
                                 <?php foreach ($res5 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

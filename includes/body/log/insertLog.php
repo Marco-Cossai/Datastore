@@ -24,7 +24,7 @@
                                 <td><?=$row['IdLog'];?></td>
                                 <td><?=$row['DataLog'];?></td>
                                 <td><?=stripslashes($row['Messaggio']);?></td>
-                                <td><?=$row['Compilatore'];?></td>
+                                <td><?=stripslashes($row['Compilatore']);?></td>
                             </tr>
                             <?php } ?>
                         </tbody>

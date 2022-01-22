@@ -90,9 +90,9 @@
                                             <?php foreach($result as $row) { ?>
                                             <tr>
                                                 <td><?=$row['DataRichiesta'];?></td>
-                                                <td><?=$row['Richiesta'];?></td>
-                                                <td><?=$row['Impianto'];?></td>
-                                                <td><?=$row['Operatore'];?></td>
+                                                <td><?=stripslashes($row['Richiesta']);?></td>
+                                                <td><?=stripslashes($row['Impianto']);?></td>
+                                                <td><?=stripslashes($row['Operatore']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto_FK']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>

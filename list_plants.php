@@ -60,7 +60,7 @@
                                 $result = mysqli_query(connDB(),$query) or die(mysqli_error(connDB()));
                                 $row = mysqli_fetch_array($result);
                             ?>
-                            <div class="card-header font-weight-bold"><i class="fas fa-user-tie pe-1"></i> <?=$row['RagioneSociale']?></div>
+                            <div class="card-header font-weight-bold"><i class="fas fa-user-tie pe-1"></i> <?=stripslashes($row['RagioneSociale']);?></div>
                             <div class="card-body">
                                 <?php
                                     $query = "SELECT * FROM `impianti`,`clienti` WHERE `IdCliente_FK` = $id AND `IdCliente` = $id";
@@ -81,9 +81,9 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['NomeImpianto'];?></td>
-                                                <td><?= $row['Email'];?></td>
-                                                <td><?= $row['Recapito'];?></td>
+                                                <td><?=stripslashes($row['NomeImpianto']);?></td>
+                                                <td><?=stripslashes($row['Email']);?></td>
+                                                <td><?=stripslashes($row['Recapito']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>

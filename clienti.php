@@ -73,8 +73,8 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['RagioneSociale'];?></td>
-                                                <td><?= $row['TipoCliente'];?></td>
+                                                <td><?=stripslashes($row['RagioneSociale']);?></td>
+                                                <td><?=stripslashes($row['TipoCliente']);?></td>
                                                 <td>
                                                     <a class="btn btn-sm px-2" href="list_plants.php?id=<?=$row['IdCliente']?>">
                                                         <i class="fas fa-industry"></i>

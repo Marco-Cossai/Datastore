@@ -49,27 +49,27 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">Matricola</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Matricola']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Matricola']);?>" readonly>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">Modello</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Modello']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Modello']);?>" readonly>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">Pinpad</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Pinpad']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Pinpad']);?>" readonly>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">CPU</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['CPU']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['CPU']);?>" readonly>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">Stampante</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Stampante']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Stampante']);?>" readonly>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                         <label class="mt-2">Lettore</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Lettore']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Lettore']);?>" readonly>
                     </div>
                 </div>
             </div>

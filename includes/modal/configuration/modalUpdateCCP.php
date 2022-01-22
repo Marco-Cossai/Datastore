@@ -17,7 +17,7 @@
                             <label for="convprotocollo" class="mt-2">Tipo erogatore *</label>
                             <select class="form-select py-1 mb-0" id="convprotocollo" name="ConvProtocollo" required>
                                 <?php foreach ($res4 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -25,7 +25,7 @@
                             <label for="versione" class="mt-2">Testata *</label>
                             <select class="form-select py-1 mb-0" id="versione" name="Versione" required>
                                 <?php foreach ($res5 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

@@ -88,8 +88,8 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['Nome'];?></td>
-                                                <td><?=$row['Tipologia'];?></td>
+                                                <td><?=stripslashes($row['Nome']);?></td>
+                                                <td><?=stripslashes($row['Tipologia']);?></td>
                                                 <td>
                                                     <?php 
                                                         $obj = json_encode($row); 

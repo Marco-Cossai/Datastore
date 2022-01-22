@@ -41,7 +41,7 @@
                                 <option value=""></option>
                                 <?php } ?>
                                 <?php foreach ($result as $row) { ?>
-                                <option value="<?=$row['IdCliente'];?>"><?=$row['RagioneSociale'];?></option>
+                                <option value="<?=$row['IdCliente'];?>"><?=stripslashes($row['RagioneSociale']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

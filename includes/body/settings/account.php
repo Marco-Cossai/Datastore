@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-6">
                         <label class="mt-2">Cognome *</label>
-                        <input type="text" class="form-control mt-1 mb-0" value="<?=$row['Cognome'];?>" name="Cognome" required>
+                        <input type="text" class="form-control mt-1 mb-0" value="<?=stripslashes($row['Cognome']);?>" name="Cognome" required>
                     </div>
                     <div class="col-xl-4 col-lg-6">
                         <label class="mt-2">Sesso *</label>
@@ -61,7 +61,7 @@
                             } 
                         ?>
                         <label class="mt-2">Email</label>
-                        <input type="email" class="form-control mt-1 mb-0" value="<?=$row['Email'];?>" name="Email" <?=$readonly?>>
+                        <input type="email" class="form-control mt-1 mb-0" value="<?=stripslashes($row['Email']);?>" name="Email" <?=$readonly?>>
                     </div>
                     <div class="col-xl-4 col-lg-6">
                         <label class="mt-2">Username</label>
