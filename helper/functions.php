@@ -815,11 +815,7 @@ function newPC() {
     $snPC =  $_POST['SerialePC'];
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    if (array_key_exists("PBL",$POST)) {
-        $PBL = $_POST['PBL'];
-    } else {
-        $PBL = "";
-    }
+    $PBL = $_POST['PBL'];
     $router = addslashes($_POST['TipoRouter']);
     $snRouter = $_POST['SerialeRouter'];
     $IP = $_POST['IndirizzoIP'];
@@ -885,11 +881,7 @@ function updatePC() {
     $snPC =  $_POST['SerialePC'];
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    if (array_key_exists("PBL",$POST)) {
-        $PBL = $_POST['PBL'];
-    } else {
-        $PBL = "";
-    }
+    $PBL = $_POST['PBL'];
     $router = addslashes($_POST['TipoRouter']);
     $snRouter = $_POST['SerialeRouter'];
     $IP = $_POST['IndirizzoIP'];
