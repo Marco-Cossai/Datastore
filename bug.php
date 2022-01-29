@@ -90,7 +90,7 @@
                                 </div>
                                 <?php } else { ?>
                                 <img src="img/other/bug.png" class="img-fluid d-block mx-auto mt-2" style="width: 96px; height: 96px;" />
-                                <h5 class="text-muted text-center pt-3">Non sono presenti dati!</h5>
+                                <h5 class="text-muted text-center pt-3">Non sono presenti segnalazioni!</h5>
                                 <?php } ?>
                             </div>
                         </div>
@@ -99,10 +99,10 @@
             </div>
         </div>
     </div>
-
-    <?php require_once "includes/modal/user/modalNewBug.php"; ?>
-    <?php require_once "includes/modal/user/modalDeleteBug.php"; ?>
-    <?php require_once "includes/modal/user/modalUpdateBug.php"; ?>
+    
+    <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
+    <?php //require_once "includes/modal/bug/modalDeleteBug.php"; ?>
+    <?php //require_once "includes/modal/bug/modalUpdateBug.php"; ?>
     
     <?php include "includes/timeSwal.php"; ?>
 </body>
