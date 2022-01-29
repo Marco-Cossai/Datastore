@@ -6,6 +6,7 @@
         if (mysqli_fetch_array($result)) {
             foreach ($result as $row) {
                 $obj = json_encode($row);
+                $obj = htmlspecialchars($obj, ENT_QUOTES);
     ?>
     <div class="col-xl-4 col-lg-6">
         <div class="card shadow-sm border mt-3 pb-2">
@@ -28,31 +29,31 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Tipo erogatore</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['TipoErogatore']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['TipoErogatore']);?>" readonly>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Testata</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Testata']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Testata']);?>" readonly>
                     </div>
                     <div class="col-12">
                         <label class="mt-2">Protocollo</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Protocollo']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Protocollo']);?>" readonly>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Conv. protocollo</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['ConvProtocollo']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['ConvProtocollo']);?>" readonly>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Versione</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Versione']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Versione']);?>" readonly>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Pistole</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Pistole']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Pistole']);?>" readonly>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <label class="mt-2">Lato</label>
-                        <input type="text" class="form-control mt-1" value="<?=$row['Lato']?>" readonly>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Lato']);?>" readonly>
                     </div>
                 </div>
             </div>

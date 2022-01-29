@@ -29,14 +29,14 @@
                                 <td>
                                     <?php foreach ($aryLog['log'] as $v) { ?>
                                     <div class="rounded bg-dark-blue text-white px-4 py-2 mt-1">
-                                        <span class="font-weight-bold"><?=$v['field'];?>:</span> <?=$v['old'];?> <i class="fas fa-long-arrow-alt-right mx-2"></i> <?=$v['new'];?>
+                                        <span class="font-weight-bold"><?=stripslashes($v['field']);?>:</span> <?=stripslashes($v['old']);?> <i class="fas fa-long-arrow-alt-right mx-2"></i> <?=stripslashes($v['new']);?>
                                     </div>
                                     <?php } ?>
                                     <div class="rounded bg-green text-white px-4 py-2 mt-1">
-                                        <?=$aryLog['section'];?>
+                                        <?=stripslashes($aryLog['section']);?>
                                     </div>
                                 </td>
-                                <td><?=$row['Compilatore'];?></td>
+                                <td><?=stripslashes($row['Compilatore']);?></td>
                             </tr>
                             <?php } ?>
                         </tbody>

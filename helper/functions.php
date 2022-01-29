@@ -350,7 +350,7 @@ function newCustomer() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Creo il messaggio
@@ -391,22 +391,22 @@ function newCustomer() {
 function updateCustomer() {
     //Prelevo i dati dal form
     $businessName = addslashes($_POST['RagioneSociale']);
-    $kindCustomer = $_POST['TipoCliente'];
+    $kindCustomer = addslashes($_POST['TipoCliente']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo i vecchi dati dal db
     $idCustomer = $_POST['IdCustomer'];
     $result = mysqli_query(connDB(),"SELECT `RagioneSociale`,`TipoCliente` FROM `clienti` WHERE `IdCliente` = $idCustomer") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $oldBusinessName = $row['RagioneSociale'];
-        $oldKindCustomer = $row['TipoCliente'];
+        $oldBusinessName = addslashes($row['RagioneSociale']);
+        $oldKindCustomer = addslashes($row['TipoCliente']);
     }
 
     //Costruisco il messaggio per il log
@@ -418,7 +418,7 @@ function updateCustomer() {
     if($oldKindCustomer !== $kindCustomer) {
         $aryLog['log'][] = array('field' => "Tipologia", 'old' => $oldKindCustomer, 'new' => $kindCustomer);
     }
-    $message = json_encode($aryLog);
+    $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
     $result = mysqli_query(connDB(),"UPDATE `clienti` SET `RagioneSociale` = '$businessName', `TipoCliente` = '$kindCustomer' WHERE `IdCliente` = $idCustomer") or die (mysqli_error(connDB()));
@@ -450,7 +450,7 @@ function deleteCustomer() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo la ragione sociale del cliente che verrà rimosso
@@ -494,7 +494,7 @@ function changeAccount() {
     if(array_key_exists('DevOptions', $_POST)) {
         $devOptions = $_POST['DevOptions'];
     }
-    $email = $_POST['Email'];
+    $email = addslashes($_POST['Email']);
     $role = $_POST['Ruolo'];
 
     //Modifico i dati
@@ -581,12 +581,12 @@ function newPlant() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto l'impianto $namePlant");
-
+    
     //Verifico nel db se esiste già un impianto con il nome inserito dal form
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `NomeImpianto` = '$namePlant'") or die (mysqli_error(connDB()));
     if(mysqli_fetch_array($result)) {
@@ -642,7 +642,7 @@ function updatePlant() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo i vecchi dati dal database
@@ -651,7 +651,7 @@ function updatePlant() {
 
     //Costruisco il messaggio per il log
     $aryLog = array();
-    $aryLog = array('section' => "IMPIANTO: ".$oldData['NomeImpianto']);
+    $aryLog = array('section' => "IMPIANTO: ".addslashes($oldData['NomeImpianto']));
     if($oldData['NomeImpianto'] !== $namePlant) {
         $aryLog['log'][] = array('field' => "Nome impianto", 'old' => $oldData['NomeImpianto'], 'new' => $namePlant);
     }
@@ -661,7 +661,7 @@ function updatePlant() {
     if($oldData['Recapito'] !== $number) {
         $aryLog['log'][] = array('field' => "Recapito", 'old' => $oldData['Recapito'], 'new' => $number);
     }
-    $message = json_encode($aryLog);
+    $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
     $result = mysqli_query(connDB(),"UPDATE `impianti` SET `NomeImpianto` = '$namePlant', `Email` = '$email', `Recapito` = '$number' WHERE `IdImpianto` = $idPlant") or die (mysqli_error(connDB()));
@@ -702,7 +702,7 @@ function deletePlant() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto che verrà rimosso
@@ -713,7 +713,7 @@ function deletePlant() {
 
     //Creo il messaggio
     $message = addslashes("E' stato rimosso l'impianto $namePlant con i relativi dettagli");
-    
+
     //Rimuovo l'impianto
     $result = mysqli_query(connDB(),"DELETE FROM `impianti` WHERE `IdImpianto` = $id") or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
@@ -753,7 +753,7 @@ function migrationPlant() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -802,16 +802,16 @@ function newPC() {
     //Prelevo i dati dal form
     $idPlant_FK = $_POST['IdPlant_FK'];
     $idCustomer_FK = $_POST['IdCustomer_FK'];
-    $number = $_POST['Matricola'];
-    $model = $_POST['Modello'];
-    $platform = $_POST['Architettura'];
-    $snPC =  $_POST['SerialePC'];
+    $number = addslashes($_POST['Matricola']);
+    $model = addslashes($_POST['Modello']);
+    $platform = addslashes($_POST['Architettura']);
+    $snPC =  addslashes($_POST['SerialePC']);
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    $PBL = $_POST['PBL'];
+    $PBL = addslashes($_POST['PBL']);
     $router = addslashes($_POST['TipoRouter']);
-    $snRouter = $_POST['SerialeRouter'];
-    $IP = $_POST['IndirizzoIP'];
+    $snRouter = addslashes($_POST['SerialeRouter']);
+    $IP = addslashes($_POST['IndirizzoIP']);
     $anydesk = addslashes($_POST['Anydesk']);
     if (!empty($PBL)) {
         $ticket = "https://maseritalia.atlassian.net/issues/?jql=cf%5B10037%5D%20%3D%20%22PBL".$PBL."%22";
@@ -827,7 +827,7 @@ function newPC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -843,7 +843,7 @@ function newPC() {
     $result = mysqli_query(connDB(),"SELECT `Matricola`,`SerialePC` FROM `computer` WHERE `Matricola` = '$number' OR `SerialePC` = '$snPC'") or die (mysqli_error(connDB()));
     if(mysqli_fetch_array($result)) {
         $_SESSION['title'] = "Postazione già esistente!";
-        $_SESSION['text'] = "Il software non ammette valori duplicati";
+        $_SESSION['text'] = "Non sono ammessi valori duplicati";
         $_SESSION['icon'] = "warning";
         header(pathDetails($idPlant_FK,$idCustomer_FK));
     } else {
@@ -867,16 +867,16 @@ function updatePC() {
     $id = $_POST['id'];
     $idPlant_FK = $_POST['IdImpianto_FK'];
     $idCustomer_FK = $_POST['IdCustomer_FK'];
-    $number = $_POST['Matricola'];
-    $model = $_POST['Modello'];
-    $platform = $_POST['Architettura'];
-    $snPC =  $_POST['SerialePC'];
+    $number = addslashes($_POST['Matricola']);
+    $model = addslashes($_POST['Modello']);
+    $platform = addslashes($_POST['Architettura']);
+    $snPC =  addslashes($_POST['SerialePC']);
     $software = json_encode($_POST['Software']);
     $printer = addslashes($_POST['Stampante']);
-    $PBL = $_POST['PBL'];
+    $PBL = addslashes($_POST['PBL']);
     $router = addslashes($_POST['TipoRouter']);
-    $snRouter = $_POST['SerialeRouter'];
-    $IP = $_POST['IndirizzoIP'];
+    $snRouter = addslashes($_POST['SerialeRouter']);
+    $IP = addslashes($_POST['IndirizzoIP']);
     $anydesk = addslashes($_POST['Anydesk']);
     if (!empty($PBL)) {
         $ticket = "https://maseritalia.atlassian.net/issues/?jql=cf%5B10037%5D%20%3D%20%22PBL".$PBL."%22";
@@ -890,13 +890,13 @@ function updatePC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
+        $namePlant = addslashes($row['NomeImpianto']);
     }
 
     //Prendo i vecchi dati dal database
@@ -920,6 +920,7 @@ function updatePC() {
         $aryLog['log'][] = array('field' => "SN-PC", 'old' => $oldData['SerialePC'], 'new' => $snPC);
     }
 
+    //Gestione particolare per i software
     $arraySoftware = json_decode($software,true);
     $arrayOldSoftware = json_decode($oldData['Software']);
     $strOldSoftware = "";
@@ -956,7 +957,7 @@ function updatePC() {
     if($oldData['Note'] !== $note) {
         $aryLog['log'][] = array('field' => "Note", 'old' => $oldData['Note'], 'new' => $note);
     }
-    $message = json_encode($aryLog);
+    $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
     $query = "UPDATE `computer` SET `Matricola` = '$number', `ModelloPC` = '$model', `Architettura` = '$platform', `SerialePC` = '$snPC', `Software` = '$software', `Stampante` = '$printer', `PBL` = '$PBL', `TipoRouter` = '$router', `SerialeRouter` = '$snRouter', `IP` = '$IP', `Anydesk` = '$anydesk', `Ticket` = '$ticket', `Note` = '$note' WHERE `IdComputer` = $id";
@@ -989,7 +990,7 @@ function deletePC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto che verrà rimosso
@@ -1000,7 +1001,7 @@ function deletePC() {
 
     //Creo il messaggio
     $message = addslashes("E' stata eliminata la postazione pc dell'impianto $namePlant");
-    
+
     //Rimuovo il computer
     $result = mysqli_query(connDB(),"DELETE FROM `computer` WHERE `IdImpianto_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
@@ -1030,18 +1031,18 @@ function newMAC() {
     $idCustomer = $_POST['IdCustomer_FK'];
     $name = addslashes($_POST['Nome']);
     $number = addslashes($_POST['Matricola']);
-    $model = $_POST['Modello'];
-    $pinpad = $_POST['Pinpad'];
-    $cpu = $_POST['CPU'];
-    $printer = $_POST['Stampante'];
-    $reader = $_POST['Lettore'];
+    $model = addslashes($_POST['Modello']);
+    $pinpad = addslashes($_POST['Pinpad']);
+    $cpu = addslashes($_POST['CPU']);
+    $printer = addslashes($_POST['Stampante']);
+    $reader = addslashes($_POST['Lettore']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -1083,24 +1084,24 @@ function updateMAC() {
     $idCustomer_FK = $_POST['IdCustomer_FK'];
     $name = addslashes($_POST['Nome']);
     $number = addslashes($_POST['Matricola']);
-    $model = $_POST['Modello'];
-    $pinpad = $_POST['Pinpad'];
-    $cpu = $_POST['CPU'];
-    $printer = $_POST['Stampante'];
-    $reader = $_POST['Lettore'];
+    $model = addslashes($_POST['Modello']);
+    $pinpad = addslashes($_POST['Pinpad']);
+    $cpu = addslashes($_POST['CPU']);
+    $printer = addslashes($_POST['Stampante']);
+    $reader = addslashes($_POST['Lettore']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
     if ($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
+        $namePlant = addslashes($row['NomeImpianto']);
     }
 
     //Prelevo i vecchi dati dal db
@@ -1131,7 +1132,7 @@ function updateMAC() {
     if ($oldData['Lettore'] !== $reader) {
         $aryLog['log'][] = array('field' => "Lettore", 'old' => $oldData['Lettore'], 'new' => $reader);
     }
-    $message = json_encode($aryLog);
+    $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
     $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader' WHERE `IdMac` = $id";
@@ -1166,7 +1167,7 @@ function deleteMAC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -1210,7 +1211,7 @@ function deleteAllMAC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -1251,9 +1252,9 @@ function newDispenser() {
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
-    $protocolConverter = $_POST['ConvProtocollo'];
+    $protocolConverter = addslashes($_POST['ConvProtocollo']);
     $protocol = addslashes($_POST['Protocollo']);
-    $header = $_POST['Testata'];
+    $header = addslashes($_POST['Testata']);
     $version = addslashes($_POST['Versione']);
     $gasPump = $_POST['Pistole'];
     $side = $_POST['Lato'];
@@ -1263,7 +1264,7 @@ function newDispenser() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -1274,7 +1275,7 @@ function newDispenser() {
 
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto un erogatore all'impianto $namePlant");
-
+    
     //Inserisco l'erogatore
     $result = mysqli_query(connDB(),"INSERT INTO `erogatori` VALUES (0,'$dispenserType','$protocolConverter','$protocol','$header','$version',$gasPump,$side,$idMAC,$idPlant)") or die (mysqli_error(connDB()));
     if($result) {
@@ -1303,9 +1304,9 @@ function updateDispenser() {
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
-    $protocolConverter = $_POST['ConvProtocollo'];
+    $protocolConverter = addslashes($_POST['ConvProtocollo']);
     $protocol = addslashes($_POST['Protocollo']);
-    $header = $_POST['Testata'];
+    $header = addslashes($_POST['Testata']);
     $version = addslashes($_POST['Versione']);
     $gasPump = $_POST['Pistole'];
     $side = $_POST['Lato'];
@@ -1319,13 +1320,13 @@ function updateDispenser() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant") or die (mysqli_error(connDB()));
     if ($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
+        $namePlant = addslashes($row['NomeImpianto']);
     }
     
     //Costruisco il messaggio per il log
@@ -1352,7 +1353,7 @@ function updateDispenser() {
     if($oldData['Lato'] != $side) {
         $aryLog['log'][] = array('field' => "Lato", 'old' => $oldData['Lato'], 'new' => $side);
     }
-    $message = json_encode($aryLog);
+    $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
     $query = "UPDATE `erogatori` SET `TipoErogatore` = '$dispenserType', `ConvProtocollo` = '$protocolConverter', `Protocollo` = '$protocol', `Testata` = '$header', `Versione` = '$version', `Pistole` = $gasPump, `Lato` = $side WHERE `IdErogatore` = $id";
@@ -1386,7 +1387,7 @@ function deleteDispenser() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
@@ -1431,13 +1432,13 @@ function requestDeletePC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto che verrà rimosso
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
     if ($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
+        $namePlant = addslashes($row['NomeImpianto']);
     }
 
     //Creo il messaggio di log
@@ -1478,13 +1479,13 @@ function requestDeleteAllMAC() {
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
     //Prelevo il nome dell'impianto
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
     if ($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
+        $namePlant = addslashes($row['NomeImpianto']);
     }
 
     //Creo il messaggio di log
@@ -1518,19 +1519,6 @@ function deleteRequest() {
     //Prelevo i dati dal form
     $id = $_POST['IdRequest'];
     $idPlant = $_POST['IdPlant_FK'];
-
-    //Prelevo i dati dell'utente
-    $usernameSession = $_SESSION['Username'];
-    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
-    if($row = mysqli_fetch_array($result)) {
-        $currentUser = $row['Nome'] . " " . $row['Cognome'];
-    }
-
-    //Prelevo il nome dell'impianto che verrà rimosso
-    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant") or die (mysqli_error(connDB()));
-    if ($row = mysqli_fetch_array($result)) {
-        $namePlant = $row['NomeImpianto'];
-    }
 
     //Cancello la richiesta
     $result = mysqli_query(connDB(),"DELETE FROM `richieste_append` WHERE `IdRichiesta` = $id") or die (mysqli_error(connDB()));
@@ -1673,7 +1661,7 @@ function deleteDataDispenser() {
 *   Funzione che cancella tutti i dati inerente agli erogatori in base ad un filtro
 */
 function clearDataDispenser() {
-    $filter = $_POST['Filter'];
+    $filter = addslashes($_POST['Filter']);
     
     if ($filter == 'All') {
 

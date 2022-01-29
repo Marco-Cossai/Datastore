@@ -14,6 +14,7 @@
                             $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
                             if ($row = mysqli_fetch_array($result)) {
                                 $obj = json_encode($row);
+                                $obj = htmlspecialchars($obj, ENT_QUOTES);
                         ?>
                         <button data-mdb-toggle="modal" class="float-end bg-white border-0 ms-1 me-0" onclick='deletePC(<?= $obj; ?>)'>
                             <i class="far fa-trash-alt text-danger"></i>
@@ -44,22 +45,22 @@
                 <div class="row pb-1">
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="Matricola" class="mt-2">Matricola</label>
-                        <input type="text" class="form-control mt-1" id="Matricola" value="<?=$row['Matricola']?>"
+                        <input type="text" class="form-control mt-1" id="Matricola" value="<?=stripslashes($row['Matricola']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="ModelloPC" class="mt-2">Modello PC</label>
-                        <input type="text" class="form-control mt-1" id="ModelloPC" value="<?=$row['ModelloPC']?>"
+                        <input type="text" class="form-control mt-1" id="ModelloPC" value="<?=stripslashes($row['ModelloPC']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="Architettura" class="mt-2">Architettura</label>
-                        <input type="text" class="form-control mt-1" id="Architettura" value="<?=$row['Architettura']?>"
+                        <input type="text" class="form-control mt-1" id="Architettura" value="<?=stripslashes($row['Architettura']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="SerialePC" class="mt-2">SN-PC</label>
-                        <input type="text" class="form-control mt-1" id="SerialePC" value="<?=$row['SerialePC']?>"
+                        <input type="text" class="form-control mt-1" id="SerialePC" value="<?=stripslashes($row['SerialePC']);?>"
                             readonly>
                     </div>
                     <div class="col-12">
@@ -123,56 +124,53 @@
                     ?>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="Stampante" class="mt-2">Stampante</label>
-                        <input type="text" class="form-control mt-1" id="Stampante" value="<?=$row['Stampante']?>"
+                        <input type="text" class="form-control mt-1" id="Stampante" value="<?=stripslashes($row['Stampante']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="PBL" class="mt-2">PBL</label>
-                        <input type="text" class="form-control mt-1" id="PBL" value="<?=$row['PBL']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="PBL" value="<?=stripslashes($row['PBL']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="TipoRouter" class="mt-2">Tipo Router</label>
-                        <input type="text" class="form-control mt-1" id="TipoRouter" value="<?=$row['TipoRouter']?>"
+                        <input type="text" class="form-control mt-1" id="TipoRouter" value="<?=stripslashes($row['TipoRouter']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="SerialeRouter" class="mt-2">SN-Router</label>
-                        <input type="text" class="form-control mt-1" id="SerialeRouter"
-                            value="<?=$row['SerialeRouter']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="SerialeRouter" value="<?=stripslashes($row['SerialeRouter']);?>" readonly>
                     </div>
                     <?php } else { ?>
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <label for="Stampante" class="mt-2">Stampante</label>
-                        <input type="text" class="form-control mt-1" id="Stampante" value="<?=$row['Stampante']?>"
+                        <input type="text" class="form-control mt-1" id="Stampante" value="<?=stripslashes($row['Stampante']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <label for="TipoRouter" class="mt-2">Tipo Router</label>
-                        <input type="text" class="form-control mt-1" id="TipoRouter" value="<?=$row['TipoRouter']?>"
+                        <input type="text" class="form-control mt-1" id="TipoRouter" value="<?=stripslashes($row['TipoRouter']);?>"
                             readonly>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12">
                         <label for="SerialeRouter" class="mt-2">SN-Router</label>
-                        <input type="text" class="form-control mt-1" id="SerialeRouter"
-                            value="<?=$row['SerialeRouter']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="SerialeRouter" value="<?=stripslashes($row['SerialeRouter']);?>" readonly>
                     </div>
                     <?php } } ?>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="IndirizzoIP" class="mt-2">Indirizzo IP</label>
-                        <input type="text" class="form-control mt-1" id="IndirizzoIP" value="<?=$row['IP']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="IndirizzoIP" value="<?=stripslashes($row['IP']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="Anydesk" class="mt-2">Anydesk</label>
-                        <input type="text" class="form-control mt-1" id="Anydesk" value="<?=$row['Anydesk']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="Anydesk" value="<?=stripslashes($row['Anydesk']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="DataCompilazione" class="mt-2">Compilato il</label>
-                        <input type="text" class="form-control mt-1" id="DataCompilazione"
-                            value="<?=$row['DataCompilazione']?>" readonly>
+                        <input type="text" class="form-control mt-1" id="DataCompilazione" value="<?=$row['DataCompilazione']?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="Compilatore" class="mt-2">Compilatore</label>
-                        <input type="text" class="form-control mt-1" id="Compilatore" value="<?=$row['Compilatore']?>"
+                        <input type="text" class="form-control mt-1" id="Compilatore" value="<?=stripslashes($row['Compilatore']);?>"
                             readonly>
                     </div>
                     <?php if(!empty($row['Ticket'])) {?>
@@ -186,7 +184,7 @@
                     <div class="col-12">
                         <div class="alert alert-warning mt-4" role="alert">
                             <i class="fas fa-sticky-note"></i>
-                            <strong class="me-auto">Note: </strong><?=$row['Note']?>
+                            <strong class="me-auto">Note: </strong><?=stripslashes($row['Note']);?>
                         </div>
                     </div>
                     <?php } ?>

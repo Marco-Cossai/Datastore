@@ -21,7 +21,7 @@
                             <select class="form-select mt-1 mb-0 py-1" name="IdCustomer_FK" required>
                                 <option value=""></option>
                                 <?php foreach ($result as $row) { ?>
-                                <option value="<?=$row['IdCliente'];?>"><?=$row['RagioneSociale'];?></option>
+                                <option value="<?=$row['IdCliente'];?>"><?=stripslashes($row['RagioneSociale']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

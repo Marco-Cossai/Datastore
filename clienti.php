@@ -73,15 +73,18 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['RagioneSociale'];?></td>
-                                                <td><?= $row['TipoCliente'];?></td>
+                                                <td><?=stripslashes($row['RagioneSociale']);?></td>
+                                                <td><?=stripslashes($row['TipoCliente']);?></td>
                                                 <td>
                                                     <a class="btn btn-sm px-2" href="list_plants.php?id=<?=$row['IdCliente']?>">
                                                         <i class="fas fa-industry"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateCustomer(<?= $obj; ?>)'>
                                                         <i class="fas fa-pencil-alt fa-sm"></i>
                                                     </a>

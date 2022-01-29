@@ -17,7 +17,7 @@
                             <label for="tipoerogatore" class="mt-2">Tipo erogatore *</label>
                             <select class="form-select py-1 mb-0" id="tipoerogatore" name="TipoErogatore" required>
                                 <?php foreach ($res1 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -25,7 +25,7 @@
                             <label for="testata" class="mt-2">Testata *</label>
                             <select class="form-select py-1 mb-0" id="testata" name="Testata" required>
                                 <?php foreach ($res2 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -33,7 +33,7 @@
                             <label for="protocollo" class="mt-2">Protocollo *</label>
                             <select class="form-select py-1 mb-0" id="protocollo" name="Protocollo" required>
                                 <?php foreach ($res3 as $row) { ?>
-                                <option value="<?=$row['Nome']?>"><?=$row['Nome']?></option>
+                                <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

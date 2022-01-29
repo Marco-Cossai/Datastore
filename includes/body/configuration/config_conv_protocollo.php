@@ -34,7 +34,7 @@
             <div class="card-header font-weight-bold"><?=$value['ConvProtocollo'];?></div>
             <div class="card-body">
                 <?php
-                    $protocolConverter = $value['ConvProtocollo'];
+                    $protocolConverter = stripslashes($value['ConvProtocollo']);
                     $q = "SELECT * FROM `union_convert_protocollo` WHERE `ConvProtocollo` = '$protocolConverter' ORDER BY `Id` DESC";
                     $res = mysqli_query(connDB(),$q) or die(mysqli_error(connDB()));
                 ?>
@@ -51,7 +51,10 @@
                             <tr>
                                 <td><?= $row['Versione'];?></td>
                                 <td>
-                                    <?php $obj = json_encode($row); ?>
+                                    <?php 
+                                        $obj = json_encode($row); 
+                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                    ?>
                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateCCP(<?= $obj; ?>)'>
                                         <i class="fas fa-pencil-alt fa-sm"></i>
                                     </a>

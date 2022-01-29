@@ -71,12 +71,12 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['Matricola']?></td>
-                                                <td><?=$row['SerialePC']?></td>
-                                                <td><?=$row['Stampante']?></td>
-                                                <td><?=$row['SerialeRouter']?></td>
-                                                <td><?=$row['IP']?></td>
-                                                <td><?=$row['Anydesk']?></td>
+                                                <td><?=stripslashes($row['Matricola']);?></td>
+                                                <td><?=stripslashes($row['SerialePC']);?></td>
+                                                <td><?=stripslashes($row['Stampante']);?></td>
+                                                <td><?=stripslashes($row['SerialeRouter']);?></td>
+                                                <td><?=stripslashes($row['IP']);?></td>
+                                                <td><?=stripslashes($row['Anydesk']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>

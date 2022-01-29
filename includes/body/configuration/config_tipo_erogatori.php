@@ -34,7 +34,7 @@
             <div class="card-header font-weight-bold"><?=$value['TipoErogatore'];?></div>
             <div class="card-body">
                 <?php
-                    $dispenserType = $value['TipoErogatore'];
+                    $dispenserType = stripslashes($value['TipoErogatore']);
                     $q = "SELECT * FROM `union_tipo_erogatore` WHERE `TipoErogatore` = '$dispenserType' ORDER BY `Id` DESC";
                     $res = mysqli_query(connDB(),$q) or die(mysqli_error(connDB()));
                 ?>
@@ -50,10 +50,13 @@
                         <tbody>
                         <?php foreach($res as $row) { ?>
                             <tr>
-                                <td><?=$row['Testata'];?></td>
-                                <td><?= $row['Protocollo'];?></td>
+                                <td><?=stripslashes($row['Testata']);?></td>
+                                <td><?= stripslashes($row['Protocollo']);?></td>
                                 <td>
-                                    <?php $obj = json_encode($row); ?>
+                                    <?php 
+                                        $obj = json_encode($row); 
+                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                    ?>
                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateCTE(<?= $obj; ?>)'>
                                         <i class="fas fa-pencil-alt fa-sm"></i>
                                     </a>

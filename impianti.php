@@ -75,17 +75,20 @@
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['NomeImpianto'];?></td>
-                                                <td><?= $row['Email'];?></td>
-                                                <td><?= $row['Recapito'];?></td>
-                                                <td><?= $row['RagioneSociale'];?></td>
+                                                <td><?=stripslashes($row['NomeImpianto']);?></td>
+                                                <td><?=stripslashes($row['Email']);?></td>
+                                                <td><?=stripslashes($row['Recapito']);?></td>
+                                                <td><?=stripslashes($row['RagioneSociale']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-warning btn-sm px-2" data-mdb-toggle="modal" onclick='migrationPlant(<?= $obj; ?>)'>
                                                         <i class="fas fa-exchange-alt"></i>
                                                     </a>

@@ -4,7 +4,7 @@
             title: "<?php echo $_SESSION['title']; ?>",
             text: "<?php echo $_SESSION['text']; ?>",
             icon: "<?php echo $_SESSION['icon']; ?>",
-            timer: 2500
+            timer: 2800
         });
 </script>
 <?php 

@@ -68,7 +68,7 @@
                 <ul class="dropdown-menu dropdown-menu-end border shadow" aria-labelledby="navbarDropdown" style="margin: -3px;">
                     <li>
                         <a class="dropdown-item">Signed in as <br/>
-                            <b><?= $row['Nome']." ".$row['Cognome']; ?></b> <br/>
+                            <b><?= $row['Nome']." ".stripslashes($row['Cognome']); ?></b> <br/>
                         </a>
                     </li>
                     <li><hr class="dropdown-divider m-0" /></li>

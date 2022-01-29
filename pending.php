@@ -90,16 +90,19 @@
                                             <?php foreach($result as $row) { ?>
                                             <tr>
                                                 <td><?=$row['DataRichiesta'];?></td>
-                                                <td><?=$row['Richiesta'];?></td>
-                                                <td><?=$row['Impianto'];?></td>
-                                                <td><?=$row['Operatore'];?></td>
+                                                <td><?=stripslashes($row['Richiesta']);?></td>
+                                                <td><?=stripslashes($row['Impianto']);?></td>
+                                                <td><?=stripslashes($row['Operatore']);?></td>
                                                 <td>
                                                     <a class="btn btn-white btn-sm px-2" href="details.php?id=<?=$row['IdImpianto_FK']?>&idCustomer=<?=$row['IdCliente_FK']?>">
                                                         <i class="fas fa-external-link-alt"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <?php $obj = json_encode($row); ?>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
                                                     <a class="btn btn-success btn-sm px-2" data-mdb-toggle="modal" onclick='acceptRequest(<?= $obj; ?>)'>
                                                         <i class="fas fa-check"></i>
                                                     </a>
