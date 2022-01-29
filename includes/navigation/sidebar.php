@@ -68,6 +68,13 @@
             </a>
         </li>
         <?php } ?>
+        <div class="sidenav-menu-heading pt-4 ps-3">Assistenza</div>
+        <li class="ps-3 pt-2">
+            <a href="bug.php">
+                <i class="fas fa-bug"></i>
+                <span class="ps-1">Segnalazioni</span>
+            </a>
+        </li>
         <?php if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) { ?>
         <div class="sidenav-menu-heading pt-4 ps-3">Development</div>
         <li class="ps-3 pt-2">
