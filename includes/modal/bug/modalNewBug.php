@@ -1,7 +1,7 @@
 <?php
     $username = addslashes($_SESSION['Username']);
 
-    $query = "SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$username'";
+    $query = "SELECT `Nome`,`Cognome`,`Email` FROM `utenti` WHERE BINARY `Username` = '$username'";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB())); 
     if($row = mysqli_fetch_array($result)) {
         $chiamante = $row['Nome'] . " " . addslashes($row['Cognome']);
@@ -61,10 +61,10 @@
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="GruppoAssegnazione" class="mt-2">Gruppo di assegnazione</label>
-                            <input type="text" class="form-control mb-0" id="GruppoAssegnazione" value="Supporto" readonly>
+                            <input type="text" class="form-control mb-0" id="GruppoAssegnazione" value="Supporto tecnico" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="Impatto" class="mt-2">Impatto</label>
+                            <label for="Impatto" class="mt-2">Impatto *</label>
                             <select class="form-select py-1 mb-0" id="Impatto" name="Impatto" required>
                                 <option value=""></option>
                                 <option value="1">1 - Alto</option>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6"></div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="Priorita" class="mt-2">Priorità</label>
+                            <label for="Priorita" class="mt-2">Priorità *</label>
                             <select class="form-select py-1 mb-0" id="Priorita" name="Priorita" required>
                                 <option value=""></option>
                                 <option value="1">1 - Urgente</option>
@@ -85,11 +85,11 @@
                         </div>
                         <div class="col-xl-6 col-lg-6"></div>
                         <div class="col-12">
-                            <label for="Oggetto" class="mt-2">Oggetto</label>
+                            <label for="Oggetto" class="mt-2">Oggetto *</label>
                             <input type="text" class="form-control mb-0" id="Oggetto" name="Oggetto" maxlength="128" required>
                         </div>
                         <div class="col-12">
-                            <label class="mt-2" for="Descrizione">Descrizione</label>
+                            <label class="mt-2" for="Descrizione">Descrizione *</label>
                             <textarea class="form-control" id="Descrizione" rows="4"></textarea>
                         </div>
                     </div>
