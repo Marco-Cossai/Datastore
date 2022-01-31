@@ -37,7 +37,7 @@
                         <div class="col-xl-6 col-lg-6">
                             <label for="Stato" class="mt-2">Stato</label>
                             <select class="form-select py-1 mb-0" id="Stato" name="Stato" required>
-                                <option value="1">Nuovo</option>
+                                <option value="1">Nuova</option>
                             </select>
                         </div>
                         <div class="col-xl-6 col-lg-6">
@@ -72,9 +72,8 @@
                             <select class="form-select py-1 mb-0" id="Priorita" name="Priorita" required>
                                 <option value=""></option>
                                 <option value="1">1 - Urgente</option>
-                                <option value="2">2 - Alta</option>
-                                <option value="3">3 - Media</option>
-                                <option value="4">4 - Bassa</option>
+                                <option value="2">2 - Media</option>
+                                <option value="3">3 - Bassa</option>
                             </select>
                         </div>
                         <div class="col-12">
