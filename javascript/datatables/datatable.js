@@ -214,5 +214,22 @@ $(document).ready( function () {
         }
     }),
 
+    $('#dtBug').DataTable({
+        "pagingType": "full_numbers",
+        "aaSorting": [],
+            columnDefs: [{
+            orderable: false,
+            targets: [2,3,5,6,7]
+        }],
+        "language": {
+            "paginate": {
+                "previous": "Indietro",
+                "next": "Avanti",
+                "first": "Primo",
+                "last": "Ultimo"
+            }
+        }
+    }),
+
     $('.dataTables_length').addClass('bs-select');
 });

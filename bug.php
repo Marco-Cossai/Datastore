@@ -56,12 +56,12 @@
                         <div class="card shadow-sm border mt-3">
                             <div class="card-body">
                                 <?php
-                                    $query = "SELECT * FROM `report_bug`";
+                                    $query = "SELECT * FROM `report_bug` ORDER BY `Id` DESC";
                                     $result = mysqli_query(connDB(),$query) or die(mysqli_error(connDB()));
                                     if(mysqli_fetch_array($result)){
                                 ?>
                                 <div class="table-responsive">
-                                    <table id="dtUsers" class="table table-sm text-nowrap align-middle text-center py-4">
+                                    <table id="dtBug" class="table table-sm text-nowrap align-middle text-center py-4">
                                         <thead>
                                             <tr>
                                                 <th class="th-sm">ID segnalazione</th>
