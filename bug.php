@@ -65,24 +65,70 @@
                                         <thead>
                                             <tr>
                                                 <th class="th-sm">ID segnalazione</th>
-                                                <th class="th-sm">Chiamante</th>
                                                 <th class="th-sm">Data apertura</th>
                                                 <th class="th-sm">Oggetto</th>
+                                                <th class="th-sm">Impatto</th>
                                                 <th class="th-sm">Priorità</th>
                                                 <th class="th-sm">Stato</th>
+                                                <th class="th-sm">Chiamante</th>
                                                 <th class="th-sm">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach($result as $row) { ?>
                                             <tr>
-                                                <td><?=$row['Id'];?></td>
-                                                <td><?=stripslashes($row['Chiamante']);?></td>
-                                                <td><?=stripslashes($row['DataApertura']);?></td>
+                                                <td>#<?=$row['Id'];?></td>
+                                                <td><?=$row['DataApertura'];?></td>
                                                 <td><?=stripslashes($row['Oggetto']);?></td>
-                                                <td><?=$row['Priorita'];?></td>
-                                                <td><?=$row['Stato'];?></td>
-                                                <td></td>
+                                                <td>
+                                                    <?php if($row['Impatto'] == 1) { ?>
+                                                    <span class="badge rounded-pill bg-danger">Alto</span>
+                                                    <?php } elseif($row['Impatto'] == 2) { ?>
+                                                    <span class="badge rounded-pill bg-warning text-dark">Medio</span>
+                                                    <?php } elseif($row['Impatto'] == 3) { ?>
+                                                    <span class="badge rounded-pill bg-primary">Basso</span>
+                                                    <?php } else { ?>
+                                                    <span class="badge rounded-pill bg-dark">Non definito</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if($row['Priorita'] == 1) { ?>
+                                                    <span class="badge rounded-pill bg-danger">Urgente</span>
+                                                    <?php } elseif($row['Priorita'] == 2) { ?>
+                                                    <span class="badge rounded-pill bg-warning text-dark">Media</span>
+                                                    <?php } elseif($row['Priorita'] == 3) { ?>
+                                                    <span class="badge rounded-pill bg-primary">Bassa</span>
+                                                    <?php } else { ?>
+                                                    <span class="badge rounded-pill bg-dark">Non definita</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if($row['Stato'] == 1) { ?>Nuovo
+                                                    <?php } elseif($row['Stato'] == 2) { ?>In lavorazione
+                                                    <?php } elseif($row['Stato'] == 3) { ?>Consegnata
+                                                    <?php } elseif($row['Stato'] == 4) { ?>Chiusa
+                                                    <span class="badge rounded-pill bg-primary">Bassa</span>
+                                                    <?php } else { ?>
+                                                    <span class="badge rounded-pill bg-dark">Non definita</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td><?=stripslashes($row['Chiamante']);?></td>
+                                                <td>
+                                                <td>
+                                                    <?php 
+                                                        $obj = json_encode($row); 
+                                                        $obj = htmlspecialchars($obj, ENT_QUOTES);
+                                                    ?>
+                                                    <?php if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) { ?>
+                                                    <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </a>
+                                                    <?php } ?>
+                                                    <a class="btn btn-danger btn-sm px-2" data-mdb-toggle="modal" onclick='deleteReportBug(<?= $obj; ?>)'>
+                                                        <i class="fas fa-user-times"></i>
+                                                    </a>
+                                                </td>
+                                                </td>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
