@@ -72,5 +72,8 @@ switch ($datamodule) {
         if ($action == 'delete_ccp') { deleteCCP(); }
         if ($action == 'clear_ccp') { clearCCP(); }
     break; 
+    case 'bug':
+        if ($action == 'insert') { newBugReport(); }
+    break;
     default: echo 'Questo tipo di operazione non è consentita!'; break;
 }

@@ -4,7 +4,7 @@
     $query = "SELECT `Nome`,`Cognome`,`Email` FROM `utenti` WHERE BINARY `Username` = '$username'";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB())); 
     if($row = mysqli_fetch_array($result)) {
-        $chiamante = $row['Nome'] . " " . addslashes($row['Cognome']);
+        $caller = $row['Nome'] . " " . addslashes($row['Cognome']);
         $email = $row['Email'];
     }
 ?>
@@ -21,11 +21,10 @@
                         <div class="col-12">
                             <input type="hidden" class="form-control" name="datamodule" value="bug" readonly>
                             <input type="hidden" class="form-control" name="action" value="insert" readonly>
-                            <input type="hidden" class="form-control" name="DataChiusura" value="" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="Chiamante" class="mt-2">Chiamante</label>
-                            <input type="text" class="form-control mb-0" id="Chiamante" name="Chiamante" value="<?=$chiamante?>" readonly>
+                            <input type="text" class="form-control mb-0" id="Chiamante" name="Chiamante" value="<?=$caller?>" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="DataApertura" class="mt-2">Data apertura</label>
@@ -59,11 +58,7 @@
                                 <option value="Altro">-- Altro</option>
                             </select>
                         </div>
-                        <div class="col-xl-6 col-lg-6">
-                            <label for="GruppoAssegnazione" class="mt-2">Gruppo di assegnazione</label>
-                            <input type="text" class="form-control mb-0" id="GruppoAssegnazione" value="Supporto tecnico" readonly>
-                        </div>
-                        <div class="col-xl-6 col-lg-6">
+                        <div class="col-xl-3 col-lg-3">
                             <label for="Impatto" class="mt-2">Impatto *</label>
                             <select class="form-select py-1 mb-0" id="Impatto" name="Impatto" required>
                                 <option value=""></option>
@@ -72,8 +67,7 @@
                                 <option value="3">3 - Basso</option>
                             </select>
                         </div>
-                        <div class="col-xl-6 col-lg-6"></div>
-                        <div class="col-xl-6 col-lg-6">
+                        <div class="col-xl-3 col-lg-3">
                             <label for="Priorita" class="mt-2">Priorità *</label>
                             <select class="form-select py-1 mb-0" id="Priorita" name="Priorita" required>
                                 <option value=""></option>
@@ -83,14 +77,13 @@
                                 <option value="4">4 - Bassa</option>
                             </select>
                         </div>
-                        <div class="col-xl-6 col-lg-6"></div>
                         <div class="col-12">
                             <label for="Oggetto" class="mt-2">Oggetto *</label>
                             <input type="text" class="form-control mb-0" id="Oggetto" name="Oggetto" maxlength="128" required>
                         </div>
                         <div class="col-12">
                             <label class="mt-2" for="Descrizione">Descrizione *</label>
-                            <textarea class="form-control" id="Descrizione" rows="4"></textarea>
+                            <textarea class="form-control" id="Descrizione" name="Descrizione" rows="4" required></textarea>
                         </div>
                     </div>
                     <p class="text-muted pt-4 pb-0">* Campi obbligatori</p>
