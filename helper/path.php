@@ -63,3 +63,8 @@ function pathConfigurations() {
     $path = "location: ../configurations.php";
     return $path;
 }
+
+function pathSectionBug() {
+    $path = "location: ../bug.php";
+    return $path;
+}

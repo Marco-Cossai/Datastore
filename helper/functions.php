@@ -1919,3 +1919,34 @@ function clearCCP() {
         header(pathConfigurations());
     }
 }
+
+/**
+ *  newBugReport()
+ *  Funzione che permette l'inserimento di segnalazioni di bug riscontrati nell'utilizzo del datastore 
+ */
+
+function newBugReport() {
+    $caller = addslashes($_POST['Chiamante']);
+    $dateOpenBug = $_POST['DataApertura'];
+    $email = addslashes($_POST['Email']);
+    $state = $_POST['Stato'];
+    $issueEnvironment = addslashes($_POST['AreaProblema']);
+    $impact = $_POST['Impatto'];
+    $priority = $_POST['Priorita'];
+    $object = addslashes($_POST['Oggetto']);
+    $description = addslashes($_POST['Descrizione']);
+
+    $query = "INSERT INTO `report_bug` VALUES (0,'$issueEnvironment',$impact,$priority,$state,'$caller','$email','$dateOpenBug',NULL,'$object','$description')";
+    $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        $_SESSION['title'] = "Segnalazione creata!";
+        $_SESSION['text'] = "La segnalazione è stata inserita";
+        $_SESSION['icon'] = "success";
+        header(pathSectionBug());  
+    } else {
+        $_SESSION['title'] = "Segnakazione non creata!";
+        $_SESSION['text'] = "Si è verificato un errore nell'apertura della segnalazione";
+        $_SESSION['icon'] = "error";
+        header(pathSectionBug());
+    }
+}
