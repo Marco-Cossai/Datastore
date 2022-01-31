@@ -82,20 +82,20 @@
                                                 <td><?=stripslashes($row['Oggetto']);?></td>
                                                 <td>
                                                     <?php if($row['Impatto'] == 1) { ?>
-                                                    <span class="badge rounded-pill bg-danger">Alto</span>
+                                                    <span class="badge bg-danger">Alto</span>
                                                     <?php } elseif($row['Impatto'] == 2) { ?>
-                                                    <span class="badge rounded-pill bg-warning text-dark">Medio</span>
+                                                    <span class="badge bg-warning text-dark">Medio</span>
                                                     <?php } elseif($row['Impatto'] == 3) { ?>
-                                                    <span class="badge rounded-pill bg-primary">Basso</span>
+                                                    <span class="badge bg-primary">Basso</span>
                                                     <?php } else { ?>
-                                                    <span class="badge rounded-pill bg-dark">Non definito</span>
+                                                    <span class="badge bg-dark">Non definito</span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
                                                     <?php if($row['Priorita'] == 1) { ?>
                                                     <span class="badge rounded-pill bg-danger">Urgente</span>
                                                     <?php } elseif($row['Priorita'] == 2) { ?>
-                                                    <span class="badge rounded-pill bg-warning text-dark">Media</span>
+                                                    <span class="badge rounded-pill bg-warning">Media</span>
                                                     <?php } elseif($row['Priorita'] == 3) { ?>
                                                     <span class="badge rounded-pill bg-primary">Bassa</span>
                                                     <?php } else { ?>
@@ -114,7 +114,6 @@
                                                 </td>
                                                 <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td>
-                                                <td>
                                                     <?php 
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
@@ -127,7 +126,6 @@
                                                     <a class="btn btn-danger btn-sm px-2" data-mdb-toggle="modal" onclick='deleteReportBug(<?= $obj; ?>)'>
                                                         <i class="fas fa-user-times"></i>
                                                     </a>
-                                                </td>
                                                 </td>
                                             </tr>
                                             <?php } ?>

@@ -55,7 +55,7 @@
                                 <option value="Richieste cancellazione PC">Rich. cancella PC</option>
                                 <option value="Richieste cancellazione MAC">Rich. cancella MAC</option>
                                 <option value="Accesso ai log">Accesso ai log</option>
-                                <option value="Altro">-- Altro</option>
+                                <option value="Altro">Altro</option>
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-3">
