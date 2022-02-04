@@ -21,6 +21,7 @@
                         <div class="col-12">
                             <input type="hidden" class="form-control" name="datamodule" value="bug" readonly>
                             <input type="hidden" class="form-control" name="action" value="insert" readonly>
+                            <input type="hidden" class="form-control" name="Utente" value="<?=$username?>" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="Chiamante" class="mt-2">Chiamante</label>

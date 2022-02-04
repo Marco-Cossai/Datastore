@@ -56,7 +56,12 @@
                         <div class="card shadow-sm border mt-3">
                             <div class="card-body">
                                 <?php
-                                    $query = "SELECT * FROM `report_bug` ORDER BY `Id` DESC";
+                                    $username = $_SESSION['Username'];
+                                    if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
+                                        $query = "SELECT * FROM `report_bug` ORDER BY `Id` DESC";
+                                    } else {
+                                        $query = "SELECT * FROM `report_bug` WHERE Utente = '$username' ORDER BY `Id` DESC";
+                                    }
                                     $result = mysqli_query(connDB(),$query) or die(mysqli_error(connDB()));
                                     if(mysqli_fetch_array($result)){
                                 ?>
@@ -102,6 +107,7 @@
                                                     <span class="badge rounded-pill bg-dark">Non definita</span>
                                                     <?php } ?>
                                                 </td>
+                                                <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td>
                                                     <?php if($row['Stato'] == 1) { ?>Nuovo
                                                     <?php } elseif($row['Stato'] == 2) { ?>In lavorazione
@@ -112,20 +118,19 @@
                                                     <span class="badge rounded-pill bg-dark">Non definita</span>
                                                     <?php } ?>
                                                 </td>
-                                                <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td>
                                                     <?php 
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
-                                                    <?php if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) { ?>
                                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <i class="fas fa-user-edit"></i>
                                                     </a>
-                                                    <?php } ?>
+                                                    <?php if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) { ?>
                                                     <a class="btn btn-danger btn-sm px-2" data-mdb-toggle="modal" onclick='deleteReportBug(<?= $obj; ?>)'>
                                                         <i class="fas fa-user-times"></i>
                                                     </a>
+                                                    <?php } ?>
                                                 </td>
                                             </tr>
                                             <?php } ?>
