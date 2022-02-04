@@ -1945,7 +1945,7 @@ function newBugReport() {
         $_SESSION['icon'] = "success";
         header(pathSectionBug());  
     } else {
-        $_SESSION['title'] = "Segnakazione non creata!";
+        $_SESSION['title'] = "Segnalazione non creata!";
         $_SESSION['text'] = "Si è verificato un errore nell'apertura della segnalazione";
         $_SESSION['icon'] = "error";
         header(pathSectionBug());

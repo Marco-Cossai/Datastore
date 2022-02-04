@@ -76,7 +76,7 @@
                                                 <th class="th-sm">Priorità</th>
                                                 <th class="th-sm">Stato</th>
                                                 <th class="th-sm">Chiamante</th>
-                                                <th class="th-sm">Actions</th>
+                                                <th class="th-sm"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -89,7 +89,7 @@
                                                     <?php if($row['Impatto'] == 1) { ?>
                                                     <span class="badge bg-danger">Alto</span>
                                                     <?php } elseif($row['Impatto'] == 2) { ?>
-                                                    <span class="badge bg-warning text-dark">Medio</span>
+                                                    <span class="badge bg-warning">Medio</span>
                                                     <?php } elseif($row['Impatto'] == 3) { ?>
                                                     <span class="badge bg-primary">Basso</span>
                                                     <?php } else { ?>
@@ -123,14 +123,15 @@
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
-                                                    <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
-                                                        <i class="fas fa-user-edit"></i>
+                                                    <a class="btn btn-sm btn-outline-dark btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
+                                                        <?php
+                                                            if ($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
+                                                                echo _("Gestisci");
+                                                            } else {
+                                                                echo _("Modifica");
+                                                            }
+                                                        ?>
                                                     </a>
-                                                    <?php if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) { ?>
-                                                    <a class="btn btn-danger btn-sm px-2" data-mdb-toggle="modal" onclick='deleteReportBug(<?= $obj; ?>)'>
-                                                        <i class="fas fa-user-times"></i>
-                                                    </a>
-                                                    <?php } ?>
                                                 </td>
                                             </tr>
                                             <?php } ?>
@@ -150,8 +151,7 @@
     </div>
     
     <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
-    <?php //require_once "includes/modal/bug/modalDeleteBug.php"; ?>
-    <?php //require_once "includes/modal/bug/modalUpdateBug.php"; ?>
+    <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
     
     <?php include "includes/timeSwal.php"; ?>
 </body>
