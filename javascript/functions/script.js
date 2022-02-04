@@ -319,6 +319,24 @@ function deleteCCP(data) {
 }
 
 //==================================================+
+
+function updateReportBug(data) {
+    $('#ModalUpdateBug #uId').val(data.Id);
+    $('#ModalUpdateBug #uUtente').val(data.Utente);
+    $('#ModalUpdateBug #uChiamante').val(data.Chiamante);
+    $('#ModalUpdateBug #uDataApertura').val(data.DataApertura);
+    $('#ModalUpdateBug #uDataChiusura').val(data.DataChiusura);
+    $('#ModalUpdateBug #uEmail').val(data.Email);
+    $('#ModalUpdateBug #uStato').val(data.Stato);
+    $('#ModalUpdateBug #uAreaProblema').val(data.Area);
+    $('#ModalUpdateBug #uImpatto').val(data.Impatto);
+    $('#ModalUpdateBug #uPriorita').val(data.Priorita);
+    $('#ModalUpdateBug #uOggetto').val(data.Oggetto);
+    $('#ModalUpdateBug #uDescrizione').val(data.Descrizione);
+    $('#ModalUpdateBug').modal('show');
+}
+
+//==================================================+
 function reloadTable() {
     location.reload();
 }
