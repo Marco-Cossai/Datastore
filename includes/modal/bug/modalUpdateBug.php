@@ -1,8 +1,16 @@
 <div class="modal fade" id="ModalUpdateBug" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Apri segnalazione</h5>
+                <h5 class="modal-title">
+                    <?php
+                        if ($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
+                            echo _("Gestisci segnalazione");
+                        } else {
+                            echo _("Modifica segnalazione");
+                        }
+                    ?>
+                </h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="needs-validation" novalidate action="database/database.php" method="POST" enctype="multipart/form-data">
@@ -88,7 +96,7 @@
                     <p class="text-muted pt-4 pb-0">* Campi obbligatori</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary shadow-sm" type="submit"><i class="far fa-edit"></i> Invia</button>
+                    <button class="btn btn-primary shadow-sm" type="submit"><i class="far fa-edit"></i> Salva</button>
                 </div>
             </form>
         </div>
