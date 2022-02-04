@@ -1929,6 +1929,7 @@ function newBugReport() {
     $caller = addslashes($_POST['Chiamante']);
     $dateOpenBug = $_POST['DataApertura'];
     $email = addslashes($_POST['Email']);
+    $user = addslashes($_POST['Utente']);
     $state = $_POST['Stato'];
     $issueEnvironment = addslashes($_POST['AreaProblema']);
     $impact = $_POST['Impatto'];
@@ -1936,7 +1937,7 @@ function newBugReport() {
     $object = addslashes($_POST['Oggetto']);
     $description = addslashes($_POST['Descrizione']);
 
-    $query = "INSERT INTO `report_bug` VALUES (0,'$issueEnvironment',$impact,$priority,$state,'$caller','$email','$dateOpenBug',NULL,'$object','$description')";
+    $query = "INSERT INTO `report_bug` VALUES (0,'$issueEnvironment',$impact,$priority,$state,'$caller','$email','$user','$dateOpenBug',NULL,'$object','$description')";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
         $_SESSION['title'] = "Segnalazione creata!";
