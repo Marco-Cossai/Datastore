@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-md-6">
                         <button data-mdb-toggle="modal" data-mdb-target="#ModalNewBug" class="btn btn-green float-md-end float-sm-start float-start mt-md-0 mt-3 border shadow-sm">
-                            <i class="fas fa-user-plus"></i> Aggiungi
+                            <i class="fas fa-plus"></i> Aggiungi
                         </button>
                     </div>
                 </div>
