@@ -5,7 +5,7 @@
                 <h5 class="modal-title">Gestione segnalazione</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="needs-validation" novalidate action="database/database.php" method="POST" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="database/database.php" method="POST" enctype="multipart/form-data" onchange="checkData('update','bug')">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary shadow-sm" type="submit"><i class="far fa-edit"></i> Salva</button>
+                    <button class="btn btn-primary shadow-sm disabled" id="btn-submit-bug" type="submit"><i class="far fa-edit"></i> Salva</button>
                 </div>
             </form>
         </div>
