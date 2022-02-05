@@ -219,7 +219,7 @@ $(document).ready( function () {
         "aaSorting": [],
             columnDefs: [{
             orderable: false,
-            targets: [2,3,5,6,7]
+            targets: [4,5,6,7,8]
         }],
         "language": {
             "paginate": {

@@ -338,6 +338,7 @@ function updateReportBug(data) {
 
     let newOpt = document.createElement('option');
     let processingOpt = document.createElement('option');
+    let deliveredOpt = document.createElement('option');
     let closedOpt = document.createElement('option');
 
     newOpt.value = "1";
@@ -346,7 +347,10 @@ function updateReportBug(data) {
     processingOpt.value = "2";
     processingOpt.text = "In lavorazione";
 
-    closedOpt.value = "3";
+    deliveredOpt.value = "3";
+    deliveredOpt.text = "Consegnata";
+
+    closedOpt.value = "4";
     closedOpt.text = "Chiusa";
 
     if(data.Stato === "1" && data.FlagDev === "0") {
@@ -360,6 +364,13 @@ function updateReportBug(data) {
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);
         $('#uPriorita').prop('disabled', true);
+        select.append(deliveredOpt);
+        select.append(processingOpt);
+        select.append(closedOpt);
+    } else if(data.Stato === "4" && data.FlagDev === "0"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
         select.append(closedOpt);
     } else if(data.Stato === "1" && data.FlagDev === "1"){
         $('#uAreaProblema').prop('disabled', true);
@@ -367,20 +378,26 @@ function updateReportBug(data) {
         $('#uPriorita').prop('disabled', true);
         select.append(newOpt);
         select.append(processingOpt);
-        select.append(closedOpt);
     } else if(data.Stato === "2" && data.FlagDev === "1"){
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);
         $('#uPriorita').prop('disabled', true);
         select.append(processingOpt);
-        select.append(closedOpt);
+        select.append(deliveredOpt);
     } else if(data.Stato === "3" && data.FlagDev === "1"){
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);
         $('#uPriorita').prop('disabled', true);
-        select.append(closedOpt);
+        select.append(deliveredOpt);
     }
 
+    var old = {
+        stato: $('#uStato').val(),
+        area: $('#uAreaProblema').val(),
+        impatto: $('#uImpatto').val(),
+        priorita: $('#uPriorita').val(),
+    }
+    initialValues = Object.values(old);
 }
 
 //==================================================+
@@ -495,6 +512,15 @@ function checkData(param,dm) {
             var newData = {
                 convprotocollo: $('#convprotocollo').val(),
                 versione: $('#versione').val(),
+            }
+            newValues = Object.values(newData);
+        break;
+        case 'bug':
+            var newData = {
+                stato: $('#uStato').val(),
+                area: $('#uAreaProblema').val(),
+                impatto: $('#uImpatto').val(),
+                priorita: $('#uPriorita').val(),
             }
             newValues = Object.values(newData);
         break;

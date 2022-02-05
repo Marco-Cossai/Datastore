@@ -44,9 +44,11 @@
                         </button>
                     </div>
                     <div class="col-md-6">
+                        <?php if($_SESSION['Developer'] == 0) { ?>
                         <button data-mdb-toggle="modal" data-mdb-target="#ModalNewBug" class="btn btn-green float-md-end float-sm-start float-start mt-md-0 mt-3 border shadow-sm">
                             <i class="fas fa-plus"></i> Aggiungi
                         </button>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="row">
@@ -55,10 +57,10 @@
                             <div class="card-body">
                                 <?php
                                     $username = $_SESSION['Username'];
-                                    if($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
-                                        $query = "SELECT * FROM `report_bug` ORDER BY `Id` DESC";
+                                    if($_SESSION['Developer'] == 1) {
+                                        $query = "SELECT * FROM `report_bug` WHERE `Stato` IN (1,2,3) ORDER BY `Id` DESC";
                                     } else {
-                                        $query = "SELECT * FROM `report_bug` WHERE Utente = '$username' ORDER BY `Id` DESC";
+                                        $query = "SELECT * FROM `report_bug` WHERE `Utente` = '$username' ORDER BY `Id` DESC";
                                     }
                                     $result = mysqli_query(connDB(),$query) or die(mysqli_error(connDB()));
                                     if(mysqli_fetch_array($result)){
@@ -116,6 +118,10 @@
                                                             <i class="fas fa-spinner"></i>
                                                         </a>
                                                     <?php } elseif($row['Stato'] == 3) { ?>
+                                                        <a data-mdb-toggle="tooltip" title="Consegnata">
+                                                            <i class="fas fa-truck"></i>
+                                                        </a>
+                                                    <?php } elseif($row['Stato'] == 4) { ?>
                                                         <a data-mdb-toggle="tooltip" title="Chiusa">
                                                             <i class="fas fa-lock"></i>
                                                         </a>
@@ -127,14 +133,16 @@
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
-                                                    <a class="btn btn-sm btn-outline-primary btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
+                                                    <a class="btn btn-sm btn-primary btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <?php
                                                             if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
                                                                 echo _("Gestisci");
-                                                            } elseif (($_SESSION['Developer'] == 0 || $_SESSION['Developer'] == 1) && $row['Stato'] == 3) {
+                                                            } elseif ($_SESSION['Developer'] == 1 && $row['Stato'] == 3) {
                                                                 echo _("Visualizza");
-                                                            } elseif ($_SESSION['Developer'] == 0 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
+                                                            } elseif ($_SESSION['Developer'] == 0 && ($row['Stato'] == 1 || $row['Stato'] == 2 || $row['Stato'] == 3)) {
                                                                 echo _("Aggiorna");
+                                                            } elseif ($_SESSION['Developer'] == 0 && $row['Stato'] == 4) {
+                                                                echo _("Visualizza");
                                                             }
                                                         ?>
                                                     </a>
@@ -157,7 +165,9 @@
     </div>
     <!-- Include javascript -->
     <?php include "includes/header/scripts.php"; ?>
+    <?php if($_SESSION['Developer'] == 0) { ?>
     <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
+    <?php } ?>
     <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
     
     <?php include "includes/timeSwal.php"; ?>
