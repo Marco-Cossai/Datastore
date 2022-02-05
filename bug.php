@@ -92,8 +92,6 @@
                                                     <span class="badge bg-warning">Medio</span>
                                                     <?php } elseif($row['Impatto'] == 3) { ?>
                                                     <span class="badge bg-primary">Basso</span>
-                                                    <?php } else { ?>
-                                                    <span class="badge bg-dark">Non definito</span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
@@ -103,19 +101,13 @@
                                                     <span class="badge rounded-pill bg-warning">Media</span>
                                                     <?php } elseif($row['Priorita'] == 3) { ?>
                                                     <span class="badge rounded-pill bg-primary">Bassa</span>
-                                                    <?php } else { ?>
-                                                    <span class="badge rounded-pill bg-dark">Non definita</span>
                                                     <?php } ?>
                                                 </td>
                                                 <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td>
                                                     <?php if($row['Stato'] == 1) { ?>Nuovo
                                                     <?php } elseif($row['Stato'] == 2) { ?>In lavorazione
-                                                    <?php } elseif($row['Stato'] == 3) { ?>Consegnata
-                                                    <?php } elseif($row['Stato'] == 4) { ?>Chiusa
-                                                    <span class="badge rounded-pill bg-primary">Bassa</span>
-                                                    <?php } else { ?>
-                                                    <span class="badge rounded-pill bg-dark">Non definita</span>
+                                                    <?php } elseif($row['Stato'] == 3) { ?>Chiusa
                                                     <?php } ?>
                                                 </td>
                                                 <td>
@@ -125,7 +117,7 @@
                                                     ?>
                                                     <a class="btn btn-sm btn-outline-dark btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <?php
-                                                            if ($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
+                                                            if ($_SESSION['Developer'] == 1) {
                                                                 echo _("Gestisci");
                                                             } else {
                                                                 echo _("Modifica");

@@ -3,13 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <?php
-                        if ($_SESSION['Ruolo'] == 'Administrator' && $_SESSION['Developer'] == 1) {
-                            echo _("Gestisci segnalazione");
-                        } else {
-                            echo _("Modifica segnalazione");
-                        }
-                    ?>
+                    <?php echo _(($_SESSION['Developer'] == 1) ? "Gestisci" : "Modifica"); ?> segnalazione
                 </h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -39,8 +33,10 @@
                             <input type="text" class="form-control mb-0" id="uDataChiusura" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="uAreaProblema" class="mt-2">Area del problema *</label>
-                            <select class="form-select py-1 mb-0" id="uAreaProblema" name="AreaProblema" required>
+                            <label for="uAreaProblema" class="mt-2">
+                                Area del problema <?php echo _(($_SESSION['Developer'] == 1) ? "" : "*"); ?>
+                            </label>
+                            <select class="form-select py-1 mb-0" id="uAreaProblema" name="AreaProblema" required <?php echo _(($_SESSION['Developer'] == 1) ? "disabled" : ""); ?>>
                                 <option value=""></option>
                                 <option value="Clienti">Clienti</option>
                                 <option value="Impianti">Impianti</option>
@@ -57,17 +53,13 @@
                             </select>
                         </div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="uStato" class="mt-2">Stato</label>
+                            <label for="uStato" class="mt-2">Stato <?php echo _(($_SESSION['Developer'] == 1) ? "*" : ""); ?></label>
                             <select class="form-select py-1 mb-0" id="uStato" name="Stato" required>
-                                <option value="1">Nuova</option>
-                                <option value="2">In lavorazione</option>
-                                <option value="3">Consegnata</option>
-                                <option value="4">Chiuso</option>
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-3">
-                            <label for="uImpatto" class="mt-2">Impatto *</label>
-                            <select class="form-select py-1 mb-0" id="uImpatto" name="Impatto" required>
+                            <label for="uImpatto" class="mt-2">Impatto <?php echo _(($_SESSION['Developer'] == 1) ? "" : "*"); ?></label>
+                            <select class="form-select py-1 mb-0" id="uImpatto" name="Impatto" required <?php echo _(($_SESSION['Developer'] == 1) ? "disabled" : ""); ?>>
                                 <option value=""></option>
                                 <option value="1">1 - Alto</option>
                                 <option value="2">2 - Medio</option>
@@ -75,8 +67,8 @@
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-3">
-                            <label for="uPriorita" class="mt-2">Priorità *</label>
-                            <select class="form-select py-1 mb-0" id="uPriorita" name="Priorita" required>
+                            <label for="uPriorita" class="mt-2">Priorità <?php echo _(($_SESSION['Developer'] == 1) ? "" : "*"); ?></label>
+                            <select class="form-select py-1 mb-0" id="uPriorita" name="Priorita" required <?php echo _(($_SESSION['Developer'] == 1) ? "disabled" : ""); ?>>
                                 <option value=""></option>
                                 <option value="1">1 - Urgente</option>
                                 <option value="2">2 - Media</option>
