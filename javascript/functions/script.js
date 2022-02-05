@@ -321,6 +321,7 @@ function deleteCCP(data) {
 //==================================================+
 
 function updateReportBug(data) {
+    let select = $('#ModalUpdateBug #uStato').empty()
     $('#ModalUpdateBug #uId').val(data.Id);
     $('#ModalUpdateBug #uUtente').val(data.Utente);
     $('#ModalUpdateBug #uChiamante').val(data.Chiamante);
@@ -334,6 +335,52 @@ function updateReportBug(data) {
     $('#ModalUpdateBug #uOggetto').val(data.Oggetto);
     $('#ModalUpdateBug #uDescrizione').val(data.Descrizione);
     $('#ModalUpdateBug').modal('show');
+
+    let newOpt = document.createElement('option');
+    let processingOpt = document.createElement('option');
+    let closedOpt = document.createElement('option');
+
+    newOpt.value = "1";
+    newOpt.text= "Nuova";
+
+    processingOpt.value = "2";
+    processingOpt.text = "In lavorazione";
+
+    closedOpt.value = "3";
+    closedOpt.text = "Chiusa";
+
+    if(data.Stato === "1" && data.FlagDev === "0") {
+        select.append(newOpt);
+    }else if(data.Stato === "2" && data.FlagDev === "0"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
+        select.append(processingOpt);
+    } else if(data.Stato === "3" && data.FlagDev === "0"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
+        select.append(closedOpt);
+    } else if(data.Stato === "1" && data.FlagDev === "1"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
+        select.append(newOpt);
+        select.append(processingOpt);
+        select.append(closedOpt);
+    } else if(data.Stato === "2" && data.FlagDev === "1"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
+        select.append(processingOpt);
+        select.append(closedOpt);
+    } else if(data.Stato === "3" && data.FlagDev === "1"){
+        $('#uAreaProblema').prop('disabled', true);
+        $('#uImpatto').prop('disabled', true);
+        $('#uPriorita').prop('disabled', true);
+        select.append(closedOpt);
+    }
+
 }
 
 //==================================================+

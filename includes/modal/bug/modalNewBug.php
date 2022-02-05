@@ -42,7 +42,7 @@
                             </select>
                         </div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="AreaProblema" class="mt-2">Area del problema *</label>
+                            <label for="AreaProblema" class="mt-2">Area del problema</label>
                             <select class="form-select py-1 mb-0" id="AreaProblema" name="AreaProblema" required>
                                 <option value=""></option>
                                 <option value="Clienti">Clienti</option>
@@ -60,7 +60,7 @@
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-3">
-                            <label for="Impatto" class="mt-2">Impatto *</label>
+                            <label for="Impatto" class="mt-2">Impatto</label>
                             <select class="form-select py-1 mb-0" id="Impatto" name="Impatto" required>
                                 <option value=""></option>
                                 <option value="1">1 - Alto</option>
@@ -69,7 +69,7 @@
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-3">
-                            <label for="Priorita" class="mt-2">Priorità *</label>
+                            <label for="Priorita" class="mt-2">Priorità</label>
                             <select class="form-select py-1 mb-0" id="Priorita" name="Priorita" required>
                                 <option value=""></option>
                                 <option value="1">1 - Urgente</option>
@@ -78,18 +78,17 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="Oggetto" class="mt-2">Oggetto *</label>
+                            <label for="Oggetto" class="mt-2">Oggetto</label>
                             <input type="text" class="form-control mb-0" id="Oggetto" name="Oggetto" maxlength="128" required>
                         </div>
                         <div class="col-12">
-                            <label class="mt-2" for="Descrizione">Descrizione *</label>
+                            <label class="mt-2" for="Descrizione">Descrizione</label>
                             <textarea class="form-control" id="Descrizione" name="Descrizione" rows="4" required></textarea>
                         </div>
                     </div>
-                    <p class="text-muted pt-4 pb-0">* Campi obbligatori</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-green shadow-sm" type="submit"><i class="fas fa-user-plus"></i> Aggiungi</button>
+                    <button class="btn btn-green shadow-sm" type="submit"><i class="fas fa-plus"></i> Aggiungi</button>
                 </div>
             </form>
         </div>

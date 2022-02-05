@@ -7,8 +7,6 @@
     <?php include "includes/header/metaTags.php";?>
     <!-- Include style -->
     <?php include "includes/header/style.php";?>
-    <!-- Include javascript -->
-    <?php include "includes/header/scripts.php"; ?>
     <!-- Include custom php functions -->
     <?php 
         session_start();
@@ -71,11 +69,12 @@
                                             <tr>
                                                 <th class="th-sm">ID segnalazione</th>
                                                 <th class="th-sm">Data apertura</th>
+                                                <th class="th-sm">Data chiusura</th>
+                                                <th class="th-sm">Chiamante</th>
                                                 <th class="th-sm">Oggetto</th>
                                                 <th class="th-sm">Impatto</th>
                                                 <th class="th-sm">Priorità</th>
                                                 <th class="th-sm">Stato</th>
-                                                <th class="th-sm">Chiamante</th>
                                                 <th class="th-sm"></th>
                                             </tr>
                                         </thead>
@@ -84,43 +83,58 @@
                                             <tr>
                                                 <td>#<?=$row['Id'];?></td>
                                                 <td><?=$row['DataApertura'];?></td>
+                                                <td><?=stripslashes($row['DataChiusura']);?></td>
+                                                <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td><?=stripslashes($row['Oggetto']);?></td>
                                                 <td>
-                                                    <?php if($row['Impatto'] == 1) { ?>
-                                                    <span class="badge bg-danger">Alto</span>
-                                                    <?php } elseif($row['Impatto'] == 2) { ?>
-                                                    <span class="badge bg-warning">Medio</span>
-                                                    <?php } elseif($row['Impatto'] == 3) { ?>
-                                                    <span class="badge bg-primary">Basso</span>
-                                                    <?php } ?>
+                                                    <?php 
+                                                        if($row['Impatto'] == 1) { 
+                                                            echo _("Alto");
+                                                        } elseif($row['Impatto'] == 2) {
+                                                            echo _("Medio");
+                                                        } elseif($row['Impatto'] == 3) {
+                                                            echo _("Basso");
+                                                        }
+                                                    ?>
                                                 </td>
                                                 <td>
                                                     <?php if($row['Priorita'] == 1) { ?>
-                                                    <span class="badge rounded-pill bg-danger">Urgente</span>
+                                                    <span class="font-weight-bold text-danger">Urgente</span>
                                                     <?php } elseif($row['Priorita'] == 2) { ?>
-                                                    <span class="badge rounded-pill bg-warning">Media</span>
+                                                    <span class="font-weight-bold text-warning">Media</span>
                                                     <?php } elseif($row['Priorita'] == 3) { ?>
-                                                    <span class="badge rounded-pill bg-primary">Bassa</span>
-                                                    <?php } ?>
-                                                </td>
-                                                <td><?=stripslashes($row['Chiamante']);?></td>
-                                                <td>
-                                                    <?php if($row['Stato'] == 1) { ?>Nuovo
-                                                    <?php } elseif($row['Stato'] == 2) { ?>In lavorazione
-                                                    <?php } elseif($row['Stato'] == 3) { ?>Chiusa
+                                                    <span class="font-weight-bold text-info">Bassa</span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
-                                                    <?php 
+                                                    <?php if($row['Stato'] == 1) { ?>
+                                                        <a data-mdb-toggle="tooltip" title="Nuova">
+                                                            <i class="fas fa-unlock"></i>
+                                                        </a>
+                                                    <?php } elseif($row['Stato'] == 2) { ?>
+                                                        <a data-mdb-toggle="tooltip" title="In lavorazione">
+                                                            <i class="fas fa-spinner"></i>
+                                                        </a>
+                                                    <?php } elseif($row['Stato'] == 3) { ?>
+                                                        <a data-mdb-toggle="tooltip" title="Chiusa">
+                                                            <i class="fas fa-lock"></i>
+                                                        </a>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                        $row['FlagDev'] = $_SESSION['Developer']; 
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
-                                                    <a class="btn btn-sm btn-outline-dark btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
+                                                    <a class="btn btn-sm btn-outline-primary btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <?php
-                                                            if ($_SESSION['Developer'] == 1) {
+                                                            if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
                                                                 echo _("Gestisci");
-                                                            } else {
-                                                                echo _("Modifica");
+                                                            } elseif (($_SESSION['Developer'] == 0 || $_SESSION['Developer'] == 1) && $row['Stato'] == 3) {
+                                                                echo _("Visualizza");
+                                                            } elseif ($_SESSION['Developer'] == 0 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
+                                                                echo _("Aggiorna");
                                                             }
                                                         ?>
                                                     </a>
@@ -141,7 +155,8 @@
             </div>
         </div>
     </div>
-    
+    <!-- Include javascript -->
+    <?php include "includes/header/scripts.php"; ?>
     <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
     <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
     
