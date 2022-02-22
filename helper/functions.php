@@ -1966,6 +1966,11 @@ function updateBugReport($isDev) {
 
     if (!$isDev && $state == 1) {
         $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority' WHERE `Id` = $id";
+    } elseif (($isDev && ($state == 2 || $state == 3)) || (!$isDev && $state == 2)) {
+        $query = "UPDATE `report_bug` SET `Stato` = $state WHERE `Id` = $id";
+    } elseif (!$isDev && $state == 4) {
+        $date = date("d/m/Y");
+        $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$date' WHERE `Id` = $id";
     }
 
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
