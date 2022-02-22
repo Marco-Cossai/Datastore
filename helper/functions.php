@@ -1958,7 +1958,7 @@ function newBugReport() {
  */
 function updateBugReport($isDev) {
 
-    $id = $_POST['Id']
+    $id = $_POST['Id'];
     $state = $_POST['Stato'];
     $issueEnvironment = addslashes($_POST['AreaProblema']);
     $impact = $_POST['Impatto'];
