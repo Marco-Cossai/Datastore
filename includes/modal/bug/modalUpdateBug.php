@@ -12,7 +12,7 @@
                             <input type="hidden" class="form-control" name="datamodule" value="bug" readonly>
                             <input type="hidden" class="form-control" name="action" value="update" readonly>
                             <input type="hidden" class="form-control" name="Id" id="uId" readonly>
-                            <input type="hidden" class="form-control" name="Utente" id="uUtente" readonly>
+                            <input type="hidden" class="form-control" id="uUtente" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uChiamante" class="mt-2">Chiamante</label>
