@@ -74,6 +74,14 @@ switch ($datamodule) {
     break; 
     case 'bug':
         if ($action == 'insert') { newBugReport(); }
+        if ($action == 'update') { 
+            //Sarà 1 se è un developer altrimenti sarà 0
+            $isDev = $_SESSION['Developer'];
+            if ($isDev == 1) {
+                $isDev = true;
+            }
+            updateBugReport($isDev); 
+        }
     break;
     default: echo 'Questo tipo di operazione non è consentita!'; break;
 }

@@ -1951,3 +1951,35 @@ function newBugReport() {
         header(pathSectionBug());
     }
 }
+
+/**
+ *  updateBugReport()
+ *  Funzione che permette l'aggiornamento delle segnalazioni di bug riscontrati nell'utilizzo del datastore 
+ */
+function updateBugReport($isDev) {
+
+    $id = $_POST['Id']
+    $state = $_POST['Stato'];
+    $issueEnvironment = addslashes($_POST['AreaProblema']);
+    $impact = $_POST['Impatto'];
+    $priority = $_POST['Priorita'];
+
+    if (!$isDev && $state == 1) {
+        $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority' WHERE `Id` = $id";
+    }
+
+    $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        $_SESSION['title'] = "Segnalazione aggiornata!";
+        $_SESSION['text'] = "Operazione andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathSectionBug());  
+    } else {
+        $_SESSION['title'] = "Segnalazione non aggiornata!";
+        $_SESSION['text'] = "Si è verificato un errore nella modifica";
+        $_SESSION['icon'] = "error";
+        header(pathSectionBug());
+    }
+
+}
+
