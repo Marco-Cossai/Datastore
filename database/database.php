@@ -74,6 +74,7 @@ switch ($datamodule) {
     break; 
     case 'bug':
         if ($action == 'insert') { newBugReport(); }
+        if ($action == 'getTicket') { getTicket(); }
         if ($action == 'update') { 
             //Sarà 1 se è un developer altrimenti sarà 0
             $isDev = $_SESSION['Developer'];
