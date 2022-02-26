@@ -337,6 +337,8 @@ function updateReportBug(data) {
     $('#ModalUpdateBug #uUtente').val(data.Utente);
     $('#ModalUpdateBug #uChiamante').val(data.Chiamante);
     $('#ModalUpdateBug #uDataApertura').val(data.DataApertura);
+    $('#ModalUpdateBug #uUsernameOpe').val(data.UsernameOpe);
+    $('#ModalUpdateBug #uOperatore').val(data.Operatore);
     $('#ModalUpdateBug #uDataChiusura').val(data.DataChiusura);
     $('#ModalUpdateBug #uEmail').val(data.Email);
     $('#ModalUpdateBug #uStato').val(data.Stato);
@@ -378,11 +380,13 @@ function updateReportBug(data) {
         select.append(deliveredOpt);
         select.append(processingOpt);
         select.append(closedOpt);
+        $('#uWorkNotes').prop('disabled', true);
     } else if(data.Stato === "4" && data.FlagDev === "0"){
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);
         $('#uPriorita').prop('disabled', true);
         select.append(closedOpt);
+        $('#uWorkNotes').prop('disabled', true);
     } else if(data.Stato === "1" && data.FlagDev === "1"){
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);

@@ -490,7 +490,7 @@ function changeAccount() {
     $nome = $_POST['Nome'];
     $cognome = addslashes($_POST['Cognome']);
     $sesso = $_POST['Sesso'];
-    $devOptions = 0;
+    $devOptions = "0";
     if(array_key_exists('DevOptions', $_POST)) {
         $devOptions = $_POST['DevOptions'];
     }
@@ -1953,7 +1953,34 @@ function newBugReport() {
 }
 
 /**
+ * getTicket()
+ * Funzione che permette al developer di prendere in carico le segnalazioni di bug riscontrati nell'utilizzo del datastore 
+ */
+function getTicket() {
+    $id = $_POST['Id'];
+    $nameDev = addslashes($_POST['Operatore']);
+    $usernameDev = addslashes($_POST['UsernameOpe']);
+
+    $query = "UPDATE `report_bug` SET `Operatore` = '$nameDev', `UsernameOpe` = '$usernameDev' WHERE `Id` = $id";
+    //Lancio la query
+    $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        $_SESSION['title'] = "Segnalazione presa in carico!";
+        $_SESSION['text'] = "Operazione andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathSectionBug());  
+    } else {
+        $_SESSION['title'] = "Segnalazione non presa in carico!";
+        $_SESSION['text'] = "Si è verificato un errore durante l'operazione";
+        $_SESSION['icon'] = "error";
+        header(pathSectionBug());
+    }
+}
+
+
+/**
  *  updateBugReport()
+ * @param $isDev datatype: boolean
  *  Funzione che permette l'aggiornamento delle segnalazioni di bug riscontrati nell'utilizzo del datastore 
  */
 function updateBugReport($isDev) {
@@ -1963,6 +1990,8 @@ function updateBugReport($isDev) {
     $dateOpenBug = $_POST['DataApertura'];
     $email = addslashes($_POST['Email']);
     $user = addslashes($_POST['Utente']);
+    $nameDev = addslashes($_POST['Operatore']);
+    $usernameDev = addslashes($_POST['UsernameOpe']);
     $state = $_POST['Stato'];
     $issueEnvironment = addslashes($_POST['AreaProblema']);
     $impact = $_POST['Impatto'];
@@ -1970,12 +1999,13 @@ function updateBugReport($isDev) {
     $object = addslashes($_POST['Oggetto']);
     $description = addslashes($_POST['Descrizione']);
     $workNotes = addslashes($_POST['WorkNotes']);
-    $timeStamp = date("d/m/Y - H:i:s");
 
+    $timeStamp = date("d/m/Y - H:i:s");
+    $sessionUser = addslashes($_SESSION['Username']);
     $arrayWN = array();
 
     //Utente che sta aggiornando la segnalazione
-    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$user'") or die (mysqli_error(connDB()));
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$sessionUser'") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
         $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
@@ -2011,19 +2041,27 @@ function updateBugReport($isDev) {
             $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority' WHERE `Id` = $id";
         }
 
-    } elseif (($isDev && ($state == 2 || $state == 3)) || (!$isDev && $state == 2)) {
+    } elseif (($isDev && $state == 2) || (!$isDev && $state == 2)) {
 
         if(!empty($workNotes)) {
-            $query = "UPDATE `report_bug` SET `Stato` = $state, `Commenti` = '$workNotes' WHERE `Id` = $id";
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `Operatore` = '$nameDev', `UsernameOpe` = '$usernameDev', `Commenti` = '$workNotes' WHERE `Id` = $id";
         } else {
-            $query = "UPDATE `report_bug` SET `Stato` = $state WHERE `Id` = $id";
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `Operatore` = '$nameDev', `UsernameOpe` = '$usernameDev' WHERE `Id` = $id";
+        }
+        
+    } elseif ($isDev && $state == 3) {
+
+        if(!empty($workNotes)) {
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `Operatore` = NULL, `UsernameOpe` = NULL, `Commenti` = '$workNotes' WHERE `Id` = $id";
+        } else {
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `Operatore` = NULL, `UsernameOpe` = NULL WHERE `Id` = $id";
         }
         
     } elseif (!$isDev && $state == 4) {
         $dateCloseBug = date("d/m/Y");
 
         if(!empty($workNotes)) {
-            $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$dateCloseBug', `Commenti` = '$workNotes' WHERE `Id` = $id";
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$dateCloseBug' WHERE `Id` = $id";
         } else {
             $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$dateCloseBug' WHERE `Id` = $id";
         }
