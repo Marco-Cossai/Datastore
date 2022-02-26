@@ -321,8 +321,9 @@ function deleteCCP(data) {
 //==================================================+
 
 function getTicket(data) {
-    $('#ModalGetTicket #UsernameOpe').val(data[0]);
-    $('#ModalGetTicket #Operatore').val(data[1]);
+    $('#ModalGetTicket #idTicket').val(data[0]);
+    $('#ModalGetTicket #usernameOpe').val(data[1]);
+    $('#ModalGetTicket #operatore').val(data[2]);
     $('#ModalGetTicket').modal('show');
 }
 

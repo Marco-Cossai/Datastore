@@ -61,8 +61,6 @@
                                     if($row = mysqli_fetch_array($result)) {
                                         $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
                                     }
-                                    $array = array(trim($username),trim($currentUser));
-                                    $objArray = json_encode($array);
 
                                     if($_SESSION['Developer'] == 1) {
                                         $query = "SELECT * FROM `report_bug` WHERE `Stato` IN (1,2,3) ORDER BY `Id` DESC";
@@ -135,7 +133,11 @@
                                                     <?php } ?>
                                                 </td>
                                                 <td>
-                                                    <?php if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { ?>
+                                                    <?php 
+                                                        if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { 
+                                                            $array = array($row['Id'],trim($username),trim($currentUser));
+                                                            $objArray = json_encode($array);
+                                                    ?>
                                                     <a class="btn btn-sm btn-warning px-2" data-mdb-toggle="modal" title="Prendi in carico" onclick='getTicket(<?= $objArray; ?>)'>
                                                         <i class="fas fa-user-tag"></i>
                                                     </a>
@@ -183,12 +185,12 @@
         <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
     <?php } ?>
 
-    <?php if($_SESSION['Developer'] == 1 && (!empty($row['Operatore']) && !empty($row['UsernameOpe'])) || $_SESSION['Developer'] == 0) { ?>
-        <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
-    <?php } ?>
-
     <?php if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { ?>
         <?php require_once "includes/modal/bug/modalGetTicket.php"; ?>
+    <?php } ?>
+
+    <?php if($_SESSION['Developer'] == 1 && (!empty($row['Operatore']) && !empty($row['UsernameOpe'])) || $_SESSION['Developer'] == 0) { ?>
+        <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
     <?php } ?>
 
     <?php include "includes/timeSwal.php"; ?>
