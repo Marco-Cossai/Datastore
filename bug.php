@@ -57,6 +57,13 @@
                             <div class="card-body">
                                 <?php
                                     $username = $_SESSION['Username'];
+                                    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$username'") or die (mysqli_error(connDB()));
+                                    if($row = mysqli_fetch_array($result)) {
+                                        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+                                    }
+                                    $array = array(trim($username),trim($currentUser));
+                                    $objArray = json_encode($array);
+
                                     if($_SESSION['Developer'] == 1) {
                                         $query = "SELECT * FROM `report_bug` WHERE `Stato` IN (1,2,3) ORDER BY `Id` DESC";
                                     } else {
@@ -128,12 +135,15 @@
                                                     <?php } ?>
                                                 </td>
                                                 <td>
+                                                    <a class="btn btn-sm btn-warning px-2" data-mdb-toggle="modal" title="Prendi in carico" onclick='prendiInCarico(<?= $objArray; ?>)'>
+                                                        <i class="fas fa-user-tag"></i>
+                                                    </a>
                                                     <?php
                                                         $row['FlagDev'] = $_SESSION['Developer']; 
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
-                                                    <a class="btn btn-sm btn-primary btn-rounded" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
+                                                    <a class="btn btn-sm btn-primary" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <?php
                                                             if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
                                                                 echo _("Gestisci");

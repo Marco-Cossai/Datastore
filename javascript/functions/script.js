@@ -378,6 +378,7 @@ function updateReportBug(data) {
         $('#uPriorita').prop('disabled', true);
         select.append(newOpt);
         select.append(processingOpt);
+        $('#uWorkNotes').prop('disabled', true);
     } else if(data.Stato === "2" && data.FlagDev === "1"){
         $('#uAreaProblema').prop('disabled', true);
         $('#uImpatto').prop('disabled', true);
@@ -396,6 +397,7 @@ function updateReportBug(data) {
         area: $('#uAreaProblema').val(),
         impatto: $('#uImpatto').val(),
         priorita: $('#uPriorita').val(),
+        commenti: $('#uWorkNotes').val(),
     }
     initialValues = Object.values(old);
 }
@@ -521,6 +523,7 @@ function checkData(param,dm) {
                 area: $('#uAreaProblema').val(),
                 impatto: $('#uImpatto').val(),
                 priorita: $('#uPriorita').val(),
+                commenti: $('#uWorkNotes').val(),
             }
             newValues = Object.values(newData);
         break;
