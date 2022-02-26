@@ -1937,7 +1937,7 @@ function newBugReport() {
     $object = addslashes($_POST['Oggetto']);
     $description = addslashes($_POST['Descrizione']);
 
-    $query = "INSERT INTO `report_bug` VALUES (0,'$issueEnvironment',$impact,$priority,$state,'$caller','$email','$user','$dateOpenBug',NULL,'$object','$description')";
+    $query = "INSERT INTO `report_bug` VALUES (0,'$issueEnvironment',$impact,$priority,$state,'$caller','$email','$user','$dateOpenBug',NULL,NULL,NULL,'$object','$description',NULL)";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
         $_SESSION['title'] = "Segnalazione creata!";
@@ -1959,20 +1959,78 @@ function newBugReport() {
 function updateBugReport($isDev) {
 
     $id = $_POST['Id'];
+    $caller = addslashes($_POST['Chiamante']);
+    $dateOpenBug = $_POST['DataApertura'];
+    $email = addslashes($_POST['Email']);
+    $user = addslashes($_POST['Utente']);
     $state = $_POST['Stato'];
     $issueEnvironment = addslashes($_POST['AreaProblema']);
     $impact = $_POST['Impatto'];
     $priority = $_POST['Priorita'];
+    $object = addslashes($_POST['Oggetto']);
+    $description = addslashes($_POST['Descrizione']);
+    $workNotes = addslashes($_POST['WorkNotes']);
+    $timeStamp = date("d/m/Y - H:i:s");
 
-    if (!$isDev && $state == 1) {
-        $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority' WHERE `Id` = $id";
-    } elseif (($isDev && ($state == 2 || $state == 3)) || (!$isDev && $state == 2)) {
-        $query = "UPDATE `report_bug` SET `Stato` = $state WHERE `Id` = $id";
-    } elseif (!$isDev && $state == 4) {
-        $date = date("d/m/Y");
-        $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$date' WHERE `Id` = $id";
+    $arrayWN = array();
+
+    //Utente che sta aggiornando la segnalazione
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$user'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
     }
 
+    //Recupero il JSON salvato nel campo "Commenti" sulla tabella report_bug
+    $result = mysqli_query(connDB(),"SELECT `Commenti` FROM `report_bug` WHERE `Id` = $id") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $aryWorkNotes = json_decode($row['Commenti'],true);
+    }   
+
+    //Salvataggio delle note di lavoro
+    if (empty($aryWorkNotes)) {
+        if (!empty(trim($workNotes))) {
+           $arrayWN[] = array('user' => trim($currentUser), 'timestamp' => trim($timeStamp), 'notes' => trim($workNotes));
+           $workNotes = json_encode($arrayWN,true);
+        }
+    } else {
+        if (!empty(trim($workNotes))) {
+            $arrayWN[] = $aryWorkNotes;
+            foreach ($arrayWN as $value) {
+                $value[] = array('user' => trim($currentUser), 'timestamp' => trim($timeStamp), 'notes' => trim($workNotes));
+                $workNotes = json_encode($value,true);
+            }
+        }
+    }
+
+    //Gestione dei vari stati della segnalazione per tipo di query da eseguire
+    if (!$isDev && $state == 1) {
+
+        if(!empty($workNotes)) {
+            $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority', `Commenti` = '$workNotes' WHERE `Id` = $id";
+        } else {
+            $query = "UPDATE `report_bug` SET `Area` = '$issueEnvironment', `Impatto` = '$impact', `Priorita` = '$priority' WHERE `Id` = $id";
+        }
+
+    } elseif (($isDev && ($state == 2 || $state == 3)) || (!$isDev && $state == 2)) {
+
+        if(!empty($workNotes)) {
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `Commenti` = '$workNotes' WHERE `Id` = $id";
+        } else {
+            $query = "UPDATE `report_bug` SET `Stato` = $state WHERE `Id` = $id";
+        }
+        
+    } elseif (!$isDev && $state == 4) {
+        $dateCloseBug = date("d/m/Y");
+
+        if(!empty($workNotes)) {
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$dateCloseBug', `Commenti` = '$workNotes' WHERE `Id` = $id";
+        } else {
+            $query = "UPDATE `report_bug` SET `Stato` = $state, `DataChiusura` = '$dateCloseBug' WHERE `Id` = $id";
+        }
+        
+    }
+
+    //Lancio la query
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
         $_SESSION['title'] = "Segnalazione aggiornata!";

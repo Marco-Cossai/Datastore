@@ -12,19 +12,20 @@
                             <input type="hidden" class="form-control" name="datamodule" value="bug" readonly>
                             <input type="hidden" class="form-control" name="action" value="update" readonly>
                             <input type="hidden" class="form-control" name="Id" id="uId" readonly>
-                            <input type="hidden" class="form-control" id="uUtente" readonly>
+                            <input type="hidden" class="form-control" name="Utente" id="uUtente" readonly>
+                            <input type="hidden" class="form-control" name="UsernameOpe" id="uUsernameOpe" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uChiamante" class="mt-2">Chiamante</label>
-                            <input type="text" class="form-control mb-0" id="uChiamante" readonly>
+                            <input type="text" class="form-control mb-0" name="Chiamante" id="uChiamante" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uDataApertura" class="mt-2">Data apertura</label>
-                            <input type="text" class="form-control mb-0" id="uDataApertura" readonly>
+                            <input type="text" class="form-control mb-0" name="DataApertura" id="uDataApertura" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uEmail" class="mt-2">Email</label>
-                            <input type="email" class="form-control mb-0" id="uEmail" readonly>
+                            <input type="email" class="form-control mb-0" name="Email" id="uEmail" readonly>
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uDataChiusura" class="mt-2">Data chiusura</label>
@@ -49,9 +50,8 @@
                             </select>
                         </div>
                         <div class="col-xl-6 col-lg-6">
-                            <label for="uStato" class="mt-2">Stato</label>
-                            <select class="form-select py-1 mb-0" id="uStato" name="Stato" required>
-                            </select>
+                            <label for="uOperatore" class="mt-2">Operatore</label>
+                            <input type="text" class="form-control mb-0" id="uOperatore" readonly>
                         </div>
                         <div class="col-xl-3 col-lg-3">
                             <label for="uImpatto" class="mt-2">Impatto</label>
@@ -71,14 +71,25 @@
                                 <option value="3">3 - Bassa</option>
                             </select>
                         </div>
-                        <div class="col-xl-6 col-lg-6"></div>
+                        <div class="col-xl-6 col-lg-6">
+                        <label for="uStato" class="mt-2">Stato</label>
+                            <select class="form-select py-1 mb-0" id="uStato" name="Stato" required>
+                            </select>
+                        </div>
                         <div class="col-12">
                             <label for="uOggetto" class="mt-2">Oggetto</label>
-                            <input type="text" class="form-control mb-0" id="uOggetto" maxlength="128" readonly>
+                            <input type="text" class="form-control mb-0" name="Oggetto" id="uOggetto" maxlength="128" readonly>
                         </div>
                         <div class="col-12">
                             <label class="mt-2" for="uDescrizione">Descrizione</label>
-                            <textarea class="form-control" id="uDescrizione" rows="4" readonly></textarea>
+                            <textarea class="form-control" id="uDescrizione" name="Descrizione" rows="4" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="mt-3"></h6>
+                            <label class="mt-2" for="uWorkNotes"><i class="far fa-comment-dots fa-sm"></i> Note di lavoro</label>
+                            <textarea class="form-control" id="uWorkNotes" rows="3" name="WorkNotes"></textarea>
                         </div>
                     </div>
                 </div>
