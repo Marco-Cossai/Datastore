@@ -320,6 +320,16 @@ function deleteCCP(data) {
 
 //==================================================+
 
+function getTicket(data) {
+    $('#ModalGetTicket #UsernameOpe').val(data[0]);
+    $('#ModalGetTicket #Operatore').val(data[1]);
+    $('#ModalGetTicket').modal('show');
+}
+
+
+
+//==================================================+
+
 function updateReportBug(data) {
     let select = $('#ModalUpdateBug #uStato').empty()
     $('#ModalUpdateBug #uId').val(data.Id);
