@@ -135,14 +135,17 @@
                                                     <?php } ?>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-sm btn-warning px-2" data-mdb-toggle="modal" title="Prendi in carico" onclick='prendiInCarico(<?= $objArray; ?>)'>
+                                                    <?php if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { ?>
+                                                    <a class="btn btn-sm btn-warning px-2" data-mdb-toggle="modal" title="Prendi in carico" onclick='getTicket(<?= $objArray; ?>)'>
                                                         <i class="fas fa-user-tag"></i>
                                                     </a>
+                                                    <?php } ?>
                                                     <?php
                                                         $row['FlagDev'] = $_SESSION['Developer']; 
                                                         $obj = json_encode($row); 
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
+                                                    <?php if($_SESSION['Developer'] == 1 && (!empty($row['Operatore']) && !empty($row['UsernameOpe'])) || $_SESSION['Developer'] == 0) { ?>
                                                     <a class="btn btn-sm btn-primary" data-mdb-toggle="modal" onclick='updateReportBug(<?= $obj; ?>)'>
                                                         <?php
                                                             if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2)) {
@@ -156,6 +159,7 @@
                                                             }
                                                         ?>
                                                     </a>
+                                                    <?php } ?>
                                                 </td>
                                             </tr>
                                             <?php } ?>
@@ -176,10 +180,17 @@
     <!-- Include javascript -->
     <?php include "includes/header/scripts.php"; ?>
     <?php if($_SESSION['Developer'] == 0) { ?>
-    <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
+        <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
     <?php } ?>
-    <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
-    
+
+    <?php if($_SESSION['Developer'] == 1 && (!empty($row['Operatore']) && !empty($row['UsernameOpe'])) || $_SESSION['Developer'] == 0) { ?>
+        <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
+    <?php } ?>
+
+    <?php if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { ?>
+        <?php require_once "includes/modal/bug/modalGetTicket.php"; ?>
+    <?php } ?>
+
     <?php include "includes/timeSwal.php"; ?>
 </body>
 </html>
