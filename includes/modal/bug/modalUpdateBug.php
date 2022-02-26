@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <label for="uOperatore" class="mt-2">Operatore</label>
-                            <input type="text" class="form-control mb-0" id="uOperatore" readonly>
+                            <input type="text" class="form-control mb-0" name="Operatore" id="uOperatore" readonly>
                         </div>
                         <div class="col-xl-3 col-lg-3">
                             <label for="uImpatto" class="mt-2">Impatto</label>

@@ -79,7 +79,7 @@
                                                 <th class="th-sm">Data chiusura</th>
                                                 <th class="th-sm">Chiamante</th>
                                                 <th class="th-sm">Oggetto</th>
-                                                <th class="th-sm">Impatto</th>
+                                                <th class="th-sm">Descrizione</th>
                                                 <th class="th-sm">Priorità</th>
                                                 <th class="th-sm">Stato</th>
                                                 <th class="th-sm"></th>
@@ -94,15 +94,7 @@
                                                 <td><?=stripslashes($row['Chiamante']);?></td>
                                                 <td><?=stripslashes($row['Oggetto']);?></td>
                                                 <td>
-                                                    <?php 
-                                                        if($row['Impatto'] == 1) { 
-                                                            echo _("Alto");
-                                                        } elseif($row['Impatto'] == 2) {
-                                                            echo _("Medio");
-                                                        } elseif($row['Impatto'] == 3) {
-                                                            echo _("Basso");
-                                                        }
-                                                    ?>
+                                                    <?= substr($row['Descrizione'], 0, 20)."..."; ?>
                                                 </td>
                                                 <td>
                                                     <?php if($row['Priorita'] == 1) { ?>
@@ -134,14 +126,15 @@
                                                 </td>
                                                 <td>
                                                     <?php 
-                                                        if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { 
+                                                        if ($_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { 
                                                             $array = array($row['Id'],trim($username),trim($currentUser));
                                                             $objArray = json_encode($array);
+                                                            if($row['Stato'] == 1 || $row['Stato'] == 2) {
                                                     ?>
                                                     <a class="btn btn-sm btn-warning px-2" data-mdb-toggle="modal" title="Prendi in carico" onclick='getTicket(<?= $objArray; ?>)'>
                                                         <i class="fas fa-user-tag"></i>
                                                     </a>
-                                                    <?php } ?>
+                                                    <?php } } ?>
                                                     <?php
                                                         $row['FlagDev'] = $_SESSION['Developer']; 
                                                         $obj = json_encode($row); 
@@ -184,14 +177,8 @@
     <?php if($_SESSION['Developer'] == 0) { ?>
         <?php require_once "includes/modal/bug/modalNewBug.php"; ?>
     <?php } ?>
-
-    <?php if ($_SESSION['Developer'] == 1 && ($row['Stato'] == 1 || $row['Stato'] == 2) || $_SESSION['Developer'] == 1 && (empty($row['Operatore']) && empty($row['UsernameOpe']))) { ?>
-        <?php require_once "includes/modal/bug/modalGetTicket.php"; ?>
-    <?php } ?>
-
-    <?php if($_SESSION['Developer'] == 1 && (!empty($row['Operatore']) && !empty($row['UsernameOpe'])) || $_SESSION['Developer'] == 0) { ?>
-        <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
-    <?php } ?>
+    <?php require_once "includes/modal/bug/modalGetTicket.php"; ?>
+    <?php require_once "includes/modal/bug/modalUpdateBug.php"; ?>
 
     <?php include "includes/timeSwal.php"; ?>
 </body>
