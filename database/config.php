@@ -10,7 +10,7 @@ function connParameterDB() {
         'host' => 'localhost',
         'user' => 'root',
         'password' => '',
-        'database' => 'datastore'
+        'database' => 'datastore_dev'
     );
 
 }
