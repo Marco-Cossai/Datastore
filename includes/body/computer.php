@@ -115,7 +115,14 @@
                             <label class="form-check-label" for="Gestock">Gestock</label>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4"></div>
+                    <!-- COSM #05 - Aggiunta software CashManager -->
+                    <div class="col-lg-3 col-md-4">
+                        <div class="form-check form-check-inline mt-2 ms-1">
+                            <input type="checkbox" class="form-check-input" id="CashManager"
+                                <?=in_array("CashManager",$array) === true ? 'checked' : ''?> onclick="return false;">
+                            <label class="form-check-label" for="CashManager">CashManager</label>
+                        </div>
+                    </div>
                     <?php
                         $idCustomer = $_GET['idCustomer'];
                         $res = mysqli_query(connDB(),"SELECT `TipoCliente` FROM `clienti` WHERE `IdCliente` = $idCustomer;") or die (mysqli_error(connDB()));

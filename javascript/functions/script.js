@@ -1,6 +1,7 @@
 var initialValues;
 var newValues;
-var arraySoftware = ['BackOffice', 'Storesmart', 'Cardsmart', 'Quadrature', 'Puntimanager', 'Smartmanager', 'Gestock'];
+//COSM #05 - Aggiunta software CashManager
+var arraySoftware = ['BackOffice', 'Storesmart', 'Cardsmart', 'Quadrature', 'Puntimanager', 'Smartmanager', 'Gestock', 'CashManager'];
 
 
 //==================================================+

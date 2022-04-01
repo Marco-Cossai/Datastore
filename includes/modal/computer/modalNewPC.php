@@ -101,7 +101,13 @@
                                 <label class="form-check-label my-0" for="iGestock">Gestock</label>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4"></div>
+                        <!-- COSM #05 - Aggiunta software CashManager -->
+                        <div class="col-lg-3 col-md-4">
+                            <div class="form-check form-check-inline mt-2 ms-1">
+                                <input type="checkbox" class="form-check-input" id="iCashManager" name="Software[]" value="CashManager">
+                                <label class="form-check-label my-0" for="iCashManager">CashManager</label>
+                            </div>
+                        </div>
                         <?php if($kindCustomer !== "Privato") { ?>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iStampante" class="mt-2">Stampante</label>
