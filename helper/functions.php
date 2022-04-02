@@ -1171,7 +1171,7 @@ function updateMAC() {
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
-    $result = mysqli_query(connDB(),"SELECT `Matricola`,`IndirizzoIP` FROM `mac` WHERE `IdImpianto_FK` = $idPlant_FK AND (`Matricola` <> '' OR `Matricola` IS NOT NULL) OR (`IndirizzoIP` <> '' OR `IndirizzoIP` IS NOT NULL)") or die (mysqli_error(connDB()));
+    $result = mysqli_query(connDB(),"SELECT `Matricola`,`IndirizzoIP` FROM `mac` WHERE (`IdImpianto_FK` = $idPlant_FK AND (`Matricola` <> '' OR `Matricola` IS NOT NULL) OR (`IndirizzoIP` <> '' OR `IndirizzoIP` IS NOT NULL)) AND `IdMac` != $id") or die (mysqli_error(connDB()));
     if(mysqli_fetch_array($result)){
         foreach ($result as $v) {
             if(!empty($v['Matricola'])) {
