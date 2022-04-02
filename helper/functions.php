@@ -1036,6 +1036,8 @@ function newMAC() {
     $cpu = addslashes($_POST['CPU']);
     $printer = addslashes($_POST['Stampante']);
     $reader = addslashes($_POST['Lettore']);
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    $IP = addslashes($_POST['IP']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
@@ -1056,14 +1058,17 @@ function newMAC() {
 
     //Controllo se esiste già un MAC con la matricola inserita
     $result = mysqli_query(connDB(),"SELECT `Matricola` FROM `mac` WHERE `Matricola` = '$number'") or die (mysqli_error(connDB()));
-    if (mysqli_fetch_array($result)) {
-        $_SESSION['title'] = "MAC ESISTENTE!";
-        $_SESSION['text'] = "Esiste già un MAC con matricola $number";
-        $_SESSION['icon'] = "warning";
-        header(pathDetails($idPlant,$idCustomer));
+    if ($row = mysqli_fetch_array($result)) {
+        if((!empty($row['Matricola']) || $row['Matricola'] !== NULL) && $number == $row['Matricola']){
+            $_SESSION['title'] = "MAC ESISTENTE!";
+            $_SESSION['text'] = "Esiste già un MAC con matricola $number";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant,$idCustomer));
+        }
     } else {
         //Inserisco MAC
-        mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader',$idPlant)") or die (mysqli_error(connDB()));
+        //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+        mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader','$IP',$idPlant)") or die (mysqli_error(connDB()));
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
         $_SESSION['title'] = "MAC inserito!";
@@ -1089,6 +1094,8 @@ function updateMAC() {
     $cpu = addslashes($_POST['CPU']);
     $printer = addslashes($_POST['Stampante']);
     $reader = addslashes($_POST['Lettore']);
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    $IP = addslashes($_POST['IP']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
@@ -1132,10 +1139,15 @@ function updateMAC() {
     if ($oldData['Lettore'] !== $reader) {
         $aryLog['log'][] = array('field' => "Lettore", 'old' => $oldData['Lettore'], 'new' => $reader);
     }
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    if ($oldData['IndirizzoIP'] !== $IP) {
+        $aryLog['log'][] = array('field' => "IP", 'old' => $oldData['IndirizzoIP'], 'new' => $IP);
+    }
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
-    $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader' WHERE `IdMac` = $id";
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
     $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
     if($result) {
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
