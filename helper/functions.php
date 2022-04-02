@@ -1056,16 +1056,26 @@ function newMAC() {
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto $name all'impianto $namePlant");
 
-    //Controllo se esiste già un MAC con la matricola inserita
-    $result = mysqli_query(connDB(),"SELECT `Matricola` FROM `mac` WHERE `Matricola` = '$number'") or die (mysqli_error(connDB()));
-    if ($row = mysqli_fetch_array($result)) {
-        if((!empty($row['Matricola']) || $row['Matricola'] !== NULL) && $number == $row['Matricola']){
-            $_SESSION['title'] = "MAC ESISTENTE!";
-            $_SESSION['text'] = "Esiste già un MAC con matricola $number";
+    //Controllo se esiste già un MAC con la matricola o l'IP inseriti
+    if(!empty($number) || !empty($IP)) {
+        $result = mysqli_query(connDB(),"SELECT `Matricola`, `IndirizzoIP` FROM `mac` WHERE `Matricola` = '$number' OR `IndirizzoIP` = '$IP'") or die (mysqli_error(connDB()));
+        if (mysqli_fetch_array($result)) {
+            $_SESSION['title'] = "MAC o indirizzo IP esistenti!";
+            $_SESSION['text'] = "Non sono ammessi valori duplicati";
             $_SESSION['icon'] = "warning";
             header(pathDetails($idPlant,$idCustomer));
+        } else {
+            //Inserisco MAC
+            //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+            mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader','$IP',$idPlant)") or die (mysqli_error(connDB()));
+            //Inserisco il log
+            mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
+            $_SESSION['title'] = "MAC inserito!";
+            $_SESSION['text'] = "L'operazione è andata a buon fine";
+            $_SESSION['icon'] = "success";
+            header(pathDetails($idPlant,$idCustomer));
         }
-    } else {
+    } else if(empty($number) || empty($IP)) {
         //Inserisco MAC
         //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
         mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader','$IP',$idPlant)") or die (mysqli_error(connDB()));
@@ -1076,6 +1086,7 @@ function newMAC() {
         $_SESSION['icon'] = "success";
         header(pathDetails($idPlant,$idCustomer));
     }
+    
 }
 
 /**
@@ -1146,20 +1157,47 @@ function updateMAC() {
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
-    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
-    $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
-    $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
-    if($result) {
-        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
-        $_SESSION['title'] = "MAC modificato!";
-        $_SESSION['text'] = "L'operazione è andata a buon fine";
-        $_SESSION['icon'] = "success";
-        header(pathDetails($idPlant_FK,$idCustomer_FK));
-    } else {
-        $_SESSION['title'] = "MAC non modificato!";
-        $_SESSION['text'] = "Si è verificato un problema nella modifica";
-        $_SESSION['icon'] = "error";
-        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    //Controllo se esiste già un MAC con la matricola inserita
+    if(!empty($number) || !empty($IP)) {
+        $result = mysqli_query(connDB(),"SELECT `Matricola` FROM `mac` WHERE `Matricola` = '$number'") or die (mysqli_error(connDB()));
+        if (mysqli_fetch_array($result)) {
+            $_SESSION['title'] = "MAC o indirizzo IP esistenti!";
+            $_SESSION['text'] = "Non sono ammessi valori duplicati";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        } else {
+            //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+            $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
+            $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
+            if($result) {
+                mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+                $_SESSION['title'] = "MAC modificato!";
+                $_SESSION['text'] = "L'operazione è andata a buon fine";
+                $_SESSION['icon'] = "success";
+                header(pathDetails($idPlant_FK,$idCustomer_FK));
+            } else {
+                $_SESSION['title'] = "MAC non modificato!";
+                $_SESSION['text'] = "Si è verificato un problema nella modifica";
+                $_SESSION['icon'] = "error";
+                header(pathDetails($idPlant_FK,$idCustomer_FK));
+            }
+        }
+    } else if(empty($number) || empty($IP)) {
+        //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+        $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
+        $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
+        if($result) {
+            mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+            $_SESSION['title'] = "MAC modificato!";
+            $_SESSION['text'] = "L'operazione è andata a buon fine";
+            $_SESSION['icon'] = "success";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        } else {
+            $_SESSION['title'] = "MAC non modificato!";
+            $_SESSION['text'] = "Si è verificato un problema nella modifica";
+            $_SESSION['icon'] = "error";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        }
     }
 
 }
