@@ -1036,7 +1036,11 @@ function newMAC() {
     $cpu = addslashes($_POST['CPU']);
     $printer = addslashes($_POST['Stampante']);
     $reader = addslashes($_POST['Lettore']);
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    $IP = addslashes($_POST['IP']);
     $dataLog = date("d/m/Y - H:i:s");
+    $arraySearchNumber = array();
+    $arraySearchIP = array();
 
     //Prelevo i dati dell'utente
     $usernameSession = $_SESSION['Username'];
@@ -1054,23 +1058,48 @@ function newMAC() {
     //Creo il messaggio
     $message = addslashes("E' stato aggiunto $name all'impianto $namePlant");
 
-    //Controllo se esiste già un MAC con la matricola inserita
-    $result = mysqli_query(connDB(),"SELECT `Matricola` FROM `mac` WHERE `Matricola` = '$number'") or die (mysqli_error(connDB()));
-    if (mysqli_fetch_array($result)) {
-        $_SESSION['title'] = "MAC ESISTENTE!";
-        $_SESSION['text'] = "Esiste già un MAC con matricola $number";
-        $_SESSION['icon'] = "warning";
-        header(pathDetails($idPlant,$idCustomer));
+    $result = mysqli_query(connDB(),"SELECT `Matricola`,`IndirizzoIP` FROM `mac` WHERE (`Matricola` != '' OR `Matricola` IS NOT NULL) AND (`IndirizzoIP` != '' OR `IndirizzoIP` IS NOT NULL) AND `IdImpianto_FK` = $idPlant") or die (mysqli_error(connDB()));
+    if(mysqli_fetch_array($result)){
+        foreach ($result as $v) {
+            if(!empty($v['Matricola'])) {
+                $arraySearchNumber[] = $v['Matricola'];
+            }
+            if(!empty($v['IndirizzoIP'])) {
+                $arraySearchIP[] = $v['IndirizzoIP'];
+            }
+        }
+        if(in_array($number, $arraySearchNumber)) {
+            $_SESSION['title'] = "Impossibile inserire!";
+            $_SESSION['text'] = "Esiste già un MAC con matricola $number";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant,$idCustomer));
+        } elseif (in_array($IP, $arraySearchIP)) {
+            $_SESSION['title'] = "Impossibile inserire!";
+            $_SESSION['text'] = "Esiste già un MAC con IP $IP";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant,$idCustomer));
+        } else {
+            //Inserisco MAC
+            //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+            mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader','$IP',$idPlant)") or die (mysqli_error(connDB()));
+            //Inserisco il log
+            mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
+            $_SESSION['title'] = "MAC inserito!";
+            $_SESSION['text'] = "L'operazione è andata a buon fine";
+            $_SESSION['icon'] = "success";
+            header(pathDetails($idPlant,$idCustomer));
+        }
     } else {
         //Inserisco MAC
-        mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader',$idPlant)") or die (mysqli_error(connDB()));
+        //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+        mysqli_query(connDB(),"INSERT INTO `mac` VALUES (0,'$name','$number','$model','$pinpad','$cpu','$printer','$reader','$IP',$idPlant)") or die (mysqli_error(connDB()));
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
         $_SESSION['title'] = "MAC inserito!";
         $_SESSION['text'] = "L'operazione è andata a buon fine";
         $_SESSION['icon'] = "success";
         header(pathDetails($idPlant,$idCustomer));
-    }
+    } 
 }
 
 /**
@@ -1089,6 +1118,8 @@ function updateMAC() {
     $cpu = addslashes($_POST['CPU']);
     $printer = addslashes($_POST['Stampante']);
     $reader = addslashes($_POST['Lettore']);
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    $IP = addslashes($_POST['IP']);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
@@ -1132,24 +1163,67 @@ function updateMAC() {
     if ($oldData['Lettore'] !== $reader) {
         $aryLog['log'][] = array('field' => "Lettore", 'old' => $oldData['Lettore'], 'new' => $reader);
     }
+    //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+    if ($oldData['IndirizzoIP'] !== $IP) {
+        $aryLog['log'][] = array('field' => "IP", 'old' => $oldData['IndirizzoIP'], 'new' => $IP);
+    }
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
-    $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader' WHERE `IdMac` = $id";
-    $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
-    if($result) {
-        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
-        $_SESSION['title'] = "MAC modificato!";
-        $_SESSION['text'] = "L'operazione è andata a buon fine";
-        $_SESSION['icon'] = "success";
-        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    $result = mysqli_query(connDB(),"SELECT `Matricola`,`IndirizzoIP` FROM `mac` WHERE ((`Matricola` != '' OR `Matricola` IS NOT NULL) OR (`IndirizzoIP` != '' OR `IndirizzoIP` IS NOT NULL)) AND `IdImpianto_FK` = $idPlant_FK AND `IdMac` != $id") or die (mysqli_error(connDB()));
+    if(mysqli_fetch_array($result)){
+        foreach ($result as $v) {
+            if(!empty($v['Matricola'])) {
+                $arraySearchNumber[] = $v['Matricola'];
+            }
+            if(!empty($v['IndirizzoIP'])) {
+                $arraySearchIP[] = $v['IndirizzoIP'];
+            }
+        }
+        if(in_array($number, $arraySearchNumber)) {
+            $_SESSION['title'] = "Impossibile inserire!";
+            $_SESSION['text'] = "Esiste già un MAC con matricola $number";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        } elseif (in_array($IP, $arraySearchIP)) {
+            $_SESSION['title'] = "Impossibile inserire!";
+            $_SESSION['text'] = "Esiste già un MAC con IP $IP";
+            $_SESSION['icon'] = "warning";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        } else {
+            //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+            $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
+            $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
+            if($result) {
+                mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+                $_SESSION['title'] = "MAC modificato!";
+                $_SESSION['text'] = "L'operazione è andata a buon fine";
+                $_SESSION['icon'] = "success";
+                header(pathDetails($idPlant_FK,$idCustomer_FK));
+            } else {
+                $_SESSION['title'] = "MAC non modificato!";
+                $_SESSION['text'] = "Si è verificato un problema nella modifica";
+                $_SESSION['icon'] = "error";
+                header(pathDetails($idPlant_FK,$idCustomer_FK));
+            }
+        }
     } else {
-        $_SESSION['title'] = "MAC non modificato!";
-        $_SESSION['text'] = "Si è verificato un problema nella modifica";
-        $_SESSION['icon'] = "error";
-        header(pathDetails($idPlant_FK,$idCustomer_FK));
+        //COSM #06 - Aggiunta colonna per salvataggio indirizzo IP
+        $query = "UPDATE `mac` SET `Nome` ='$name', `Matricola` = '$number', `Modello` = '$model', `Pinpad`= '$pinpad', `CPU` = '$cpu', `Stampante` = '$printer', `Lettore` = '$reader', `IndirizzoIP` = '$IP' WHERE `IdMac` = $id";
+        $result = mysqli_query(connDB(),$query)or die (mysqli_error(connDB()));
+        if($result) {
+            mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+            $_SESSION['title'] = "MAC modificato!";
+            $_SESSION['text'] = "L'operazione è andata a buon fine";
+            $_SESSION['icon'] = "success";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        } else {
+            $_SESSION['title'] = "MAC non modificato!";
+            $_SESSION['text'] = "Si è verificato un problema nella modifica";
+            $_SESSION['icon'] = "error";
+            header(pathDetails($idPlant_FK,$idCustomer_FK));
+        }
     }
-
 }
 
 /**

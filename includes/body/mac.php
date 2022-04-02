@@ -71,6 +71,11 @@
                         <label class="mt-2">Lettore</label>
                         <input type="text" class="form-control mt-1" value="<?=stripslashes($row['Lettore']);?>" readonly>
                     </div>
+                    <!-- COSM #06 - Aggiunta campo visualizzazione di indirizzo IP -->
+                    <div class="col-12">
+                        <label class="mt-2">Indirizzo IP</label>
+                        <input type="text" class="form-control mt-1" value="<?=stripslashes($row['IndirizzoIP']);?>" readonly>
+                    </div>
                 </div>
             </div>
             <div class="card-footer pb-0">

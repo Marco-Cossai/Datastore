@@ -181,6 +181,8 @@ function updateMAC(data) {
     $('#ModalUpdateMAC #uCPU').val(data.CPU);
     $('#ModalUpdateMAC #uPrinterMAC').val(data.Stampante);
     $('#ModalUpdateMAC #uReader').val(data.Lettore);
+    //COSM #06 - Aggiunta campo per salvataggio indirizzo IP
+    $('#ModalUpdateMAC #uIpMAC').val(data.IndirizzoIP);
     $('#ModalUpdateMAC').modal('show');
 
     var old = {
@@ -190,7 +192,9 @@ function updateMAC(data) {
         pinpad: $('#uPinpad').val(),
         cpu: $('#uCPU').val(),
         printerMAC: $('#uPrinterMAC').val(),
-        reader: $('#uReader').val()
+        reader: $('#uReader').val(),
+        //COSM #06 - Aggiunta campo per salvataggio indirizzo IP
+        ip: $('#uIpMAC').val()
     }
     initialValues = Object.values(old);
 }
@@ -396,7 +400,9 @@ function checkData(param,dm) {
                 pinpad: $('#uPinpad').val(),
                 cpu: $('#uCPU').val(),
                 printerMAC: $('#uPrinterMAC').val(),
-                reader: $('#uReader').val()
+                reader: $('#uReader').val(),
+                //COSM #06 - Aggiunta campo per salvataggio indirizzo IP
+                ip: $('#uIpMAC').val()
             }
             newValues = Object.values(newData);
         break;
