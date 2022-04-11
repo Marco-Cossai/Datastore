@@ -1,3 +1,8 @@
+<?php
+    $id = $_GET['id'];
+    $query = "SELECT `IdCliente`,`RagioneSociale` FROM `clienti` WHERE `IdCliente` != $id ORDER BY `RagioneSociale`";
+    $result = mysqli_query(connDB(),$query) or die(mysqli_error(connDB()));
+?>
 <div class="modal fade" id="ModalPlantMigration" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
