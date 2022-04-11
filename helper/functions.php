@@ -743,7 +743,7 @@ function deletePlant() {
 *   migrationPlant()
 *   Funzione che migra un impianto da un cliente a un altro
 */
-function migrationPlant() {
+function migrationPlant($originSystem) {
     $idPlant = $_POST['IdPlant_FK'];
     $idOldCustomer = $_POST['IdOldCustomer_FK'];
     $idNewCustomer = $_POST['IdCustomer_FK'];
@@ -785,12 +785,22 @@ function migrationPlant() {
         $_SESSION['title'] = "Migrazione completata!";
         $_SESSION['text'] = "L'operazione è andata a buon fine";
         $_SESSION['icon'] = "success";
-        header(pathPlants());
+        //COSM #10 - Aggiunta bottone migrazione impianto
+        if($originSystem == "plants") {
+            header(pathPlants());
+        } elseif ($originSystem == "customers") {
+            header(listPlants($idOldCustomer));
+        }
     } else {
         $_SESSION['title'] = "Migrazione non completata!";
         $_SESSION['text'] = "Si è verificato un problema nella migrazione";
         $_SESSION['icon'] = "error";
-        header(pathPlants());
+        //COSM #10 - Aggiunta bottone migrazione impianto
+        if($originSystem == "plants") {
+            header(pathPlants());
+        } elseif ($originSystem == "customers") {
+            header(listPlants($idOldCustomer));
+        }
     }
 }
 
