@@ -24,13 +24,16 @@ switch ($datamodule) {
     case 'customers':
         if ($action == 'insert') { newCustomer(); }
         if ($action == 'update') { updateCustomer(); }
-        if ($action == 'delete') { deleteCustomer(); } 
+        if ($action == 'delete') { deleteCustomer(); }
+        //COSM - #10 - Aggiunta bottone per migrazione impianto
+        if ($action == 'migration') { migrationPlant('customers'); } 
     break;
     case 'plants':
         if ($action == 'insert') { newPlant(); }
         if ($action == 'update') { updatePlant(); }
         if ($action == 'delete') { deletePlant(); } 
-        if ($action == 'migration') { migrationPlant(); } 
+        //COSM - #10 - Aggiunta bottone per migrazione impianto
+        if ($action == 'migration') { migrationPlant('plants'); }  
     break;
     case 'computer':
         if ($action == 'insert') { newPC(); }
