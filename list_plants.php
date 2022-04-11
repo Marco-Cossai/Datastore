@@ -95,6 +95,10 @@
                                                         $obj = json_encode($row);
                                                         $obj = htmlspecialchars($obj, ENT_QUOTES);
                                                     ?>
+                                                    <!-- COSM #10 - Aggiunta bottone di migrazione impianto -->
+                                                    <a class="btn btn-warning btn-sm px-2" data-mdb-toggle="modal" onclick='migrationPlant(<?= $obj; ?>)'>
+                                                        <i class="fas fa-exchange-alt"></i>
+                                                    </a>
                                                     <a class="btn btn-primary btn-sm px-2" data-mdb-toggle="modal" onclick='updatePlant(<?= $obj; ?>)'>
                                                         <i class="fas fa-pencil-alt fa-sm"></i>
                                                     </a>
@@ -122,7 +126,7 @@
     <?php require_once "includes/modal/plant/modalNewPlant.php"; ?>
     <?php require_once "includes/modal/plant/modalUpdatePlant.php"; ?>
     <?php require_once "includes/modal/plant/modalDeletePlant.php"; ?>
-    <?php require_once "includes/modal/plant/modalPlantMigration.php"; ?>
+    <?php require_once "includes/modal/customer/modalPlantMigration.php"; ?>
     
     <?php include "includes/timeSwal.php"; ?>
 
