@@ -481,7 +481,7 @@ function activeFieldsPOS(param) {
         $('#'+prefix+'TID').removeAttr('readonly');
         $('#'+prefix+'VersioneIFSF').removeAttr('readonly');
         $('#'+prefix+'IP_POS').removeAttr('readonly');
-    } else if(typeRouter === "") {
+    } else if(POSModel === "") {
         $('#'+prefix+'TID').prop('readonly', true);
         $('#'+prefix+'TID').val('');
         $('#'+prefix+'VersioneIFSF').prop('readonly', true);

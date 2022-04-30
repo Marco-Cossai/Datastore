@@ -16,7 +16,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h6 class="font-weight-bold pt-3">POS</h6>
+                            <h6 class="font-weight-bold py-2"><i class="far fa-credit-card"></i> POS</h6>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iModelloPOS" class="mt-2">Modello POS</label>
@@ -40,7 +40,7 @@
                         </div>
                         <hr class="mt-4">
                         <div class="col-12">
-                            <h6 class="font-weight-bold pt-3">RFID WI-FI</h6>
+                            <h6 class="font-weight-bold py-2"><i class="fas fa-wifi"></i> RFID Wi-Fi</h6>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iQNT_RFID" class="mt-2">Quantità</label>
