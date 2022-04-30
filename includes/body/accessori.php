@@ -10,7 +10,7 @@
                     <div class="col-5">
                         <?php
                             $id = $_GET['id'];
-                            $query = "SELECT * FROM `accessori` WHERE `IdImpianto_FK` = $id";
+                            $query = "SELECT * FROM `accessori` WHERE `ID_IMPIANTO_FK` = $id";
                             $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
                             if ($row = mysqli_fetch_array($result)) {
                                 $obj = json_encode($row);
@@ -33,7 +33,7 @@
             <div class="card-body">
                 <?php
                     $id = $_GET['id'];
-                    $query = "SELECT * FROM `accessori` WHERE `IdImpianto_FK` = $id";
+                    $query = "SELECT * FROM `accessori` WHERE `ID_IMPIANTO_FK` = $id";
                     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
                     if ($row = mysqli_fetch_array($result)) {
                 ?>
@@ -57,6 +57,7 @@
                         <label for="IP_POS" class="mt-2">Indirizzo IP</label>
                         <input type="text" class="form-control mt-1" id="IP_POS" value="<?=stripslashes($row['IP_POS']);?>" readonly>
                     </div>
+                    <hr class="mt-4">
                     <div class="col-12">
                         <h6 class="font-weight-bold pt-3">RFID WI-FI</h6>
                     </div>
@@ -68,6 +69,7 @@
                         <label for="IP_GTW" class="mt-2">IP Gateway</label>
                         <input type="text" class="form-control mt-1" id="IP_GTW" value="<?=stripslashes($row['IP_GTW_RFID']);?>" readonly>
                     </div>
+                    <hr class="mt-4">
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <label for="MediaSmart" class="mt-2">MediaSmart</label>
                         <input type="text" class="form-control mt-1" id="MediaSmart" value="<?=stripslashes($row['MEDIASMART']);?>" readonly>
@@ -98,6 +100,6 @@
 </div>
 
 
-<?php require_once "includes/modal/accessori/modalNewAccessories.php"; ?>
-<?php require_once "includes/modal/accessori/modalUpdateAccessories.php"; ?>
-<?php require_once "includes/modal/accessori/modalDeleteAccessories.php"; ?>
+<?php require_once "includes/modal/accessories/modalNewAccessories.php"; ?>
+<?php require_once "includes/modal/accessories/modalUpdateAccessories.php"; ?>
+<?php require_once "includes/modal/accessories/modalDeleteAccessories.php"; ?>
