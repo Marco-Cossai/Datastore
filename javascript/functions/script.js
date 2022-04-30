@@ -517,6 +517,14 @@ function checkData(param,dm) {
             }
             newValues = Object.values(newData);
         break;
+        //COSM #09 - Aggiunta sezione accessori
+        case 'accessories':
+
+            if(param){
+                activeFieldsPOS(param);
+            }
+            
+        break;
         case 'configuration':
             var newData = {
                 nome: $('#uNome').val(),
@@ -574,5 +582,27 @@ function activeFieldsRouter(param) {
         $('#'+prefix+'SerialeRouter').val('');
         $('#'+prefix+'IndirizzoIP').prop('readonly', true);
         $('#'+prefix+'IndirizzoIP').val('');
+    }
+}
+
+//COSM #09 - Aggiunta sezione accessori
+function activeFieldsPOS(param) {
+    let prefix = '';
+    if(param === "insert") { prefix = 'i'; }
+    if(param === "update") { prefix = 'u'; }
+
+    let POSModel = $('#'+prefix+'ModelloPOS').val();
+    
+    if(POSModel !== "") {
+        $('#'+prefix+'TID').removeAttr('readonly');
+        $('#'+prefix+'VersioneIFSF').removeAttr('readonly');
+        $('#'+prefix+'IP_POS').removeAttr('readonly');
+    } else if(typeRouter === "") {
+        $('#'+prefix+'TID').prop('readonly', true);
+        $('#'+prefix+'TID').val('');
+        $('#'+prefix+'VersioneIFSF').prop('readonly', true);
+        $('#'+prefix+'VersioneIFSF').val('');
+        $('#'+prefix+'IP_POS').prop('readonly', true);
+        $('#'+prefix+'IP_POS').val('');
     }
 }
