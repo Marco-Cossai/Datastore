@@ -66,6 +66,10 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link font-weight-bold" data-mdb-toggle="tab" href="#erogatori" role="tab">Erogatori</a>
                                 </li>
+                                <!-- COSM #09 - Aggiunta sezione accessori -->
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link font-weight-bold" data-mdb-toggle="tab" href="#accessori" role="tab">Accessori</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -96,6 +100,10 @@
                 </div>
                 <div class="tab-pane fade" id="erogatori" role="tabpanel">
                     <?php include "includes/body/erogatori.php"; ?>
+                </div>
+                <!-- COSM #09 - Aggiunta sezione accessori -->
+                <div class="tab-pane fade" id="accessori" role="tabpanel">
+                    <?php include "includes/body/accessori.php"; ?>
                 </div>
             </div>
         </div>
