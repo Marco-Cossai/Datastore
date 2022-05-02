@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iQNT_RFID" class="mt-2">Quantità</label>
-                            <input type="number" class="form-control mt-1" id="iQNT_RFID" name="QNT_RFID">
+                            <input type="number" class="form-control mb-0" id="iQNT_RFID" name="QNT_RFID">
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iIP_GTW" class="mt-2">IP Gateway</label>
@@ -53,11 +53,11 @@
                         <hr class="mt-4">
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iMediaSmart" class="mt-2">MediaSmart</label>
-                            <input type="number" class="form-control mt-1" id="iMediaSmart" name="MediaSmart">
+                            <input type="number" class="form-control mb-0" id="iMediaSmart" name="MediaSmart">
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iStampanti" class="mt-2">Stampanti</label>
-                            <input type="number" class="form-control mt-1" id="iStampanti" name="Stampanti">
+                            <input type="number" class="form-control mb-0" id="iStampanti" name="Stampanti">
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iIpSafetySmart" class="mt-2">IP SafetySmart</label>
@@ -72,7 +72,7 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-muted pt-4 pb-0">* Campi obbligatori</p>
+                    <p class="text-muted pt-5 pb-0">* Campi obbligatori</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-green shadow-sm" type="submit"><i class="fas fa-plus"></i> Aggiungi</button>
