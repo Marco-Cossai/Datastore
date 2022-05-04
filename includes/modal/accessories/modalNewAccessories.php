@@ -12,6 +12,7 @@
                             <input type="hidden" class="form-control" name="datamodule" value="accessories" readonly>
                             <input type="hidden" class="form-control" name="action" value="insert" readonly>
                             <input type="hidden" class="form-control" name="IdImpianto_FK" value="<?=$_GET['id']?>" readonly>
+                            <input type="hidden" class="form-control" name="IdCustomer_FK" value="<?=$_GET['idCustomer']?>" readonly>
                         </div>
                     </div>
                     <div class="row">
@@ -48,7 +49,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iIP_GTW" class="mt-2">IP Gateway</label>
-                            <input type="text" class="form-control mb-0" id="iIP_GTW" name="iIP_GTW" minlength="7" maxlength="15">
+                            <input type="text" class="form-control mb-0" id="iIP_GTW" name="IP_GTW" minlength="7" maxlength="15">
                         </div>
                         <hr class="mt-4">
                         <div class="col-xl-3 col-lg-6 col-md-6">

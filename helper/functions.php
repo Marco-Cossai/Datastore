@@ -2168,3 +2168,53 @@ function updateBugReport($isDev) {
 
 }
 
+/**  newAccessories()
+ *  Funzione che inserisce gli accessori associati a un impianto
+*/
+
+function newAccessories() {
+
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdImpianto_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $POSModel = addslashes($_POST['ModelloPOS']);
+    $TID = $_POST['TID'];
+    $IFSFVersion = addslashes($_POST['VersioneIFSF']);
+    $ipPOS = addslashes($_POST['IP_POS']);
+    $qntRFID = $_POST['QNT_RFID'];
+    $ipGTW = $_POST['IP_GTW'];
+    $MediaSmart = $_POST['MediaSmart'];
+    $printer = $_POST['Stampanti'];
+    $ipSafetySmart = addslashes($_POST['IpSafetySmart']);
+    $backup = addslashes($_POST['Backup']);
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+	
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $namePlant = $row['NomeImpianto'];
+    }
+
+    //Creo il messaggio
+    $message = addslashes("Sono stati aggiunti accessori all'impianto $namePlant");
+    
+    //Inserisco gli accessoro
+    $result = mysqli_query(connDB(),"INSERT INTO `accessori` VALUES (0,'$POSModel',$TID,CAST('$IFSFVersion' AS DECIMAL(10,0)),'$ipPOS',$MediaSmart,$printer,'$ipSafetySmart',$qntRFID,'$ipGTW','$backup',$idPlant_FK") or die (mysqli_error(connDB()));
+    if($result) {
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori inseriti!";
+        $_SESSION['text'] = "L'operazione è andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non inseriti!";
+        $_SESSION['text'] = "Si è verificato un errore nell'inserimento";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
