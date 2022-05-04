@@ -50,6 +50,10 @@ switch ($datamodule) {
         if ($action == 'update') { updateDispenser(); }
         if ($action == 'delete') { deleteDispenser(); }
     break;
+    //COSM #09 - Aggiunta sezione accessori
+    case 'accessories':
+        if ($action == 'insert') { newAccessories(); }
+    break;
     case 'request':
         if ($action == 'computer') { deletePC(); }
         if ($action == 'mac') { deleteAllMAC(); }
