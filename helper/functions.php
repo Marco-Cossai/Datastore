@@ -2041,7 +2041,7 @@ function updateAccessories() {
         $aryLog['log'][] = array('field' => "IP SafetySmart", 'old' => $oldData['IP_SAFETYSMART'], 'new' => $ipSafetySmart);
     }
     if($oldData['QNT_RFID'] !== $qntRFID) {
-        $aryLog['log'][] = array('field' => "Qnt RFID", 'old' => $oldData['QNT_RFID'], 'new' => $qntRFID);
+        $aryLog['log'][] = array('field' => "Quantità RFID", 'old' => $oldData['QNT_RFID'], 'new' => $qntRFID);
     }
     if($oldData['IP_GTW_RFID'] !== $ipGTW) {
         $aryLog['log'][] = array('field' => "IP Gateway RFID", 'old' => $oldData['IP_GTW_RFID'], 'new' => $ipGTW);

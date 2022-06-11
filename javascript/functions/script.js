@@ -323,6 +323,12 @@ function updateAccessories(data) {
     $('#ModalUpdateAccessories #uId').val(data.Id);
     $('#ModalUpdateAccessories #uIdImpianto_FK').val(data.ID_IMPIANTO_FK);
     $('#ModalUpdateAccessories #uModelloPOS').val(data.MODELLO_POS);
+    if(data.MODELLO_POS !== "") {
+        $('#ModalUpdateAccessories #uTID').removeAttr('readonly');
+        $('#ModalUpdateAccessories #uVersioneIFSF').removeAttr('readonly');
+        $('#ModalUpdateAccessories #uIP_POS').removeAttr('readonly');
+    }
+    $('#ModalUpdateAccessories #uTID').val(data.TID);
     $('#ModalUpdateAccessories #uVersioneIFSF').val(data.VERSIONE_IFSF);
     $('#ModalUpdateAccessories #uIP_POS').val(data.IP_POS);
     $('#ModalUpdateAccessories #uQNT_RFID').val(data.QNT_RFID);
@@ -335,6 +341,7 @@ function updateAccessories(data) {
 
     var old = {
         modelloPOS: $('#uModelloPOS').val(),
+        TID: $('#uTID').val(),
         versioneIFSF: $('#uVersioneIFSF').val(),
         ipPOS: $('#uIP_POS').val(),
         qntRFID: $('#uQNT_RFID').val(),
@@ -449,6 +456,7 @@ function checkData(param,dm) {
             
             var newData = {
                 modelloPOS: $('#uModelloPOS').val(),
+                TID: $('#uTID').val(),
                 versioneIFSF: $('#uVersioneIFSF').val(),
                 ipPOS: $('#uIP_POS').val(),
                 qntRFID: $('#uQNT_RFID').val(),
