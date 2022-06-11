@@ -1,5 +1,5 @@
 <?php
-    function NVL($val, $replace)
+    function nvl($val, $replace)
     {
         if( is_null($val) || $val === '' )  {
             return $replace;
