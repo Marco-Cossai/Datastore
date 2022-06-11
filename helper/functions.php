@@ -1946,7 +1946,10 @@ function newAccessories() {
     //Prelevo i dati dell'utente
     $usernameSession = $_SESSION['Username'];
     $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
-	
+	if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+    
     //Prelevo il nome dell'impianto
     $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
     if($row = mysqli_fetch_array($result)) {
