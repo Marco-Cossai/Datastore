@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/'.'database/config.php';    
-require_once 'path.php';    
+require_once 'path.php';
+require_once 'utility.php';   
 connDB();
 
 /**
@@ -2177,16 +2178,16 @@ function newAccessories() {
     //Prelevo i dati dal form
     $idPlant_FK = $_POST['IdImpianto_FK'];
     $idCustomer_FK = $_POST['IdCustomer_FK'];
-    $POSModel = addslashes($_POST['ModelloPOS']);
-    $TID = $_POST['TID'];
-    $IFSFVersion = addslashes($_POST['VersioneIFSF']);
-    $ipPOS = addslashes($_POST['IP_POS']);
-    $qntRFID = $_POST['QNT_RFID'];
-    $ipGTW = $_POST['IP_GTW'];
-    $MediaSmart = $_POST['MediaSmart'];
-    $printer = $_POST['Stampanti'];
-    $ipSafetySmart = addslashes($_POST['IpSafetySmart']);
-    $backup = addslashes($_POST['Backup']);
+    $POSModel = NVL(addslashes($_POST['ModelloPOS']), NULL);
+    $TID = NVL($_POST['TID'],NULL);
+    $IFSFVersion = NVL(addslashes($_POST['VersioneIFSF']),NULL);
+    $ipPOS = NVL(addslashes($_POST['IP_POS']),NULL);
+    $qntRFID = NVL($_POST['QNT_RFID'],NULL);
+    $ipGTW = NVL($_POST['IP_GTW'],NULL);
+    $MediaSmart = NVL($_POST['MediaSmart'],NULL);
+    $printer = NVL($_POST['Stampanti'],NULL);
+    $ipSafetySmart = NVL(addslashes($_POST['IpSafetySmart']),NULL);
+    $backup = NVL(addslashes($_POST['Backup']),NULL);
     $dataLog = date("d/m/Y - H:i:s");
 
     //Prelevo i dati dell'utente
@@ -2203,7 +2204,7 @@ function newAccessories() {
     $message = addslashes("Sono stati aggiunti accessori all'impianto $namePlant");
     
     //Inserisco gli accessoro
-    $result = mysqli_query(connDB(),"INSERT INTO `accessori` VALUES (0,'$POSModel',$TID,CAST('$IFSFVersion' AS DECIMAL(10,0)),'$ipPOS',$MediaSmart,$printer,'$ipSafetySmart',$qntRFID,'$ipGTW','$backup',$idPlant_FK") or die (mysqli_error(connDB()));
+    $result = mysqli_query(connDB(),"INSERT INTO `accessori` VALUES (0,'$POSModel',$TID,CAST('$IFSFVersion' AS DECIMAL(10,0)),'$ipPOS',$MediaSmart,$printer,'$ipSafetySmart',$qntRFID,'$ipGTW','$backup',$idPlant_FK)") or die (mysqli_error(connDB()));
     if($result) {
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
