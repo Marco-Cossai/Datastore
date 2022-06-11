@@ -56,6 +56,7 @@ switch ($datamodule) {
     //COSM #09 - Aggiunta sezione accessori
     case 'accessories':
         if ($action == 'insert') { newAccessories(); }
+        if ($action == 'update') { updateAccessories(); }
     break;
     case 'request':
         if ($action == 'computer') { deletePC(); }
