@@ -319,6 +319,35 @@ function deleteCCP(data) {
 }
 
 //==================================================+
+function updateAccessories(data) {
+    $('#ModalUpdateAccessories #uId').val(data.Id);
+    $('#ModalUpdateAccessories #uIdImpianto_FK').val(data.ID_IMPIANTO_FK);
+    $('#ModalUpdateAccessories #uModelloPOS').val(data.MODELLO_POS);
+    $('#ModalUpdateAccessories #uVersioneIFSF').val(data.VERSIONE_IFSF);
+    $('#ModalUpdateAccessories #uIP_POS').val(data.IP_POS);
+    $('#ModalUpdateAccessories #uQNT_RFID').val(data.QNT_RFID);
+    $('#ModalUpdateAccessories #uIP_GTW').val(data.IP_GTW_RFID);
+    $('#ModalUpdateAccessories #uMediaSmart').val(data.MEDIASMART);
+    $('#ModalUpdateAccessories #uStampanti').val(data.STAMPANTI);
+    $('#ModalUpdateAccessories #uIpSafetySmart').val(data.IP_SAFETYSMART);
+    $('#ModalUpdateAccessories #uBackup').val(data.BACKUP);
+    $('#ModalUpdateAccessories').modal('show');
+
+    var old = {
+        modelloPOS: $('#uModelloPOS').val(),
+        versioneIFSF: $('#uVersioneIFSF').val(),
+        ipPOS: $('#uIP_POS').val(),
+        qntRFID: $('#uQNT_RFID').val(),
+        ipGTW: $('#uIP_GTW').val(),
+        mediasmart: $('#uMediaSmart').val(),
+        stampanti: $('#uStampanti').val(),
+        ipSS: $('#uIpSafetySmart').val(),
+        backup: $('#uBackup').val(),
+    }
+    initialValues = Object.values(old);
+}
+
+//==================================================+
 function reloadTable() {
     location.reload();
 }
@@ -418,6 +447,18 @@ function checkData(param,dm) {
                 activeFieldsPOS(param);
             }
             
+            var newData = {
+                modelloPOS: $('#uModelloPOS').val(),
+                versioneIFSF: $('#uVersioneIFSF').val(),
+                ipPOS: $('#uIP_POS').val(),
+                qntRFID: $('#uQNT_RFID').val(),
+                ipGTW: $('#uIP_GTW').val(),
+                mediasmart: $('#uMediaSmart').val(),
+                stampanti: $('#uStampanti').val(),
+                ipSS: $('#uIpSafetySmart').val(),
+                backup: $('#uBackup').val(),
+            }
+            newValues = Object.values(newData);
         break;
         case 'configuration':
             var newData = {

@@ -1975,3 +1975,95 @@ function newAccessories() {
         header(pathDetails($idPlant_FK,$idCustomer_FK));
     }
 }
+
+/**
+ *  updateAccessories()
+ *  Funzione che modifica gli accessori associati a un impianto
+ */
+
+function updateAccessories() {
+
+    //Prelevo i dati dal form
+    $id = $_POST['Id'];
+    $idPlant_FK = $_POST['IdImpianto_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $POSModel = $_POST['ModelloPOS'];
+    $TID = $_POST['TID'];
+    $IFSFVersion = $_POST['VersioneIFSF'];
+    $ipPOS = $_POST['IP_POS'];
+    $qntRFID = $_POST['QNT_RFID'];
+    $ipGTW = $_POST['IP_GTW'];
+    $MediaSmart = $_POST['MediaSmart'];
+    $printer = $_POST['Stampanti'];
+    $ipSafetySmart = $_POST['IpSafetySmart'];
+    $backup = $_POST['Backup'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i vecchi dati dal db
+    $result = mysqli_query(connDB(),"SELECT * FROM `accessori` WHERE `Id` = $id") or die (mysqli_error(connDB()));
+    $oldData = mysqli_fetch_array($result);
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+	if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+    
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $namePlant = $row['NomeImpianto'];
+    }
+    
+    //Costruisco il messaggio per il log
+    $aryLog = array();
+    $aryLog = array('section' => "IMPIANTO: ".$namePlant);
+    if($oldData['MODELLO_POS'] !== $POSModel) {
+        $aryLog['log'][] = array('field' => "Modello POS", 'old' => $oldData['MODELLO_POS'], 'new' => $POSModel);
+    }
+    if($oldData['TID'] !== $TID) {
+        $aryLog['log'][] = array('field' => "TID", 'old' => $oldData['TID'], 'new' => $TID);
+    }
+    if($oldData['VERSIONE_IFSF'] !== $IFSFVersion) {
+        $aryLog['log'][] = array('field' => "Versione IFSF", 'old' => $oldData['VERSIONE_IFSF'], 'new' => $IFSFVersion);
+    }
+    if($oldData['IP_POS'] !== $ipPOS) {
+        $aryLog['log'][] = array('field' => "IP POS", 'old' => $oldData['IP_POS'], 'new' => $ipPOS);
+    }
+    if($oldData['MEDIASMART'] !== $MediaSmart) {
+        $aryLog['log'][] = array('field' => "Mediasmart", 'old' => $oldData['MEDIASMART'], 'new' => $MediaSmart);
+    }
+    if($oldData['STAMPANTI'] !== $printer) {
+        $aryLog['log'][] = array('field' => "Stampanti", 'old' => $oldData['STAMPANTI'], 'new' => $printer);
+    }
+    if($oldData['IP_SAFETYSMART'] !== $ipSafetySmart) {
+        $aryLog['log'][] = array('field' => "IP SafetySmart", 'old' => $oldData['IP_SAFETYSMART'], 'new' => $ipSafetySmart);
+    }
+    if($oldData['QNT_RFID'] !== $qntRFID) {
+        $aryLog['log'][] = array('field' => "Qnt RFID", 'old' => $oldData['QNT_RFID'], 'new' => $qntRFID);
+    }
+    if($oldData['IP_GTW_RFID'] !== $ipGTW) {
+        $aryLog['log'][] = array('field' => "IP Gateway RFID", 'old' => $oldData['IP_GTW_RFID'], 'new' => $ipGTW);
+    }
+    if($oldData['BACKUP'] !== $backup) {
+        $aryLog['log'][] = array('field' => "Backup", 'old' => $oldData['BACKUP'], 'new' => $backup);
+    }
+    $message = addslashes(json_encode($aryLog));
+
+    //Modifico i dati
+    $query = "UPDATE `accessori` SET `MODELLO_POS` = '$POSModel', `TID` = '$TID', `VERSIONE_IFSF` = '$IFSFVersion', `IP_POS` = '$ipPOS', `MEDIASMART` = '$MediaSmart', `STAMPANTI` = '$printer', `IP_SAFETYSMART` = '$ipSafetySmart', `QNT_RFID` = '$qntRFID', `IP_GTW_RFID` = '$ipGTW', `BACKUP` = '$backup' WHERE `Id` = $id";
+    $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
+    if($result) {
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori modificati!";
+        $_SESSION['text'] = "L'operazione è andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non modificati!";
+        $_SESSION['text'] = "Si è verificato un problema nella modifica";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
