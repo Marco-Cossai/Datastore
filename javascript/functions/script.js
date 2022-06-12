@@ -463,6 +463,7 @@ function deleteAccessories(data) {
     $('#ModalDeleteAccessories').modal('show');
 }
 
+
 //==================================================+
 function reloadTable() {
     location.reload();
