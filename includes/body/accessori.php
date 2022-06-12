@@ -71,11 +71,11 @@
                     </div>
                     <hr class="mt-4">
                     <div class="col-xl-3 col-lg-6 col-md-6">
-                        <label for="MediaSmart" class="mt-2">Numero MediaSmart</label>
+                        <label for="MediaSmart" class="mt-2">MediaSmart</label>
                         <input type="text" class="form-control mt-1" id="MediaSmart" value="<?=stripslashes($row['MEDIASMART']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
-                        <label for="Stampanti" class="mt-2">Numero stampanti</label>
+                        <label for="Stampanti" class="mt-2">Stampanti</label>
                         <input type="text" class="form-control mt-1" id="Stampanti" value="<?=stripslashes($row['STAMPANTI']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
