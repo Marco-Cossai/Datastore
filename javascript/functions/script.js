@@ -354,6 +354,12 @@ function updateAccessories(data) {
     initialValues = Object.values(old);
 }
 
+function deleteAccessories(data) {
+    $('#ModalDeleteAccessories #dId').val(data.Id);
+    $('#ModalDeleteAccessories #dIdPlant_FK').val(data.ID_IMPIANTO_FK);
+    $('#ModalDeleteAccessories').modal('show');
+}
+
 //==================================================+
 function reloadTable() {
     location.reload();
