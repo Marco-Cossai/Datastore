@@ -356,6 +356,13 @@ function updateAccessories(data) {
         ipSS: $('#uIpSafetySmart').val(),
         backup: $('#uBackup').val(),
 	}
+    initialValues = Object.values(old);
+}
+
+function deleteAccessories(data) {
+    $('#ModalDeleteAccessories #dId').val(data.Id);
+    $('#ModalDeleteAccessories #dIdPlant_FK').val(data.ID_IMPIANTO_FK);
+    $('#ModalDeleteAccessories').modal('show');
 }
 
 //==================================================+
@@ -455,12 +462,6 @@ function updateReportBug(data) {
         commenti: $('#uWorkNotes').val(),
     }
     initialValues = Object.values(old);
-}
-
-function deleteAccessories(data) {
-    $('#ModalDeleteAccessories #dId').val(data.Id);
-    $('#ModalDeleteAccessories #dIdPlant_FK').val(data.ID_IMPIANTO_FK);
-    $('#ModalDeleteAccessories').modal('show');
 }
 
 
