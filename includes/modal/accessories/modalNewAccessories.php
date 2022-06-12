@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iQNT_RFID" class="mt-2">Quantità</label>
-                            <input type="text" class="form-control mb-0" id="iQNT_RFID" name="QNT_RFID">
+                            <input type="number" class="form-control mb-0" id="iQNT_RFID" name="QNT_RFID" min="0">
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6">
                             <label for="iIP_GTW" class="mt-2">IP Gateway</label>
@@ -54,11 +54,11 @@
                         <hr class="mt-4">
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iMediaSmart" class="mt-2">MediaSmart</label>
-                            <input type="text" class="form-control mb-0" id="iMediaSmart" name="MediaSmart">
+                            <input type="number" class="form-control mb-0" id="iMediaSmart" name="MediaSmart" min="0">
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iStampanti" class="mt-2">Stampanti</label>
-                            <input type="text" class="form-control mb-0" id="iStampanti" name="Stampanti">
+                            <input type="number" class="form-control mb-0" id="iStampanti" name="Stampanti" min="0">
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6">
                             <label for="iIpSafetySmart" class="mt-2">IP SafetySmart</label>
