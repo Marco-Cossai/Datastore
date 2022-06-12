@@ -2314,3 +2314,97 @@ function updateAccessories() {
         header(pathDetails($idPlant_FK,$idCustomer_FK));
     }
 }
+
+/**
+ *  deleteAccessories()
+ *  Funzione che cancella gli accessori associati a un impianto
+ */
+
+function deleteAccessories() {
+    //Prelevo i dati dal form
+    $id = $_POST['Id'];
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = addslashes($row['NomeImpianto']);
+    }
+
+    //Creo il messaggio
+    $message = addslashes("Sono stati eliminati gli accessori dell'impianto $namePlant");
+
+    //Rimuovo gli accessori
+    $result = mysqli_query(connDB(),"DELETE FROM `accessori` WHERE `ID_IMPIANTO_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        //Cancello la richiesta
+        mysqli_query(connDB(),"DELETE FROM `richieste_append` WHERE `IdImpianto_FK` = $idPlant_FK AND `TabellaRichiesta` = 'accessories'") or die (mysqli_error(connDB()));
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',3,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori eliminati!";
+        $_SESSION['text'] = "Operazione andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non eliminati!";
+        $_SESSION['text'] = "Si è verificato un errore nella cancellazione";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
+
+/**
+*   requestDeleteAccessories()
+*   Funzione che invia una richiesta di cancellazione degli accessori di un impianto
+*   a tutti gli admin registrati, che dovranno poi approvare o rifiutare tale richiesta
+*/
+function requestDeleteAccessories() {
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $data = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = addslashes($row['NomeImpianto']);
+    }
+
+    //Creo il messaggio di log
+    $message = addslashes("E' stata inviata richiesta di cancellazione degli accessori dell'impianto $namePlant");
+
+    //Creo la richiesta
+    $request = addslashes("Richiesta di cancellazione degli accessori");
+
+    //Inserisco la richiesta
+    $result = mysqli_query(connDB(),"INSERT INTO `richieste_append` VALUES(0,'$data','$request','$namePlant','$currentUser','accessories',$idPlant_FK,$idCustomer_FK)") or die (mysqli_error(connDB()));
+    if ($result) {
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$data','$message',5,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Richiesta effettuata!";
+        $_SESSION['text'] = "Un admin prenderà in carico la richiesta";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Richiesta non effettuata!";
+        $_SESSION['text'] = "Si è verificato un errore durante l'invio";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
