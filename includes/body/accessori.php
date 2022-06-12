@@ -42,7 +42,7 @@
                         <h6 class="font-weight-bold pt-3">POS</h6>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
-                        <label for="ModelloPOS" class="mt-2">Modello</label>
+                        <label for="ModelloPOS" class="mt-2">Modello POS</label>
                         <input type="text" class="form-control mt-1" id="ModelloPOS" value="<?=stripslashes($row['MODELLO_POS']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
@@ -71,11 +71,11 @@
                     </div>
                     <hr class="mt-4">
                     <div class="col-xl-3 col-lg-6 col-md-6">
-                        <label for="MediaSmart" class="mt-2">MediaSmart</label>
+                        <label for="MediaSmart" class="mt-2">Numero MediaSmart</label>
                         <input type="text" class="form-control mt-1" id="MediaSmart" value="<?=stripslashes($row['MEDIASMART']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
-                        <label for="Stampanti" class="mt-2">Stampanti</label>
+                        <label for="Stampanti" class="mt-2">Numero stampanti</label>
                         <input type="text" class="form-control mt-1" id="Stampanti" value="<?=stripslashes($row['STAMPANTI']);?>" readonly>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-md-6">
