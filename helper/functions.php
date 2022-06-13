@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/'.'database/config.php';    
-require_once 'path.php';    
+require_once 'path.php';
+require_once 'utility.php';   
 connDB();
 
 /**
@@ -2001,5 +2002,246 @@ function clearCCP() {
         $_SESSION['text'] = "Si è verificato un errore nella cancellazione";
         $_SESSION['icon'] = "error";
         header(pathConfigurations());
+    }
+}
+
+/**
+ *  newAccessories()
+ *  Funzione che inserisce gli accessori associati a un impianto
+ */
+
+function newAccessories() {
+
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdImpianto_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $POSModel = $_POST['ModelloPOS'];
+    $TID = $_POST['TID'];
+    $IFSFVersion = $_POST['VersioneIFSF'];
+    $ipPOS = $_POST['IP_POS'];
+    $qntRFID = $_POST['QNT_RFID'];
+    $ipGTW = $_POST['IP_GTW'];
+    $MediaSmart = $_POST['MediaSmart'];
+    $printer = $_POST['Stampanti'];
+    $ipSafetySmart = $_POST['IpSafetySmart'];
+    $backup = $_POST['Backup'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+	if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+    
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $namePlant = $row['NomeImpianto'];
+    }
+
+    //Creo il messaggio
+    $message = addslashes("Sono stati aggiunti accessori all'impianto $namePlant");
+    
+    //Inserisco gli accessoro
+    $result = mysqli_query(connDB(),"INSERT INTO `accessori` VALUES (0,'$POSModel','$TID','$IFSFVersion','$ipPOS','$MediaSmart','$printer','$ipSafetySmart','$qntRFID','$ipGTW','$backup',$idPlant_FK)") or die (mysqli_error(connDB()));
+    if($result) {
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',1,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori inseriti!";
+        $_SESSION['text'] = "L'operazione è andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non inseriti!";
+        $_SESSION['text'] = "Si è verificato un errore nell'inserimento";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
+
+/**
+ *  updateAccessories()
+ *  Funzione che modifica gli accessori associati a un impianto
+ */
+
+function updateAccessories() {
+
+    //Prelevo i dati dal form
+    $id = $_POST['Id'];
+    $idPlant_FK = $_POST['IdImpianto_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $POSModel = $_POST['ModelloPOS'];
+    $TID = $_POST['TID'];
+    $IFSFVersion = $_POST['VersioneIFSF'];
+    $ipPOS = $_POST['IP_POS'];
+    $qntRFID = $_POST['QNT_RFID'];
+    $ipGTW = $_POST['IP_GTW'];
+    $MediaSmart = $_POST['MediaSmart'];
+    $printer = $_POST['Stampanti'];
+    $ipSafetySmart = $_POST['IpSafetySmart'];
+    $backup = $_POST['Backup'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i vecchi dati dal db
+    $result = mysqli_query(connDB(),"SELECT * FROM `accessori` WHERE `Id` = $id") or die (mysqli_error(connDB()));
+    $oldData = mysqli_fetch_array($result);
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+	if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+    
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $namePlant = $row['NomeImpianto'];
+    }
+    
+    //Costruisco il messaggio per il log
+    $aryLog = array();
+    $aryLog = array('section' => "IMPIANTO: ".$namePlant);
+    if($oldData['MODELLO_POS'] !== $POSModel) {
+        $aryLog['log'][] = array('field' => "Modello POS", 'old' => $oldData['MODELLO_POS'], 'new' => $POSModel);
+    }
+    if($oldData['TID'] !== $TID) {
+        $aryLog['log'][] = array('field' => "TID", 'old' => $oldData['TID'], 'new' => $TID);
+    }
+    if($oldData['VERSIONE_IFSF'] !== $IFSFVersion) {
+        $aryLog['log'][] = array('field' => "Versione IFSF", 'old' => $oldData['VERSIONE_IFSF'], 'new' => $IFSFVersion);
+    }
+    if($oldData['IP_POS'] !== $ipPOS) {
+        $aryLog['log'][] = array('field' => "IP POS", 'old' => $oldData['IP_POS'], 'new' => $ipPOS);
+    }
+    if($oldData['MEDIASMART'] !== $MediaSmart) {
+        $aryLog['log'][] = array('field' => "Mediasmart", 'old' => $oldData['MEDIASMART'], 'new' => $MediaSmart);
+    }
+    if($oldData['STAMPANTI'] !== $printer) {
+        $aryLog['log'][] = array('field' => "Stampanti", 'old' => $oldData['STAMPANTI'], 'new' => $printer);
+    }
+    if($oldData['IP_SAFETYSMART'] !== $ipSafetySmart) {
+        $aryLog['log'][] = array('field' => "IP SafetySmart", 'old' => $oldData['IP_SAFETYSMART'], 'new' => $ipSafetySmart);
+    }
+    if($oldData['QNT_RFID'] !== $qntRFID) {
+        $aryLog['log'][] = array('field' => "Quantità RFID", 'old' => $oldData['QNT_RFID'], 'new' => $qntRFID);
+    }
+    if($oldData['IP_GTW_RFID'] !== $ipGTW) {
+        $aryLog['log'][] = array('field' => "IP Gateway RFID", 'old' => $oldData['IP_GTW_RFID'], 'new' => $ipGTW);
+    }
+    if($oldData['BACKUP'] !== $backup) {
+        $aryLog['log'][] = array('field' => "Backup", 'old' => $oldData['BACKUP'], 'new' => $backup);
+    }
+    $message = addslashes(json_encode($aryLog));
+
+    //Modifico i dati
+    $query = "UPDATE `accessori` SET `MODELLO_POS` = '$POSModel', `TID` = '$TID', `VERSIONE_IFSF` = '$IFSFVersion', `IP_POS` = '$ipPOS', `MEDIASMART` = '$MediaSmart', `STAMPANTI` = '$printer', `IP_SAFETYSMART` = '$ipSafetySmart', `QNT_RFID` = '$qntRFID', `IP_GTW_RFID` = '$ipGTW', `BACKUP` = '$backup' WHERE `Id` = $id";
+    $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
+    if($result) {
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori modificati!";
+        $_SESSION['text'] = "L'operazione è andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non modificati!";
+        $_SESSION['text'] = "Si è verificato un problema nella modifica";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
+
+/**
+ *  deleteAccessories()
+ *  Funzione che cancella gli accessori associati a un impianto
+ */
+
+function deleteAccessories() {
+    //Prelevo i dati dal form
+    $id = $_POST['Id'];
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = addslashes($row['NomeImpianto']);
+    }
+
+    //Creo il messaggio
+    $message = addslashes("Sono stati eliminati gli accessori dell'impianto $namePlant");
+
+    //Rimuovo gli accessori
+    $result = mysqli_query(connDB(),"DELETE FROM `accessori` WHERE `ID_IMPIANTO_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        //Cancello la richiesta
+        mysqli_query(connDB(),"DELETE FROM `richieste_append` WHERE `IdImpianto_FK` = $idPlant_FK AND `TabellaRichiesta` = 'accessories'") or die (mysqli_error(connDB()));
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',3,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Accessori eliminati!";
+        $_SESSION['text'] = "Operazione andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Accessori non eliminati!";
+        $_SESSION['text'] = "Si è verificato un errore nella cancellazione";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
+
+/**
+*   requestDeleteAccessories()
+*   Funzione che invia una richiesta di cancellazione degli accessori di un impianto
+*   a tutti gli admin registrati, che dovranno poi approvare o rifiutare tale richiesta
+*/
+function requestDeleteAccessories() {
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $data = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = addslashes($row['NomeImpianto']);
+    }
+
+    //Creo il messaggio di log
+    $message = addslashes("E' stata inviata richiesta di cancellazione degli accessori dell'impianto $namePlant");
+
+    //Creo la richiesta
+    $request = addslashes("Richiesta di cancellazione degli accessori");
+
+    //Inserisco la richiesta
+    $result = mysqli_query(connDB(),"INSERT INTO `richieste_append` VALUES(0,'$data','$request','$namePlant','$currentUser','accessories',$idPlant_FK,$idCustomer_FK)") or die (mysqli_error(connDB()));
+    if ($result) {
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$data','$message',5,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Richiesta effettuata!";
+        $_SESSION['text'] = "Un admin prenderà in carico la richiesta";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Richiesta non effettuata!";
+        $_SESSION['text'] = "Si è verificato un errore durante l'invio";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
     }
 }

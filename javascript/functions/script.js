@@ -324,6 +324,49 @@ function deleteCCP(data) {
 }
 
 //==================================================+
+function updateAccessories(data) {
+    $('#ModalUpdateAccessories #uId').val(data.Id);
+    $('#ModalUpdateAccessories #uIdImpianto_FK').val(data.ID_IMPIANTO_FK);
+    $('#ModalUpdateAccessories #uModelloPOS').val(data.MODELLO_POS);
+    if(data.MODELLO_POS !== "") {
+        $('#ModalUpdateAccessories #uTID').removeAttr('readonly');
+        $('#ModalUpdateAccessories #uVersioneIFSF').removeAttr('readonly');
+        $('#ModalUpdateAccessories #uIP_POS').removeAttr('readonly');
+    }
+    $('#ModalUpdateAccessories #uTID').val(data.TID);
+    $('#ModalUpdateAccessories #uVersioneIFSF').val(data.VERSIONE_IFSF);
+    $('#ModalUpdateAccessories #uIP_POS').val(data.IP_POS);
+    $('#ModalUpdateAccessories #uQNT_RFID').val(data.QNT_RFID);
+    $('#ModalUpdateAccessories #uIP_GTW').val(data.IP_GTW_RFID);
+    $('#ModalUpdateAccessories #uMediaSmart').val(data.MEDIASMART);
+    $('#ModalUpdateAccessories #uStampanti').val(data.STAMPANTI);
+    $('#ModalUpdateAccessories #uIpSafetySmart').val(data.IP_SAFETYSMART);
+    $('#ModalUpdateAccessories #uBackup').val(data.BACKUP);
+    $('#ModalUpdateAccessories').modal('show');
+
+    var old = {
+        modelloPOS: $('#uModelloPOS').val(),
+        TID: $('#uTID').val(),
+        versioneIFSF: $('#uVersioneIFSF').val(),
+        ipPOS: $('#uIP_POS').val(),
+        qntRFID: $('#uQNT_RFID').val(),
+        ipGTW: $('#uIP_GTW').val(),
+        mediasmart: $('#uMediaSmart').val(),
+        stampanti: $('#uStampanti').val(),
+        ipSS: $('#uIpSafetySmart').val(),
+        backup: $('#uBackup').val(),
+    }
+    initialValues = Object.values(old);
+}
+
+function deleteAccessories(data) {
+    $('#ModalDeleteAccessories #dId').val(data.Id);
+    $('#ModalDeleteAccessories #dIdPlant_FK').val(data.ID_IMPIANTO_FK);
+    $('#ModalDeleteAccessories').modal('show');
+}
+
+
+//==================================================+
 function reloadTable() {
     location.reload();
 }
@@ -418,6 +461,27 @@ function checkData(param,dm) {
             }
             newValues = Object.values(newData);
         break;
+        //COSM #09 - Aggiunta sezione accessori
+        case 'accessories':
+
+            if(param){
+                activeFieldsPOS(param);
+            }
+            
+            var newData = {
+                modelloPOS: $('#uModelloPOS').val(),
+                TID: $('#uTID').val(),
+                versioneIFSF: $('#uVersioneIFSF').val(),
+                ipPOS: $('#uIP_POS').val(),
+                qntRFID: $('#uQNT_RFID').val(),
+                ipGTW: $('#uIP_GTW').val(),
+                mediasmart: $('#uMediaSmart').val(),
+                stampanti: $('#uStampanti').val(),
+                ipSS: $('#uIpSafetySmart').val(),
+                backup: $('#uBackup').val(),
+            }
+            newValues = Object.values(newData);
+        break;
         case 'configuration':
             var newData = {
                 nome: $('#uNome').val(),
@@ -465,5 +529,27 @@ function activeFieldsRouter(param) {
         $('#'+prefix+'SerialeRouter').val('');
         $('#'+prefix+'IndirizzoIP').prop('readonly', true);
         $('#'+prefix+'IndirizzoIP').val('');
+    }
+}
+
+//COSM #09 - Aggiunta sezione accessori
+function activeFieldsPOS(param) {
+    let prefix = '';
+    if(param === "insert") { prefix = 'i'; }
+    if(param === "update") { prefix = 'u'; }
+
+    let POSModel = $('#'+prefix+'ModelloPOS').val();
+    
+    if(POSModel !== "") {
+        $('#'+prefix+'TID').removeAttr('readonly');
+        $('#'+prefix+'VersioneIFSF').removeAttr('readonly');
+        $('#'+prefix+'IP_POS').removeAttr('readonly');
+    } else if(POSModel === "") {
+        $('#'+prefix+'TID').prop('readonly', true);
+        $('#'+prefix+'TID').val('');
+        $('#'+prefix+'VersioneIFSF').prop('readonly', true);
+        $('#'+prefix+'VersioneIFSF').val('');
+        $('#'+prefix+'IP_POS').prop('readonly', true);
+        $('#'+prefix+'IP_POS').val('');
     }
 }

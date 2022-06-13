@@ -53,11 +53,20 @@ switch ($datamodule) {
         if ($action == 'update') { updateDispenser(); }
         if ($action == 'delete') { deleteDispenser(); }
     break;
+    //COSM #09 - Aggiunta sezione accessori
+    case 'accessories':
+        if ($action == 'insert') { newAccessories(); }
+        if ($action == 'update') { updateAccessories(); }
+        if ($action == 'delete') { deleteAccessories(); }
+        if ($action == 'request_delete_accessories') { requestDeleteAccessories(); }
+    break;
     case 'request':
         if ($action == 'computer') { deletePC(); }
         if ($action == 'mac') { deleteAllMAC(); }
         if ($action == 'delete') { deleteRequest(); }
         if ($action == 'delete_all_requests') { clearRequests(); }
+        //COSM #09 - Cancello gli accessori a seguito di richiesta cancellazione
+        if ($action == 'accessories') { deleteAccessories(); }
         break;
     case 'configuration': 
         if ($action == 'insert_data_dispenser') { newDataDispenser(); }
