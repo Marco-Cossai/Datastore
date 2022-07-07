@@ -106,4 +106,4 @@
 <?php require_once "includes/modal/dispenser/modalNewDispenser.php"; ?>
 <?php require_once "includes/modal/dispenser/modalUpdateDispenser.php"; ?>
 <?php require_once "includes/modal/dispenser/modalDeleteDispenser.php"; ?>
-<?php require_once "includes/modal/mac/modalDeleteAllDispenser.php"; ?>
+<?php require_once "includes/modal/dispenser/modalDeleteAllDispenser.php"; ?>
