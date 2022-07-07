@@ -9,7 +9,7 @@
             $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
             if (mysqli_fetch_array($result)) {
         ?>
-        <button data-mdb-toggle="modal" class="btn btn-danger float-md-end float-sm-start float-start me-0" onclick="deleteAllErogatori()">
+        <button data-mdb-toggle="modal" class="btn btn-danger float-md-end float-sm-start float-start me-0" onclick="deleteAllDispenser()">
             <i class="fas fa-trash"></i> Pulisci
         </button>
         <?php } ?>
