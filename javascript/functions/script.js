@@ -209,10 +209,13 @@ function deleteMAC(data) {
 }
 
 //==================================================+
+
+/* COSM #08 - Modifica che porta l'inserimento erogatori direttamente nel tab "Erogatori"
 function newDispenser(data) {
     $('#ModalNewDispenser #idMAC').val(data.IdMac);
     $('#ModalNewDispenser').modal('show');
 }
+*/
 
 function updateDispenser(data) {
     $('#ModalUpdateDispenser #uIdErogatore').val(data.IdErogatore);
@@ -224,6 +227,12 @@ function updateDispenser(data) {
     $('#ModalUpdateDispenser #uVersione').val(data.Versione);
     $('#ModalUpdateDispenser #uPistole').val(data.Pistole);
     $('#ModalUpdateDispenser #uLato').val(data.Lato);
+    //COSM #08 - Modifica sezione 'Erogatori'
+    if(data.IdMac_FK == 0) {
+        $('#ModalUpdateDispenser #uMacAssoc').val('');
+    } else {
+        $('#ModalUpdateDispenser #uMacAssoc').val(data.IdMac_FK);
+    }
     $('#ModalUpdateDispenser').modal('show');
 
     var old = {
@@ -233,7 +242,9 @@ function updateDispenser(data) {
         convprotocollo: $('#uConvProtocollo').val(),
         versione: $('#uVersione').val(),
         pistole: $('#uPistole').val(),
-        lato: $('#uLato').val()
+        lato: $('#uLato').val(),
+        //COSM #08 - Modifica sezione 'Erogatori'
+        macAssoc: $('#uMacAssoc').val()
     }
     initialValues = Object.values(old);
 }
@@ -241,6 +252,11 @@ function updateDispenser(data) {
 function deleteDispenser(data) {
     $('#ModalDeleteDispenser #dIdErogatore').val(data.IdErogatore);
     $('#ModalDeleteDispenser').modal('show');
+}
+
+//COSM #08 - Modifica sezione 'Erogatori'
+function deleteAllDispenser() {
+    $('#ModalDeleteAllDispenser').modal('show');
 }
 
 //==================================================+
@@ -556,7 +572,9 @@ function checkData(param,dm) {
                 convprotocollo: $('#uConvProtocollo').val(),
                 versione: $('#uVersione').val(),
                 pistole: $('#uPistole').val(),
-                lato: $('#uLato').val()
+                lato: $('#uLato').val(),
+                //COSM #08 - Modifica sezione 'Erogatori'
+                macAssoc: $('#uMacAssoc').val()
             }
             newValues = Object.values(newData);
         break;

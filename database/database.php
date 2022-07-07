@@ -52,6 +52,9 @@ switch ($datamodule) {
         if ($action == 'insert') { newDispenser(); }
         if ($action == 'update') { updateDispenser(); }
         if ($action == 'delete') { deleteDispenser(); }
+        //COSM #08 - Modifica sezione 'Erogatori'
+        if ($action == 'delete_all_dispenser') { deleteAllDispenser(); }
+        if ($action == 'request_delete_all_dispenser') { requestDeleteAllDispenser(); }
     break;
     //COSM #09 - Aggiunta sezione accessori
     case 'accessories':
