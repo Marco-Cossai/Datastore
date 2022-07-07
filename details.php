@@ -90,6 +90,11 @@
 
                     $query5 = "SELECT * FROM `dati_erogatori` WHERE `Tipologia` = 'Versione'";
                     $res5 = mysqli_query(connDB(),$query5) or die(mysqli_error(connDB()));
+                    
+                    //COSM #08 - Modifica sezione 'Erogatori'
+                    $idImpianto_FK = $_GET['id'];
+                    $query6 = "SELECT `IdMac`,`Nome` FROM `mac` WHERE `IdImpianto_FK` = $idImpianto_FK";
+                    $res6 = mysqli_query(connDB(),$query6) or die(mysqli_error(connDB()));
                 ?>
                 <div class="tab-pane fade" id="mac" role="tabpanel">
                     <?php include "includes/body/mac.php"; ?>

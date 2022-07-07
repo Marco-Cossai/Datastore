@@ -11,7 +11,9 @@
                         <div class="col-12">
                             <input type="hidden" class="form-control" name="datamodule" value="dispenser" readonly>
                             <input type="hidden" class="form-control" name="action" value="insert" readonly>
+                            <!--
                             <input type="hidden" class="form-control" id="idMAC" name="IdMac_FK" readonly>
+                            -->
                             <input type="hidden" class="form-control" name="IdPlant_FK" value="<?=$_GET['id']?>" readonly>
                             <input type="hidden" class="form-control" name="IdCustomer_FK" value="<?=$_GET['idCustomer']?>" readonly>
                         </div>
@@ -42,7 +44,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label class="mt-2">Conv. protocollo *</label>
                             <select class="form-select py-1 mb-0 mt-1" name="ConvProtocollo" required>
                                 <option value=""></option>
@@ -51,7 +53,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label class="mt-2">Versione *</label>
                             <select class="form-select py-1 mb-0 mt-1" name="Versione" required>
                                 <option value=""></option>
@@ -75,6 +77,16 @@
                                 <option value=""></option>
                                 <?php for ($i = 1; $i <= 32; $i++) { ?>
                                 <option value="<?=$i?>"><?=$i?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <!-- COSM #08 - Modifica sezione 'Erogatori'-->
+                        <div class="col-lg-4">
+                            <label class="mt-2">Nome MAC</label>
+                            <select class="form-select py-1 mb-0 mt-1" name="MacAssoc">
+                                <option value="">Non presente</option>
+                                <?php foreach ($res6 as $row) { ?>
+                                <option value="<?=stripslashes($row['IdMac']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
