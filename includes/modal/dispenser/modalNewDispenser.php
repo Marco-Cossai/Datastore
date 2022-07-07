@@ -36,8 +36,8 @@
                             </select>
                         </div>
                         <div class="col-lg-4">
-                            <label class="mt-2">Protocollo *</label>
-                            <select class="form-select py-1 mb-0 mt-1" name="Protocollo" required>
+                            <label class="mt-2">Protocollo</label>
+                            <select class="form-select py-1 mb-0 mt-1" name="Protocollo">
                                 <option value=""></option>
                                 <?php foreach ($res3 as $row) { ?>
                                 <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
@@ -54,8 +54,8 @@
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <label class="mt-2">Versione *</label>
-                            <select class="form-select py-1 mb-0 mt-1" name="Versione" required>
+                            <label class="mt-2">Versione</label>
+                            <select class="form-select py-1 mb-0 mt-1" name="Versione">
                                 <option value=""></option>
                                 <?php foreach ($res5 as $row) { ?>
                                 <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
