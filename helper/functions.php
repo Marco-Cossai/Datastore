@@ -1474,6 +1474,32 @@ function updateDispenser() {
     if($oldData['Lato'] != $side) {
         $aryLog['log'][] = array('field' => "Lato", 'old' => $oldData['Lato'], 'new' => $side);
     }
+    //COSM #08 - Modifica sezione 'Erogatori'
+    //Gestione particolare per la loggata sull'ID MAC in cui nel log salvo il nome del MAC e non l'ID
+    //Mi recupero il vecchio nome del MAC
+    if($oldData['IdMac_FK'] == 0) {
+        $oldNameMac = "Nessun MAC associato";
+    } else {
+        $oldIdMac = $oldData['IdMac_FK'];
+        $qGetOldNameMAC = "SELECT `Nome` FROM `mac` WHERE `IdMac` = $oldIdMac";
+        $res = mysqli_query(connDB(),$qGetOldNameMAC) or die (mysqli_error(connDB()));
+        if ($row = mysqli_fetch_array($res)) {
+            $oldNameMac = addslashes($row['Nome']);
+        }
+    }
+    //Mi recupero il nuovo nome del MAC
+    if($idMAC == 0) {
+        $nameMac = "Nessun MAC associato";
+    } else {
+        $qGetNameMAC = "SELECT `Nome` FROM `mac` WHERE `IdMac` = $idMAC";
+        $res = mysqli_query(connDB(),$qGetNameMAC) or die (mysqli_error(connDB()));
+        if ($row = mysqli_fetch_array($res)) {
+            $nameMac = addslashes($row['Nome']);
+        }
+    }
+    if($oldNameMac !== $nameMac) {
+        $aryLog['log'][] = array('field' => "MacAssoc", 'old' => $oldNameMac, 'new' => $nameMac);
+    }
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
