@@ -1268,6 +1268,19 @@ function deleteMAC() {
     $query = "DELETE FROM `mac` WHERE `IdMac` = $id";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
     if(!mysqli_fetch_array($result)) {
+         //COSM #08 - Modifica sezione 'Erogatori'
+        /*Se in caso di eliminazione del MAC ci sono degli erogatori associati vado a fare un'update su l'id del MAC presente
+        sulla tabella degli erogatori andato a sostituire il vecchio ID con valore 0 per una questione di pulizia dei dati.
+        */
+        $qGetDispenser = "SELECT `IdErogatore` FROM `erogatori` WHERE `IdMac_FK` = $id AND `IdImpianto_FK` = $idPlant_FK";
+        $result = mysqli_query(connDB(),$qGetDispenser) or die (mysqli_error(connDB()));
+        if(mysqli_fetch_array($result)) {
+            foreach ($result as $row) {
+                $idDispenser = $row['IdErogatore'];
+                $qUpdateDispenser = "UPDATE `erogatori` SET IdMac_FK = 0 WHERE `IdErogatore` = $idDispenser";
+                mysqli_query(connDB(),$qUpdateDispenser) or die (mysqli_error(connDB()));
+            }
+        }
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',3,'$currentUser')") or die (mysqli_error(connDB()));
         $_SESSION['title'] = "MAC eliminato!";
@@ -1313,6 +1326,19 @@ function deleteAllMAC() {
     if(!mysqli_fetch_array($result)) {
         //Cancello la richiesta
         mysqli_query(connDB(),"DELETE FROM `richieste_append` WHERE `IdImpianto_FK` = $idPlant_FK AND `TabellaRichiesta` = 'mac'") or die (mysqli_error(connDB()));
+        //COSM #08 - Modifica sezione 'Erogatori'
+        /*Se in caso di eliminazione del MAC ci sono degli erogatori associati vado a fare un'update su l'id del MAC presente
+        sulla tabella degli erogatori andato a sostituire il vecchio ID con valore 0 per una questione di pulizia dei dati.
+        */
+        $qGetDispenser = "SELECT `IdErogatore` FROM `erogatori` WHERE `IdImpianto_FK` = $idPlant_FK";
+        $result = mysqli_query(connDB(),$qGetDispenser) or die (mysqli_error(connDB()));
+        if(mysqli_fetch_array($result)) {
+            foreach ($result as $row) {
+                $idDispenser = $row['IdErogatore'];
+                $qUpdateDispenser = "UPDATE `erogatori` SET IdMac_FK = 0 WHERE `IdErogatore` = $idDispenser";
+                mysqli_query(connDB(),$qUpdateDispenser) or die (mysqli_error(connDB()));
+            }
+        }
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',3,'$currentUser')") or die (mysqli_error(connDB()));
         $_SESSION['title'] = "Ho eliminato tutti i MAC!";
@@ -1333,7 +1359,12 @@ function deleteAllMAC() {
 */
 function newDispenser() {
     //Prelevo i dati dal form
-    $idMAC = $_POST['IdMac_FK'];
+    //COSM #08 - Modifica sezione 'Erogatori'
+    if(!empty($_POST['MacAssoc'])) {
+        $idMAC = $_POST['MacAssoc'];
+    } else {
+        $idMAC = 0;
+    }
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
@@ -1385,7 +1416,12 @@ function newDispenser() {
 function updateDispenser() {
     //Prelevo i dati dal form
     $id = $_POST['Id'];
-    $idMAC = $_POST['IdMac_FK'];
+    //COSM #08 - Modifica sezione 'Erogatori'
+    if(!empty($_POST['MacAssoc'])) {
+        $idMAC = $_POST['MacAssoc'];
+    } else {
+        $idMAC = 0;
+    }
     $idPlant = $_POST['IdPlant_FK'];
     $idCustomer = $_POST['IdCustomer_FK'];
     $dispenserType = addslashes($_POST['TipoErogatore']);
@@ -1438,10 +1474,36 @@ function updateDispenser() {
     if($oldData['Lato'] != $side) {
         $aryLog['log'][] = array('field' => "Lato", 'old' => $oldData['Lato'], 'new' => $side);
     }
+    //COSM #08 - Modifica sezione 'Erogatori'
+    //Gestione particolare per la loggata sull'ID MAC in cui nel log salvo il nome del MAC e non l'ID
+    //Mi recupero il vecchio nome del MAC
+    if($oldData['IdMac_FK'] == 0) {
+        $oldNameMac = "Nessun MAC associato";
+    } else {
+        $oldIdMac = $oldData['IdMac_FK'];
+        $qGetOldNameMAC = "SELECT `Nome` FROM `mac` WHERE `IdMac` = $oldIdMac";
+        $res = mysqli_query(connDB(),$qGetOldNameMAC) or die (mysqli_error(connDB()));
+        if ($row = mysqli_fetch_array($res)) {
+            $oldNameMac = addslashes($row['Nome']);
+        }
+    }
+    //Mi recupero il nuovo nome del MAC
+    if($idMAC == 0) {
+        $nameMac = "Nessun MAC associato";
+    } else {
+        $qGetNameMAC = "SELECT `Nome` FROM `mac` WHERE `IdMac` = $idMAC";
+        $res = mysqli_query(connDB(),$qGetNameMAC) or die (mysqli_error(connDB()));
+        if ($row = mysqli_fetch_array($res)) {
+            $nameMac = addslashes($row['Nome']);
+        }
+    }
+    if($oldNameMac !== $nameMac) {
+        $aryLog['log'][] = array('field' => "MacAssoc", 'old' => $oldNameMac, 'new' => $nameMac);
+    }
     $message = addslashes(json_encode($aryLog));
 
     //Modifico i dati
-    $query = "UPDATE `erogatori` SET `TipoErogatore` = '$dispenserType', `ConvProtocollo` = '$protocolConverter', `Protocollo` = '$protocol', `Testata` = '$header', `Versione` = '$version', `Pistole` = $gasPump, `Lato` = $side WHERE `IdErogatore` = $id";
+    $query = "UPDATE `erogatori` SET `TipoErogatore` = '$dispenserType', `ConvProtocollo` = '$protocolConverter', `Protocollo` = '$protocol', `Testata` = '$header', `Versione` = '$version', `Pistole` = $gasPump, `Lato` = $side, `IdMac_FK` = $idMAC WHERE `IdErogatore` = $id";
     $result = mysqli_query(connDB(),$query) or die (mysqli_error(connDB()));
     if($result) {
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',2,'$currentUser')") or die (mysqli_error(connDB()));
@@ -1499,6 +1561,52 @@ function deleteDispenser() {
         $_SESSION['text'] = "Si è verificato un errore nella cancellazione";
         $_SESSION['icon'] = "error";
         header(pathDetails($idPlant,$idCustomer));
+    }
+}
+
+//COSM #08 - Modifica sezione 'Erogatori'
+/**
+*   deleteAllDispenser()
+*   Funzione di cancellazione di tutti gli erogatori a un impianto
+*/
+function deleteAllDispenser() {
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $dataLog = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = $row['NomeImpianto'];
+    }
+
+    //Creo il messaggio
+    $message = addslashes("Sono stati eliminati tutti gli erogatori dall'impianto $namePlant");
+
+    //Cancello tutti gli erogatori
+    $result = mysqli_query(connDB(),"DELETE FROM `erogatori` WHERE `IdImpianto_FK` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if(!mysqli_fetch_array($result)) {
+        //Cancello la richiesta
+        mysqli_query(connDB(),"DELETE FROM `richieste_append` WHERE `IdImpianto_FK` = $idPlant_FK AND `TabellaRichiesta` = 'dispenser'") or die (mysqli_error(connDB()));
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$dataLog','$message',3,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Ho eliminato tutti gli erogatori!";
+        $_SESSION['text'] = "Operazione andata a buon fine";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Erogatori non cancellati!";
+        $_SESSION['text'] = "Si è verificato un errore nella cancellazione";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
     }
 }
 
@@ -1581,6 +1689,54 @@ function requestDeleteAllMAC() {
 
     //Inserisco la richiesta
     $result = mysqli_query(connDB(),"INSERT INTO `richieste_append` VALUES(0,'$data','$request','$namePlant','$currentUser','mac',$idPlant_FK,$idCustomer_FK)") or die (mysqli_error(connDB()));
+    if ($result) {
+        //Inserisco il log
+        mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$data','$message',5,'$currentUser')") or die (mysqli_error(connDB()));
+        $_SESSION['title'] = "Richiesta effettuata!";
+        $_SESSION['text'] = "Un admin prenderà in carico la richiesta";
+        $_SESSION['icon'] = "success";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    } else {
+        $_SESSION['title'] = "Richiesta non effettuata!";
+        $_SESSION['text'] = "Si è verificato un errore durante l'invio";
+        $_SESSION['icon'] = "error";
+        header(pathDetails($idPlant_FK,$idCustomer_FK));
+    }
+}
+
+//COSM #08 - Modifica sezione 'Erogatori'
+/**
+*   requestDeleteAllDispenser()
+*   Funzione che invia una richiesta di cancellazione di tutti gli erogatori
+*   a tutti gli admin registrati, che dovranno poi approvare o rifiutare tale richiesta
+*/
+function requestDeleteAllDispenser() {
+    //Prelevo i dati dal form
+    $idPlant_FK = $_POST['IdPlant_FK'];
+    $idCustomer_FK = $_POST['IdCustomer_FK'];
+    $data = date("d/m/Y - H:i:s");
+
+    //Prelevo i dati dell'utente
+    $usernameSession = $_SESSION['Username'];
+    $result = mysqli_query(connDB(),"SELECT `Nome`,`Cognome` FROM `utenti` WHERE BINARY `Username` = '$usernameSession'") or die (mysqli_error(connDB()));
+    if($row = mysqli_fetch_array($result)) {
+        $currentUser = $row['Nome'] . " " . addslashes($row['Cognome']);
+    }
+
+    //Prelevo il nome dell'impianto
+    $result = mysqli_query(connDB(),"SELECT `NomeImpianto` FROM `impianti` WHERE `IdImpianto` = $idPlant_FK") or die (mysqli_error(connDB()));
+    if ($row = mysqli_fetch_array($result)) {
+        $namePlant = addslashes($row['NomeImpianto']);
+    }
+
+    //Creo il messaggio di log
+    $message = addslashes("E' stata inviata richiesta di cancellazione di tutti gli erogatori dell'impianto $namePlant");
+
+    //Creo la richiesta
+    $request = addslashes("Richiesta di cancellazione degli erogatori");
+
+    //Inserisco la richiesta
+    $result = mysqli_query(connDB(),"INSERT INTO `richieste_append` VALUES(0,'$data','$request','$namePlant','$currentUser','dispenser',$idPlant_FK,$idCustomer_FK)") or die (mysqli_error(connDB()));
     if ($result) {
         //Inserisco il log
         mysqli_query(connDB(),"INSERT INTO `log` VALUES (0,'$data','$message',5,'$currentUser')") or die (mysqli_error(connDB()));

@@ -33,14 +33,15 @@
                             </select>
                         </div>
                         <div class="col-lg-4">
-                            <label for="uProtocollo" class="mt-2">Protocollo *</label>
-                            <select class="form-select py-1 mb-0 mt-1" id="uProtocollo" name="Protocollo" required>
+                            <label for="uProtocollo" class="mt-2">Protocollo</label>
+                            <select class="form-select py-1 mb-0 mt-1" id="uProtocollo" name="Protocollo">
+                                <option value="">Non presente</option>
                                 <?php foreach ($res3 as $row) { ?>
                                 <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label for="uConvProtocollo" class="mt-2">Conv. protocollo *</label>
                             <select class="form-select py-1 mb-0 mt-1" id="uConvProtocollo" name="ConvProtocollo" required>
                                 <?php foreach ($res4 as $row) { ?>
@@ -48,9 +49,10 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-lg-4">
-                            <label for="uVersione" class="mt-2">Versione *</label>
-                            <select class="form-select py-1 mb-0 mt-1" id="uVersione" name="Versione" required>
+                        <div class="col-lg-2">
+                            <label for="uVersione" class="mt-2">Versione</label>
+                            <select class="form-select py-1 mb-0 mt-1" id="uVersione" name="Versione">
+                                <option value="">Non presente</option>
                                 <?php foreach ($res5 as $row) { ?>
                                 <option value="<?=stripslashes($row['Nome']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
@@ -69,6 +71,16 @@
                             <select class="form-select py-1 mb-0 mt-1" id="uLato" name="Lato" required>
                                 <?php for ($i = 1; $i <= 32; $i++) { ?>
                                 <option value="<?=$i?>"><?=$i?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <!-- COSM #08 - Modifica sezione 'Erogatori'-->
+                        <div class="col-lg-4">
+                            <label class="mt-2">Nome MAC</label>
+                            <select class="form-select py-1 mb-0 mt-1" id="uMacAssoc" name="MacAssoc">
+                                <option value="">Non presente</option>
+                                <?php foreach ($res6 as $row) { ?>
+                                <option value="<?=stripslashes($row['IdMac']);?>"><?=stripslashes($row['Nome']);?></option>
                                 <?php } ?>
                             </select>
                         </div>

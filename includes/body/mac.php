@@ -78,11 +78,13 @@
                     </div>
                 </div>
             </div>
+            <!-- COSM #08 - Modifica che porta l'inserimento erogatori direttamente nel tab "Erogatori"
             <div class="card-footer pb-0">
                 <button data-mdb-toggle="modal" class="btn btn-green float-end border-0 me-0 px-3" onclick='newDispenser(<?= $obj; ?>)'>
                     <i class="fas fa-gas-pump"></i>
                 </button>
             </div>
+            -->
         </div>
     </div>
     <?php } } else {?>
@@ -100,7 +102,6 @@
     <?php }?>
 </div>
 
-<?php require_once "includes/modal/dispenser/modalNewDispenser.php"; ?>
 <?php require_once "includes/modal/mac/modalNewMAC.php"; ?>
 <?php require_once "includes/modal/mac/modalUpdateMAC.php"; ?>
 <?php require_once "includes/modal/mac/modalDeleteAllMAC.php"; ?>
